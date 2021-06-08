@@ -10,7 +10,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:code-builder.helloWorld"
+    "onCommand:code-builder.helloWorld",
+    "onCommand:code-builder.build"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -18,9 +19,35 @@
       {
         "command": "code-builder.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "code-builder.build",
+        "title": "Build File"
       }
-    ]
+    ],
+    "configuration":{
+      "type": "object",
+      "title": "Run Code configuration",
+      "properties": {
+        "code-builder.executorMap": {
+          "type":"object",
+		  "default":{
+			"java":"cd $dir && javac $fileName && java $fileNameWithoutExt",
+			"python":"cd $dir && python $fileName"
+		  },
+		  "description":"Executor Map which includes the Build commands for Languages",
+		  "scope":"resource"
+        },
+		"code-builder.classPath":{
+			"type":"string",
+			"default":".",
+			"description": "ClassPath for Java Files",
+			"scope": "resource"
+		}
+      }
+    }
   },
+  
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
