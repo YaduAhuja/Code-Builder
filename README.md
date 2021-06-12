@@ -7,6 +7,7 @@ Run Standalone code file for multiple languages: **C, C++, Java, JavaScript, Pyt
 * Run code file With IO File Support
 * Select Languages at which the Extension will show Run Button
 
+**Note :** Currently the Powershell is not Supported.
 ## Usages
 
 * To run code:
