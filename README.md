@@ -5,7 +5,7 @@ Run Standalone code file for multiple languages: **C, C++, Java, JavaScript, Pyt
 
 * Run code file of current active Text Editor
 * Run code file With IO File Support
-* Select Languages at which the Extension will Run
+* Select Languages at which the Extension will show Run Button
 
 ## Usages
 
@@ -18,7 +18,7 @@ Run Standalone code file for multiple languages: **C, C++, Java, JavaScript, Pyt
 * To Set Input File Path:
   * use shortcut `Ctrl+Alt+I`
   * or press `F1` and then Select/Type `Code Builder : Set Input File Path`
-* To Set Input File Path:
+* To Set Output File Path:
   * use shortcut `Ctrl+Alt+O`
   * or press `F1` and then Select/Type `Code Builder : Set Output File Path`
 * To Set ClassPath:
@@ -37,18 +37,18 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 		"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 		"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 		"python": "cd $dir && python $fileName",
-        "java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
+		"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 		"javascript": "cd $dir && node $fileName"
     }
 }
 ```
 
 **Supported customized parameters**
-  * $dir: The directory of the code file being run
-  * $fileName: The base name of the code file being run, that is the file without the directory
-  * $fileNameWithoutExt: The base name of the code file being run without its extension
-  * $qualifiedName: The qualified name of the code file for Java
-  * $classPath: the ClassPath for Java Source Files
+  * **$dir**: The directory of the code file being run
+  * **$fileName**: The base name of the code file being run, that is the file without the directory
+  * **$fileNameWithoutExt**: The base name of the code file being run without its extension
+  * **$qualifiedName**: The qualified name of the code file for Java
+  * **$classPath**: the ClassPath for Java Source Files
 
 **Please take care of the back slash and the space in file path of the executor**
   * Back slash: please use `\\`
