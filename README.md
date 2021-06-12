@@ -1,70 +1,111 @@
-# code-builder README
-
-This is the README for your extension "code-builder". After writing up a brief description, we recommend including the following sections.
+# Code Builder
+Run Standalone code file for multiple languages: **C, C++, Java, JavaScript, Python**
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* Run code file of current active Text Editor
+* Run code file With IO File Support
+* Select Languages at which the Extension will Run
 
-For example if there is an image subfolder under your extension project workspace:
+## Usages
 
-\!\[feature X\]\(images/feature-x.png\)
+* To run code:
+  * use shortcut `Ctrl+Alt+B`
+  * or press `F1` and then Select/Type `Code Builder : Build & Run File`
+* To run code with IO Support:
+  * use shortcut `Ctrl+Alt+K`
+  * or press `F1` and then Select/Type `Code Builder : Build & Run File with IO Support`
+* To Set Input File Path:
+  * use shortcut `Ctrl+Alt+I`
+  * or press `F1` and then Select/Type `Code Builder : Set Input File Path`
+* To Set Input File Path:
+  * use shortcut `Ctrl+Alt+O`
+  * or press `F1` and then Select/Type `Code Builder : Set Output File Path`
+* To Set ClassPath:
+  * use shortcut `Ctrl+Alt+P`
+  * or press `F1` and then Select/Type `Code Builder : Set Class Path`
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Configuration
 
-## Requirements
+Make sure the executor PATH of each language is set in the environment variable.
+You could also add entry into `code-builder.executorMap` to set the executor PATH.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+**Note :** if you add an entry in executorMap make sure that language for which you added the entry is present in Language Selector as well otherwise run button will not show in editor.
+```json
+{
+    "code-runner.executorMap": {
+		"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+		"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+		"python": "cd $dir && python $fileName",
+        "java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
+		"javascript": "cd $dir && node $fileName"
+    }
+}
+```
 
-## Extension Settings
+**Supported customized parameters**
+  * $dir: The directory of the code file being run
+  * $fileName: The base name of the code file being run, that is the file without the directory
+  * $fileNameWithoutExt: The base name of the code file being run without its extension
+  * $qualifiedName: The qualified name of the code file for Java
+  * $classPath: the ClassPath for Java Source Files
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+**Please take care of the back slash and the space in file path of the executor**
+  * Back slash: please use `\\`
+  * If there ares spaces in file path, please use `\"` to surround your file path
 
-For example:
+To set the languages at which the run button will show(Default is Given Below):
+```json
+{
+	"code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript"]
+}
+```
 
-This extension contributes the following settings:
+To set whether to save the current file before running (default is true):
+```json
+{
+    "code-builder.saveFileBeforeRun": true
+}
+```
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+To set Whether to log the Debug data in Console (default is false):
+```json
+{
+    "code-builder.debugData": false
+}
+```
 
-## Known Issues
+To set ClassPath for Java Source Files which will be Replaced with **$classPath** (default is "." , the JVM will use Current Folder as ClassPath) :
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+**Note :** Edit this setting through **Set Class Path** command only
 
-## Release Notes
+```json
+{
+    "code-builder.classPath": "."
+}
+```
+To set Input File Path for replaced with **$inputFilePath** (default is "") :
 
-Users appreciate release notes as you update your extension.
+**Note :** Edit this setting through **Set Input File Path** command only
 
-### 1.0.0
+```json
+{
+    "code-builder.inputFilePath": ""
+}
+```
 
-Initial release of ...
+To set Output File Path for replaced with **$outputFilePath** (default is "") :
 
-### 1.0.1
+**Note :** Edit this setting through **Set Output File Path** command only
 
-Fixed issue #.
+```json
+{
+    "code-builder.outputFilePath": ""
+}
+```
 
-### 1.1.0
+## Issues
+Submit the [issues](https://github.com/YaduAhuja/Code-Builder/issues) if you find any bug or have any suggestion.
 
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+## Contribution
+Fork the [repo](https://github.com/YaduAhuja/Code-Builder) and submit pull requests.
