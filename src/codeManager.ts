@@ -1,8 +1,7 @@
 "use strict";
-import * as fs from 'fs';
 import { dirname } from 'path';
 import * as vscode from 'vscode';
-import {Utility} from './utility';
+import * as os from 'os';
 
 export class CodeManager implements vscode.Disposable{
 	private _isRunning : boolean;
@@ -29,19 +28,19 @@ export class CodeManager implements vscode.Disposable{
 		}else{
 			return;
 		}
+		this._config = vscode.workspace.getConfiguration("code-builder");
 		this._classPath = this._config.get<string>('classPath');
 		this._document.save();
 		console.log("Filename : " + this._document.fileName);
 		console.log("Path : " + this._document.uri.path);
 		console.log("FS Path : " + this._document.uri.fsPath);
+		console.log("ClassPath: "+ this.getClassPath());
 		console.log("Qualified Name : "+ this.getQualifiedName(this._document));
 		console.log("Workspace Folder : "+ this.getWorkspaceFolder(this._document));
-		console.log("ClassPath: "+ this.getClassPath());
 
 
 		let executor = this.getExecutor(this._document.languageId);
 		if(!executor){
-			vscode.window.showInformationMessage('This Language is not Supported Yet');
 			return;
 		}
 		executor = this.mapPlaceHoldersInExecutor(executor, this._document);
@@ -95,20 +94,28 @@ export class CodeManager implements vscode.Disposable{
 
 	private getQualifiedName(codeFile: vscode.TextDocument): string{
 		const classPath = this.getClassPath();
+		let fsPath = codeFile.uri.fsPath;
+		//Changing the Drive Letter of Windows to UpperCase
+		if(os.platform() === 'win32'){
+			let driveLetter = fsPath.charAt(0);
+			fsPath = driveLetter.toUpperCase()+ fsPath.substring(1);
+		}
 
 		let splitter = 0;
-
-		if(codeFile.uri.fsPath.includes(classPath) && classPath.length !== 1){
+		if(fsPath.includes(classPath) && classPath.length !== 1){
 			splitter = classPath.length+1;
 		}else {
 			splitter = this.getDirName(codeFile).length+1;
 			this._classPath = ".";
 		}
-
-		let qualifiedName = codeFile.uri.fsPath.substring(splitter, codeFile.uri.fsPath.length-5); 
+		let qualifiedName = fsPath.substring(splitter, fsPath.length-5); 
 		qualifiedName = qualifiedName.replace(/[\/\\]/g,'.');
 		return qualifiedName;
 	}	
+
+	private getInEnclosedQuotes(text: string) :string{
+		return "\""+text+"\"";
+	}
 
 	private mapPlaceHoldersInExecutor(executor : string, codeFile: vscode.TextDocument){
 		let command = executor;
@@ -127,14 +134,15 @@ export class CodeManager implements vscode.Disposable{
 			{ regex: /\$qualifiedName/g, replaceValue: this.getQualifiedName(codeFile)},
 
 			// A placeholder that has to be replaced by the ClassPath of Java Souce files
-			{ regex: /\$classPath/g, replaceValue: this.getClassPath()},
+			{ regex: /\$classPath/g, replaceValue: this.getInEnclosedQuotes(this.getClassPath()) },
+			
 			// A placeholder that has to be replaced by  the Input FilePath
 			// { regex: /\$inputFilePath/g, replaceValue: this.getInputFilePath()},
 			// A placeholder that has to be replaced by  the output FilePath
 			// { regex: /\$outputFilePath/g, replaceValue: this.getOutputFilePath()},
 		
 			// A placeholder that has to be replaced by the directory of the code file
-			{ regex: /\$dir/g, replaceValue: this.getWorkspaceDir(codeFile.uri.fsPath) },
+			{ regex: /\$dir/g, replaceValue: this.getInEnclosedQuotes(this.getWorkspaceDir(codeFile.uri.fsPath)) },
 		];
 
 		placeholders.forEach((placeholder) => {

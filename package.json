@@ -33,7 +33,9 @@
           "type":"object",
 		  "default":{
 			"java":"cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
-			"python":"cd $dir && python $fileName"
+			"python":"cd $dir && python $fileName",
+			"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+			"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
 		  },
 		  "description":"Executor Map which includes the Build commands for Languages",
 		  "scope":"resource"
