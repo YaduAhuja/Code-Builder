@@ -32,7 +32,7 @@
         "code-builder.executorMap": {
           "type":"object",
 		  "default":{
-			"java":"cd $dir && javac $fileName && java $fileNameWithoutExt",
+			"java":"cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 			"python":"cd $dir && python $fileName"
 		  },
 		  "description":"Executor Map which includes the Build commands for Languages",
