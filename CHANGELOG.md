@@ -1,3 +1,6 @@
+### 0.0.4 (2021-06-13)
+* Added License
+
 ### 0.0.3 (2021-06-13)
 * Added Support for Powershell
 
