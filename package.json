@@ -4,6 +4,7 @@
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Standalone Code Files Easily",
 	"version": "0.0.4",
+	"license": "MIT",
 	"engines": {
 		"vscode": "^1.56.0"
 	},
