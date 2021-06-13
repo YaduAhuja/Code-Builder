@@ -192,7 +192,7 @@ export class CodeManager implements vscode.Disposable{
 		const end = Math.max(codeFile.lastIndexOf('\/'), codeFile.lastIndexOf('\\'));
 		
 		//If the user is using Git Bash on Windows
-		if(os.platform() === "win32" && vscode.env.shell.includes('bash')){
+		if(os.platform() === "win32" && vscode.env.shell.toLowerCase().includes('bash')){
 			return codeFile.substring(0,end);
 		}
 		return codeFile.substring(0,end+1);
