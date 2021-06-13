@@ -1,9 +1,8 @@
-# Change Log
+### 0.0.3 (2021-06-13)
+* Added Support for Powershell
 
-All notable changes to the "code-builder" extension will be documented in this file.
+### 0.0.2 (2021-06-12)
+* Added Support for IO Files
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+### 0.0.1 (2021-06-11)
+* Initial Release
