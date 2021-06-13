@@ -2,9 +2,8 @@
 	"name": "code-builder",
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
-	"license": "MIT",
 	"description": "Build & Run Standalone Code Files Easily",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"engines": {
 		"vscode": "^1.56.0"
 	},
