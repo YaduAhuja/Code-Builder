@@ -34,6 +34,7 @@ export class CodeManager implements vscode.Disposable{
 		if(!executor){
 			return;
 		}
+		executor = this.modifyForPowershell(executor);
 		executor = this.mapPlaceHoldersInExecutor(executor, this._document);
 		this.runCommandInTerminal(executor);
 	}
@@ -55,8 +56,9 @@ export class CodeManager implements vscode.Disposable{
 		if(!executor){
 			return;
 		}
-
-		executor += " < $inputFilePath > $outputFilePath";
+	
+		executor = this.modifyForPowershell(executor);
+		executor = this.addIOArgs(executor);
 		executor = this.mapPlaceHoldersInExecutor(executor, this._document);
 		this.runCommandInTerminal(executor);
 	}
@@ -143,13 +145,47 @@ export class CodeManager implements vscode.Disposable{
         this.configModifierFromFileFolderPicker("outputFilePath","Select Output File",false,false);
     }
 
-	private logDebugData(codeFile: vscode.TextDocument) : void{
+	private logDebugData(codeFile: vscode.TextDocument) : void {
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
 		console.log("FS Path : " + codeFile.uri.fsPath);
 		console.log("ClassPath: "+ this.getClassPath());
 		console.log("Qualified Name : "+ this.getQualifiedName(codeFile));
 		console.log("Workspace Folder : "+ this.getWorkspaceFolder(codeFile));
+		console.log("Shell : "+ vscode.env.shell);
+	}
+
+	/**
+	 * Adds the IO arguments for executor
+	 */
+	private addIOArgs(executor : string): string{
+		if(!vscode.env.shell.toLowerCase().includes("powershell")){
+			return executor += " < $inputFilePath > $outputFilePath";
+		}
+
+		const splitter = executor.lastIndexOf(";")+1;
+
+		executor = executor.substring(0,splitter) + " Get-Content $inputFilePath | "+
+					executor.substring(splitter)+" | Set-Content $outputFilePath";
+
+		return executor;
+	}
+
+	/**
+	 * If the Shell is Powershell then it will change the executor according to it 
+	 * otherwise it will not change the executor
+	 */
+	private modifyForPowershell(executor : string): string {
+		//Currently the Powershell does'nt supports the '&&' Operator but
+		//it will be available in powershell 7
+
+		//if there is no powershell then return
+		if(!vscode.env.shell.toLowerCase().includes("powershell")){
+			return executor;
+		}
+
+		executor = executor.replace(/&&/g,";");
+		return executor;
 	}
 
 	private getWorkspaceDir(codeFile: string) {
@@ -246,7 +282,6 @@ export class CodeManager implements vscode.Disposable{
             // eslint-disable-next-line @typescript-eslint/naming-convention
             filters: {"Text Files":["txt"]}
         }).then((uri) => {
-			console.log(uri);
             if(uri){
 				//Previous Stable Build
 				//returnString  = uri[0].path;
