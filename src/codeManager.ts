@@ -295,7 +295,7 @@ export class CodeManager implements vscode.Disposable{
 			let line = codeFile.lineAt(i).text;
 			//Checking if the Line Includes Package and it is not Commented
 			if(line.includes("package") && !line.match(/\/\/.*package/g)){
-				line = line.replace(/\s*package\s*/g,"");
+				line = line.replace(/^\s*package\s*/g,"");
 				const match = line.match(/\w+(\.\w+)*/g);
 				if(match){
 					qualifiedName = match[0];
