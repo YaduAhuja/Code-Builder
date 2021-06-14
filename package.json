@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Standalone Code Files Easily",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"license": "MIT",
 	"engines": {
 		"vscode": "^1.56.0"
