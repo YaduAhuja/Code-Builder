@@ -20,7 +20,11 @@ Description of what the bug is.
 Steps to reproduce the behavior:
 
 1. 
-2. 
+2.
+
+**Debug Data**
+Enable Debug Data in Code Builder settings and paste the console logs here
+console can be enabled by toggling developer tools
 
 **Actual behavior**
 Description of what happened actually.
