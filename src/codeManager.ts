@@ -379,10 +379,7 @@ export class CodeManager implements vscode.Disposable{
      *  for IO Support in Run With IO Command
      */
 	 private getInputFilePath(): string {
-        if(!this._inputFilePath){
-			return "";
-		}
-		return this._inputFilePath;
+        return this._inputFilePath ? this._inputFilePath : "";
     }
 
     /**
@@ -390,10 +387,7 @@ export class CodeManager implements vscode.Disposable{
      *  for IO Support in Run With IO Command
      */
     private getOutputFilePath(): string {
-        if(!this._outputFilePath){
-			return "";
-		}
-		return this._outputFilePath;
+        return this._outputFilePath ? this._outputFilePath : "";
     }
 
 	private mapPlaceHoldersInExecutor(executor : string, codeFile: vscode.TextDocument){
@@ -445,5 +439,7 @@ export class CodeManager implements vscode.Disposable{
 		this._terminal.sendText(executor);
 	}
 
-	dispose() : void {}
+	dispose() : void {
+		this._terminal?.dispose();
+	}
 }

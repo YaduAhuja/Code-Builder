@@ -152,8 +152,8 @@
 				},
 				"code-builder.useAutoClassPath":{
 					"type":"boolean",
-					"default":"true",
-					"description": "Whether to use Automatic ClassPath Note: Experimental Feature",
+					"default":"false",
+					"description": "Whether to use Automatic ClassPath\n Note: Experimental Feature",
 					"scope": "resource"
 				}
 			}
