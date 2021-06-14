@@ -149,8 +149,10 @@ export class CodeManager implements vscode.Disposable{
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
 		console.log("FS Path : " + codeFile.uri.fsPath);
-		console.log("ClassPath: "+ this.getClassPath());
-		console.log("Qualified Name : "+ this.getQualifiedName(codeFile));
+		if(codeFile.languageId === "java"){
+			console.log("Qualified Name : "+ this.getQualifiedName(codeFile));
+			console.log("ClassPath: "+ this.getClassPath());
+		}
 		console.log("Workspace Folder : "+ this.getWorkspaceFolder(codeFile));
 		console.log("Shell : "+ vscode.env.shell);
 	}
@@ -245,6 +247,9 @@ export class CodeManager implements vscode.Disposable{
 	 *  set in the Project (Default is .)
 	 */
 	private getQualifiedName(codeFile: vscode.TextDocument): string{
+		if(this._config.get<boolean>("useAutoClassPath")){
+			return this.getAdvancedQualifiedName(codeFile);
+		}
 		const classPath = this.getClassPath();
 		let fsPath = codeFile.uri.fsPath;
 		//Changing the Drive Letter of Windows to UpperCase
@@ -266,6 +271,54 @@ export class CodeManager implements vscode.Disposable{
 		return qualifiedName;
 	}	
 
+	/**
+	 * Sets the ClassPath according to Qualified name generated
+	 */
+	private setAdvancedClassPath(codeFile : vscode.TextDocument, qualifiedName: string) : void {
+		const path = codeFile.uri.fsPath.replace(/[\/\\]/g,".");
+		const splitter = path.indexOf(qualifiedName)-1;
+		this._classPath = codeFile.uri.fsPath.substring(0,splitter);
+	}
+
+	/**
+	 * Gets the Qualified Name through the package statement declared
+	 * in the code file
+	 * if fails to find package declaration
+	 * then returns filename
+	 */
+
+	private getAdvancedQualifiedName(codeFile : vscode.TextDocument) : string {
+		let qualifiedName = "";
+		const lines = codeFile.lineCount;
+		
+		for(let i = 0; i < lines; i++){
+			let line = codeFile.lineAt(i).text;
+			//Checking if the Line Includes Package and it is not Commented
+			if(line.includes("package") && !line.match(/\/\/.*package/g)){
+				line = line.replace(/\s*package\s*/g,"");
+				const match = line.match(/\w+(\.\w+)*/g);
+				if(match){
+					qualifiedName = match[0];
+				}
+			}
+			
+			//Checking if the Line Includes import statement or class Declaration
+			//and if it includes that then it is not commented
+			if((line.includes("import") || line.includes("class")) && !line.match(/\/\/.*[class|import]/g)){
+				break;
+			}
+		}
+		
+		let fileName = this.getFileName(codeFile.uri.fsPath);
+		fileName = fileName.substring(0,fileName.length-5);
+		if(qualifiedName.length > 0){
+			qualifiedName += "." + fileName;
+		}else{
+			qualifiedName = fileName;
+		}
+		this.setAdvancedClassPath(codeFile, qualifiedName);
+		return qualifiedName;
+	}
 
 	/**
      * Invokes A File or Folder Selector

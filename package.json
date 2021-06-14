@@ -149,6 +149,12 @@
 					"default": "false",
 					"description": "Whether to Show the Debug Data in console or not",
 					"scope": "resource"
+				},
+				"code-builder.useAutoClassPath":{
+					"type":"boolean",
+					"default":"true",
+					"description": "Whether to use Automatic ClassPath Note: Experimental Feature",
+					"scope": "resource"
 				}
 			}
 		}
