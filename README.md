@@ -75,6 +75,14 @@ To set Whether to log the Debug data in Console (default is false):
 }
 ```
 
+To set Whether to use Automatic Class Path Detection (default is false):
+**Note :** This is an Experimental Feature and may have some issues
+```json
+{
+    "code-builder.useAutoClassPath": false
+}
+```
+
 To set ClassPath for Java Source Files which will be Replaced with **$classPath** (default is "." , the JVM will use Current Folder as ClassPath) :
 
 **Note :** Edit this setting through **Set Class Path** command only
