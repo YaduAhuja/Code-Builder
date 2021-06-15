@@ -75,6 +75,20 @@ To set Whether to log the Debug data in Console (default is false):
 }
 ```
 
+To set Whether to Clear the Terminal before Every Run (default is false):
+```json
+{
+    "code-builder.clearTerminal": false
+}
+```
+
+To set Whether to Preserve Focus at every run or not (default is true):
+```json
+{
+    "code-builder.preserveFocus": true
+}
+```
+
 To set Whether to use Automatic Class Path Detection (default is false):
 **Note :** This is an Experimental Feature and may have some issues
 ```json

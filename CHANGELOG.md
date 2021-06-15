@@ -1,3 +1,9 @@
+### 0.0.6 (2021-06-15)
+* Fixed some bugs in Automatic Class Path detection
+* Added an Option to Clear Terminal at every Run
+* Added an Option to whether to Preserve Focus or not at every run
+* Fixed multiple terminals issue
+
 ### 0.0.5 (2021-06-14)
 * Added an Experimental Feature of Automatic Class Path Detection
 

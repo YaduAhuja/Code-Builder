@@ -4,8 +4,6 @@ import * as vscode from 'vscode';
 import * as os from 'os';
 
 export class CodeManager implements vscode.Disposable{
-	private _isRunning : boolean;
-	private _process: any;
 	private _config: vscode.WorkspaceConfiguration;
 	private _classPath: string | undefined;
 	private _inputFilePath: string | undefined;
@@ -14,14 +12,15 @@ export class CodeManager implements vscode.Disposable{
 	private _document: vscode.TextDocument | null = null;
 
 	constructor(){
-		this._isRunning = false;
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		this.setContext();
+		this.checkForOpenTerminal();
 	}
 
 	public onDidTerminalClosed(){
 		this._terminal = null;
 	}
+
 
 	public async buildAndRun(): Promise<void> {
 		const document = this.initialize();
@@ -155,6 +154,7 @@ export class CodeManager implements vscode.Disposable{
 		}
 		console.log("Workspace Folder : "+ this.getWorkspaceFolder(codeFile));
 		console.log("Shell : "+ vscode.env.shell);
+		console.log("Terminals : "+ vscode.window.terminals);
 	}
 
 	/**
@@ -303,7 +303,7 @@ export class CodeManager implements vscode.Disposable{
 			}
 			
 			//Checking if the Line Includes import statement or class Declaration
-			//and if it includes that then it is not commented
+			//and if it includes that then it is should not commented
 			if((line.includes("import") || line.includes("class")) && !line.match(/\/\/.*[class|import]/g)){
 				break;
 			}
@@ -425,8 +425,12 @@ export class CodeManager implements vscode.Disposable{
 
 		return command !== executor ? command : "";
 	}
-	
-	private setContext():void{
+
+	/**
+	 * 	sets the Context of language Selector
+	 *  Documentation : https://code.visualstudio.com/api/references/when-clause-contexts
+	 */
+	private setContext(): void {
 		vscode.commands.executeCommand('setContext','code-builder.languageSelector',
 		this._config.get<any>("languageSelector"));
 	}
@@ -435,8 +439,28 @@ export class CodeManager implements vscode.Disposable{
 		if(!this._terminal){
 			this._terminal = vscode.window.createTerminal("Code-Builder");
 		}
-		this._terminal.show(true);
+		
+		if(this._config.get<boolean>("clearTerminal")){
+			vscode.commands.executeCommand("workbench.action.terminal.clear");
+			if(this._config.get<boolean>("preserveFocus")){
+				vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
+			}
+		}
+
+		this._terminal.show(this._config.get<boolean>("preserveFocus"));
 		this._terminal.sendText(executor);
+	}
+
+	/**
+	 *  Checks if there are any open terminals from previous Instances
+	 */
+	private checkForOpenTerminal(){
+		const openTerminals = vscode.window.terminals; 
+		for(let i = 0; i < openTerminals.length; i++){
+			if(openTerminals[i].name === "Code-Builder"){
+				this._terminal = openTerminals[i];
+			}
+		}
 	}
 
 	dispose() : void {

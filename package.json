@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Standalone Code Files Easily",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"license": "MIT",
 	"engines": {
 		"vscode": "^1.56.0"
@@ -102,6 +102,54 @@
 			"type": "object",
 			"title": "Run Code configuration",
 			"properties": {
+				"code-builder.saveFileBeforeRun": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether to save File before Run Command",
+					"scope": "resource"
+				},
+				"code-builder.preserveFocus": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether to preserve Focus when Build is called or not",
+					"scope": "resource"
+				},
+				"code-builder.clearTerminal":{
+					"type":"boolean",
+					"default":false,
+					"description": "whether to clear terminal before executing current command or not",
+					"scope": "resource"
+				},
+				"code-builder.classPath": {
+					"type": "string",
+					"default": ".",
+					"description": "ClassPath for Java Files",
+					"scope": "resource"
+				},
+				"code-builder.inputFilePath": {
+					"type": "string",
+					"default": "",
+					"description": "Input File Path to be used in Run With IO(Set this through 'Set Input File path command')",
+					"scope": "resource"
+				},
+				"code-builder.outputFilePath": {
+					"type": "string",
+					"default": "",
+					"description": "Output File Path to be used in Run With IO(Set this through 'Set Output File path command')",
+					"scope": "resource"
+				},
+				"code-builder.debugData": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether to Show the Debug Data in console or not",
+					"scope": "resource"
+				},
+				"code-builder.useAutoClassPath": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether to use Automatic ClassPath\n Note: Experimental Feature",
+					"scope": "resource"
+				},
 				"code-builder.executorMap": {
 					"type": "object",
 					"default": {
@@ -114,46 +162,16 @@
 					"description": "Executor Map which includes the Build commands for Languages",
 					"scope": "resource"
 				},
-				"code-builder.languageSelector" :{
-					"type":"array",
-					"default":["java", "python", "cpp", "c", "javascript"],
+				"code-builder.languageSelector": {
+					"type": "array",
+					"default": [
+						"java",
+						"python",
+						"cpp",
+						"c",
+						"javascript"
+					],
 					"description": "Languages at which Code Builder will show Run Button",
-					"scope": "resource"
-				},
-				"code-builder.saveFileBeforeRun": {
-					"type": "boolean",
-					"default": "true",
-					"description": "Whether to save File before Run Command",
-					"scope":"resource"
-				},
-				"code-builder.classPath": {
-					"type": "string",
-					"default": ".",
-					"description": "ClassPath for Java Files",
-					"scope": "resource"
-				},
-				"code-builder.inputFilePath":{
-					"type":"string",
-					"default":"",
-					"description": "Input File Path to be used in Run With IO(Set this through 'Set Input File path command')",
-					"scope":"resource"
-				},
-				"code-builder.outputFilePath":{
-					"type":"string",
-					"default":"",
-					"description": "Output File Path to be used in Run With IO(Set this through 'Set Output File path command')",
-					"scope":"resource"
-				},
-				"code-builder.debugData": {
-					"type": "boolean",
-					"default": "false",
-					"description": "Whether to Show the Debug Data in console or not",
-					"scope": "resource"
-				},
-				"code-builder.useAutoClassPath":{
-					"type":"boolean",
-					"default":"false",
-					"description": "Whether to use Automatic ClassPath\n Note: Experimental Feature",
 					"scope": "resource"
 				}
 			}
