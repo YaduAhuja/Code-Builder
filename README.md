@@ -1,10 +1,11 @@
 # Code Builder
-Run Standalone code file for multiple languages: **C, C++, Java, JavaScript, Python**
+Build & Run Code files for **C, C++, Java, JavaScript, Python** with or without Input & Output Files.
+
 
 ## Features
 
 * Run code file of current active Text Editor
-* Run code file With IO File Support
+* Run code file With IO Files
 * Select Languages at which the Extension will show Run Button
 
 ## Usages
@@ -12,9 +13,9 @@ Run Standalone code file for multiple languages: **C, C++, Java, JavaScript, Pyt
 * To run code:
   * use shortcut `Ctrl+Alt+B`
   * or press `F1` and then Select/Type `Code Builder : Build & Run File`
-* To run code with IO Support:
+* To run code with IO Files :
   * use shortcut `Ctrl+Alt+K`
-  * or press `F1` and then Select/Type `Code Builder : Build & Run File with IO Support`
+  * or press `F1` and then Select/Type `Code Builder : Build and Run File with IO Files`
 * To Set Input File Path:
   * use shortcut `Ctrl+Alt+I`
   * or press `F1` and then Select/Type `Code Builder : Set Input File Path`

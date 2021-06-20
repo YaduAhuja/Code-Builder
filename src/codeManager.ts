@@ -143,7 +143,10 @@ export class CodeManager implements vscode.Disposable{
     public setOutputFilePath(): void {
         this.configModifierFromFileFolderPicker("outputFilePath","Select Output File",false,false);
     }
-
+	
+	/**
+	 * Logs the Debug data to Console
+	 */
 	private logDebugData(codeFile: vscode.TextDocument) : void {
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
@@ -293,6 +296,15 @@ export class CodeManager implements vscode.Disposable{
 		
 		for(let i = 0; i < lines; i++){
 			let line = codeFile.lineAt(i).text;
+
+			//Checking for multiline Comments
+			if(line.includes("/*")){
+				while(!line.includes("*/")){
+					i++;
+					line = codeFile.lineAt(i).text;
+				}
+			}
+			
 			//Checking if the Line Includes Package and it is not Commented
 			if(line.includes("package") && !line.match(/\/\/.*package/g)){
 				line = line.replace(/^\s*package\s*/g,"");

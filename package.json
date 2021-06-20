@@ -2,9 +2,10 @@
 	"name": "code-builder",
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
-	"description": "Build & Run Standalone Code Files Easily",
-	"version": "0.0.6",
+	"description": "Build & Run Code files for C, C++, Java, JavaScript, Python",
+	"version": "0.1.0",
 	"license": "MIT",
+	"icon": "images/icon.png",
 	"engines": {
 		"vscode": "^1.56.0"
 	},
@@ -17,7 +18,8 @@
 		"c",
 		"c++",
 		"python",
-		"javacript"
+		"javacript",
+		"competitive programming"
 	],
 	"bugs": {
 		"url": "https://github.com/YaduAhuja/Code-Builder/issues",
@@ -65,7 +67,7 @@
 			{
 				"command": "code-builder.buildWithIO",
 				"category": "Code Builder",
-				"title": "Build and Run File with IO Support"
+				"title": "Build and Run File with IO Files"
 			}
 		],
 		"keybindings": [

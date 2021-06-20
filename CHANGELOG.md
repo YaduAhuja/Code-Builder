@@ -1,3 +1,7 @@
+### 0.1.0 (2021-06-20)
+* Added Icon
+* Fixed Multiple Line Comment Bug in Automatic ClassPath
+
 ### 0.0.6 (2021-06-15)
 * Fixed some bugs in Automatic Class Path detection
 * Added an Option to Clear Terminal at every Run
