@@ -114,9 +114,9 @@
 					"description": "Whether to preserve Focus when Build is called or not",
 					"scope": "resource"
 				},
-				"code-builder.clearTerminal":{
-					"type":"boolean",
-					"default":false,
+				"code-builder.clearTerminal": {
+					"type": "boolean",
+					"default": false,
 					"description": "whether to clear terminal before executing current command or not",
 					"scope": "resource"
 				},
@@ -203,5 +203,8 @@
 		"vscode-test": "^1.5.0",
 		"webpack": "^5.19.0",
 		"webpack-cli": "^4.4.0"
+	},
+	"dependencies": {
+		"find-process": "^1.4.4"
 	}
 }
