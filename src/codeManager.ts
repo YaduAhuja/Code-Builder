@@ -2,6 +2,7 @@
 import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
+import { getProcessTree } from 'windows-process-tree';
 
 export class CodeManager implements vscode.Disposable{
 	private _config: vscode.WorkspaceConfiguration;
@@ -445,6 +446,40 @@ export class CodeManager implements vscode.Disposable{
 	private setContext(): void {
 		vscode.commands.executeCommand('setContext','code-builder.languageSelector',
 		this._config.get<any>("languageSelector"));
+	}
+
+	/**
+	 * Checking if the Code Builder is Already Running or not
+	 */
+	 private async isRunning(): Promise<boolean|undefined>{
+		if(!this._terminal) {
+			return false;
+		}
+		let resolution:any = undefined;
+
+		const pid = await this._terminal?.processId;
+		if(!pid){
+			return false;
+		}
+
+		getProcessTree(pid,(tree) => {
+			// console.log(tree);
+			if(tree.children.length > 0){
+				resolution = true;
+			}else{
+				resolution = false;
+			}
+		});
+
+		return new Promise((resolve)=> {
+			const check = setInterval(()=> {
+				// console.log("reso" + resolution);
+				if(resolution !== undefined){
+					resolve(resolution);
+					clearInterval(check);
+				}
+			},30);
+		});
 	}
 
 	private async runCommandInTerminal(executor : string, isIOCommand: boolean = false): Promise<any> {

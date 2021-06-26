@@ -28,8 +28,15 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.node$/,
+        use: [
+          {
+            loader: 'node-loader'
+          }
+        ]
+      },
+      {
         test: /\.ts$/,
-        exclude: /node_modules/,
         use: [
           {
             loader: 'ts-loader'
