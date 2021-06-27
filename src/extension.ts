@@ -14,9 +14,10 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.onDidCloseTerminal(()=>{ 
 		codeManager.onDidTerminalClosed();
 	});
-	
+
+
 	const buildAndRun = vscode.commands.registerCommand("code-builder.buildAndRun", ()=> {
-		codeManager.buildAndRun();
+		codeManager.runCommand("buildAndRun");
 	});
 	
 	const buildWithIO = vscode.commands.registerCommand("code-builder.buildWithIO",()=>{

@@ -11,19 +11,35 @@ export class CodeManager implements vscode.Disposable{
 	private _outputFilePath : string | undefined;
 	private _terminal : vscode.Terminal | null = null;
 	private _document: vscode.TextDocument | null = null;
+	private _executionQueue : Array<String>;
+	private _inExecution : boolean= false;
 
 	constructor(){
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		this.setContext();
 		this.checkForOpenTerminal();
+		this._executionQueue = [];
 	}
 
 	public onDidTerminalClosed(){
 		this._terminal = null;
 	}
 
+	public async runCommand(command : string){
+		if(this._inExecution){
+			console.log("Command Cleared");
+			return;
+		}
+		this._inExecution = true;
+		await this.createTerminal();
+		await this.buildAndRun();
+		setTimeout(()=> this._inExecution = false, 200);
+	}
 
 	public async buildAndRun(): Promise<void> {
+		// console.log("In Build & Run");
+		
+		
 		const document = this.initialize();
 		if(!document){
 			return;
@@ -36,10 +52,10 @@ export class CodeManager implements vscode.Disposable{
 		}
 		executor = this.modifyForPowershell(executor);
 		executor = this.mapPlaceHoldersInExecutor(executor, this._document);
-		this.runCommandInTerminal(executor);
+		await this.runCommandInTerminal(executor);
 	}
 	
-	public async buildWithIO():Promise<void>{
+	public async buildWithIO(): Promise<void>{
 		const document = this.initialize();
 		if(!document){
 			return;
@@ -452,14 +468,14 @@ export class CodeManager implements vscode.Disposable{
 	 * Checking if the Code Builder is Already Running or not
 	 */
 	 private async isRunning(): Promise<boolean|undefined>{
-		if(!this._terminal) {
-			return false;
+		if(!this._inExecution){
+			return true;
 		}
+		
 		let resolution:any = undefined;
-
 		const pid = await this._terminal?.processId;
 		if(!pid){
-			return false;
+			return true;
 		}
 
 		getProcessTree(pid,(tree) => {
@@ -478,15 +494,22 @@ export class CodeManager implements vscode.Disposable{
 					resolve(resolution);
 					clearInterval(check);
 				}
-			},30);
+			},50);
 		});
 	}
 
-	private async runCommandInTerminal(executor : string, isIOCommand: boolean = false): Promise<any> {
+	private async runCommandInTerminal(executor : string, isIOCommand: boolean = false) {
 		if(!this._terminal){
-			this._terminal = vscode.window.createTerminal("Code-Builder");
+			this._terminal = await this.createTerminal();
 		}
-		
+
+		const isRunning = await this.isRunning();
+		console.log("Is Running :" +isRunning);
+		if(isRunning){
+			vscode.window.showInformationMessage("Code Builder is Already Running");
+			return;
+		}
+
 		if(this._config.get<boolean>("clearTerminal")){
 			vscode.commands.executeCommand("workbench.action.terminal.clear");
 			if(this._config.get<boolean>("preserveFocus")){
@@ -496,6 +519,23 @@ export class CodeManager implements vscode.Disposable{
 
 		this._terminal.show(this._config.get<boolean>("preserveFocus"));
 		this._terminal.sendText(executor);
+	}
+
+	private async createTerminal() : Promise<vscode.Terminal>{
+		if(this._terminal){
+			return this._terminal;
+		}
+
+		this._terminal = vscode.window.createTerminal("Code-Builder");
+		
+		return new Promise((resolve) => {
+			const checker = setInterval(()=> {
+				if(this._terminal){
+					resolve(this._terminal);
+					clearInterval(checker);
+				}
+			},70);
+		});
 	}
 
 	/**
