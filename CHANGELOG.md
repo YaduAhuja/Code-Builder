@@ -1,3 +1,7 @@
+### 0.2.0 (2021-07-03)
+* Added the Stop Build Command
+* Made the Clear Terminal Enabled By Default
+
 ### 0.1.0 (2021-06-20)
 * Added Icon
 * Fixed Multiple Line Comment Bug in Automatic ClassPath

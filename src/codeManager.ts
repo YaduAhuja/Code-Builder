@@ -66,7 +66,7 @@ export class CodeManager implements vscode.Disposable{
 			return;
 		}
 		//Sending the CTRL+C to Terminal
-		await vscode.commands.executeCommand("workbench.action.terminal.sendSequence", {text:"\u0003\u000D"});
+		this._terminal.sendText("\u0003\u000D");
 		vscode.window.showInformationMessage("Build Stopped");
 		this.clearTerminal();
 	}
@@ -457,15 +457,16 @@ export class CodeManager implements vscode.Disposable{
 	}
 	
 	/**
-	 * Clears the Terminal Sequentially
+	 * Clears the Terminal
 	 */
-	private async clearTerminal():Promise<void>{
-		await vscode.commands.executeCommand("workbench.action.terminal.clear");
+	private clearTerminal():void{
+		this._terminal?.show();
 		if(vscode.env.shell.toLowerCase().includes("cmd")){
 			this._terminal?.sendText("cls");	
 		}else{
 			this._terminal?.sendText("clear");
 		}
+		vscode.commands.executeCommand("workbench.action.terminal.clear");
 	}
 
 	private async runCommandInTerminal(executor : string, isIOCommand: boolean = false): Promise<any> {
@@ -474,7 +475,7 @@ export class CodeManager implements vscode.Disposable{
 		}
 		
 		if(this._config.get<boolean>("clearTerminal")){
-			await this.clearTerminal();
+			this.clearTerminal();
 			if(this._config.get<boolean>("preserveFocus")){
 				vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
 			}
