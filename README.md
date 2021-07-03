@@ -16,6 +16,9 @@ Build & Run Code files for **C, C++, Java, JavaScript, Python** with or without 
 * To run code with IO Files :
   * use shortcut `Ctrl+Alt+K`
   * or press `F1` and then Select/Type `Code Builder : Build and Run File with IO Files`
+* To Stop Build :
+  * use shortcut `Ctrl+Alt+J`
+  * or press `F1` and then Select/Type `Code Builder : Stop Build`
 * To Set Input File Path:
   * use shortcut `Ctrl+Alt+I`
   * or press `F1` and then Select/Type `Code Builder : Set Input File Path`

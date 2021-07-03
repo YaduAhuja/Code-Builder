@@ -50,6 +50,16 @@
 				"title": "Build & Run File"
 			},
 			{
+				"command": "code-builder.buildWithIO",
+				"category": "Code Builder",
+				"title": "Build and Run File with IO Files"
+			},
+			{
+				"command": "code-builder.stopBuild",
+				"category": "Code Builder",
+				"title": "Stop Build"
+			},
+			{
 				"command": "code-builder.setClassPath",
 				"category": "Code Builder",
 				"title": "Set Class Path"
@@ -63,11 +73,6 @@
 				"command": "code-builder.setOutputFilePath",
 				"category": "Code Builder",
 				"title": "Set Output File Path"
-			},
-			{
-				"command": "code-builder.buildWithIO",
-				"category": "Code Builder",
-				"title": "Build and Run File with IO Files"
 			}
 		],
 		"keybindings": [
@@ -80,16 +85,20 @@
 				"key": "ctrl+alt+k"
 			},
 			{
+				"command": "code-builder.stopBuild",
+				"key": "ctrl+alt+j"
+			},
+			{
 				"command": "code-builder.setInputFilePath",
-				"key": "ctrl+alt+I"
+				"key": "ctrl+alt+i"
 			},
 			{
 				"command": "code-builder.setOutputFilePath",
-				"key": "ctrl+alt+O"
+				"key": "ctrl+alt+o"
 			},
 			{
 				"command": "code-builder.setClassPath",
-				"key": "ctrl+alt+P"
+				"key": "ctrl+alt+p"
 			}
 		],
 		"menus": {
@@ -118,7 +127,7 @@
 				},
 				"code-builder.clearTerminal": {
 					"type": "boolean",
-					"default": false,
+					"default": true,
 					"description": "whether to clear terminal before executing current command or not",
 					"scope": "resource"
 				},

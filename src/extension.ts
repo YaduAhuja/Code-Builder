@@ -22,7 +22,11 @@ export function activate(context: vscode.ExtensionContext) {
 	const buildWithIO = vscode.commands.registerCommand("code-builder.buildWithIO",()=>{
 		codeManager.buildWithIO();
 	});
-	
+
+	const stopBuild = vscode.commands.registerCommand("code-builder.stopBuild",()=>{
+		codeManager.stopBuild();
+	});
+
 	const setClassPath = vscode.commands.registerCommand("code-builder.setClassPath",()=>{
 		codeManager.setClassPath();
 	});

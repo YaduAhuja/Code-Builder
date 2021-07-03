@@ -20,8 +20,7 @@ export class CodeManager implements vscode.Disposable{
 	public onDidTerminalClosed(){
 		this._terminal = null;
 	}
-
-
+	
 	public async buildAndRun(): Promise<void> {
 		const document = this.initialize();
 		if(!document){
@@ -60,6 +59,16 @@ export class CodeManager implements vscode.Disposable{
 		executor = this.addIOArgs(executor);
 		executor = this.mapPlaceHoldersInExecutor(executor, this._document);
 		this.runCommandInTerminal(executor);
+	}
+
+	public async stopBuild():Promise<void>{
+		if(!this._terminal){
+			return;
+		}
+		//Sending the CTRL+C to Terminal
+		await vscode.commands.executeCommand("workbench.action.terminal.sendSequence", {text:"\u0003\u000D"});
+		vscode.window.showInformationMessage("Build Stopped");
+		this.clearTerminal();
 	}
 
 	/**
@@ -446,6 +455,18 @@ export class CodeManager implements vscode.Disposable{
 		vscode.commands.executeCommand('setContext','code-builder.languageSelector',
 		this._config.get<any>("languageSelector"));
 	}
+	
+	/**
+	 * Clears the Terminal Sequentially
+	 */
+	private async clearTerminal():Promise<void>{
+		await vscode.commands.executeCommand("workbench.action.terminal.clear");
+		if(vscode.env.shell.toLowerCase().includes("cmd")){
+			this._terminal?.sendText("cls");	
+		}else{
+			this._terminal?.sendText("clear");
+		}
+	}
 
 	private async runCommandInTerminal(executor : string, isIOCommand: boolean = false): Promise<any> {
 		if(!this._terminal){
@@ -453,7 +474,7 @@ export class CodeManager implements vscode.Disposable{
 		}
 		
 		if(this._config.get<boolean>("clearTerminal")){
-			vscode.commands.executeCommand("workbench.action.terminal.clear");
+			await this.clearTerminal();
 			if(this._config.get<boolean>("preserveFocus")){
 				vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
 			}
