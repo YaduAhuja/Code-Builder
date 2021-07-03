@@ -1,4 +1,4 @@
-### 0.2.1 (2021-07-03)
+### 0.2.1 (2021-07-04)
 * Fixed the Subscription Bug of Stop Build Command
 
 ### 0.2.0 (2021-07-03)
