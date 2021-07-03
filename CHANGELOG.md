@@ -1,3 +1,6 @@
+### 0.2.1 (2021-07-03)
+* Fixed the Subscription Bug of Stop Build Command
+
 ### 0.2.0 (2021-07-03)
 * Added the Stop Build Command
 * Made the Clear Terminal Enabled By Default

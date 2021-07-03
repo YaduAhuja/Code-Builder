@@ -40,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	context.subscriptions.push(buildAndRun);
 	context.subscriptions.push(buildWithIO);
+	context.subscriptions.push(stopBuild);
 	context.subscriptions.push(setClassPath);
 	context.subscriptions.push(setInputFilePath);
 	context.subscriptions.push(setOutputFilePath);
