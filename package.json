@@ -32,6 +32,7 @@
 	"activationEvents": [
 		"onCommand:code-builder.buildAndRun",
 		"onCommand:code-builder.buildAndRunWithIO",
+		"onCommand:code-builder.stopBuild",
 		"onCommand:code-builder.setClassPath",
 		"onCommand:code-builder.setInputFilePath",
 		"onCommand:code-builder.setOutputFilePath",
