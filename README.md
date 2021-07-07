@@ -131,7 +131,14 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
 ```
 
 ## TODO
-- [x] Write the press release
+- ~~Add the Stop Build Command()~~ **(Added in Build 0.2)**
+- Add Option For External Teminal Execution
+- Interactive Process Detection for Stop Command
+- Runtime Information Statistics
+- Add Support for More Languages
+- Python Virtual Environment Support
+- Shebang Support
+- Simplification of Settings
 
 ## Issues
 Submit the [issues](https://github.com/YaduAhuja/Code-Builder/issues) if you find any bug or have any suggestion.
