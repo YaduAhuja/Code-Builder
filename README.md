@@ -131,6 +131,7 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
 ```
 
 ## TODO
+- Add Automatic ClassPath Detection for Java Files **(Added Basic Support in Build 0.0.5)**
 - ~~Add the Stop Build Command()~~ **(Added in Build 0.2)**
 - Add Option For External Teminal Execution
 - Interactive Process Detection for Stop Command
