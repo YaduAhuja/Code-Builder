@@ -130,6 +130,9 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
 }
 ```
 
+## TODO
+- [x] Write the press release
+
 ## Issues
 Submit the [issues](https://github.com/YaduAhuja/Code-Builder/issues) if you find any bug or have any suggestion.
 
