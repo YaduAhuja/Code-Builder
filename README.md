@@ -129,11 +129,18 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
     "code-builder.outputFilePath": ""
 }
 ```
+## FAQ
+**Q :** Getting ClassNotFound Exception when running Java files ?
+
+**A :** If you are using Package Declaration in your Java source files then Turn on the `UseAutoClassPath`. If it is still not fixed then raise an issue in repo.  
+
+## Release Notes
+Refer to [CHANGELOG](CHANGELOG.md)
 
 ## TODO
 - Add Automatic ClassPath Detection for Java Files **(Added Basic Support in Build 0.0.5)**
 - ~~Add the Stop Build Command~~ **(Added in Build 0.2)**
-- Add Option For External Teminal Execution
+- Add Option For External Teminal Execution **(Added Windows & Mac Support in Build 0.2.2)**
 - Interactive Process Detection for Stop Command
 - Runtime Information Statistics
 - Add Support for More Languages

@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Code files for C, C++, Java, JavaScript, Python",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -133,20 +133,14 @@
 					"scope": "resource"
 				},
 				"code-builder.classPath": {
-					"type": "string",
-					"default": ".",
-					"description": "ClassPath for Java Files",
+					"description": "ClassPath for Java Files(Set this through 'Set Input File path command')",
 					"scope": "resource"
 				},
 				"code-builder.inputFilePath": {
-					"type": "string",
-					"default": "",
 					"description": "Input File Path to be used in Run With IO(Set this through 'Set Input File path command')",
 					"scope": "resource"
 				},
 				"code-builder.outputFilePath": {
-					"type": "string",
-					"default": "",
 					"description": "Output File Path to be used in Run With IO(Set this through 'Set Output File path command')",
 					"scope": "resource"
 				},
@@ -154,6 +148,12 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Whether to Show the Debug Data in console or not",
+					"scope": "resource"
+				},
+				"code-builder.runInExternalTerminal": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether to run Program in External Terminal",
 					"scope": "resource"
 				},
 				"code-builder.useAutoClassPath": {

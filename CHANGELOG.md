@@ -1,3 +1,6 @@
+### 0.2.2 (2021-07-10)
+* Added the Setting to Run Program in External Terminal
+
 ### 0.2.1 (2021-07-04)
 * Fixed the Subscription Bug of Stop Build Command
 

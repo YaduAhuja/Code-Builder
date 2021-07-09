@@ -2,6 +2,8 @@
 import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
+import { mapExternalCommand } from './terminal';
+import { ChildProcess, exec } from 'child_process';
 
 export class CodeManager implements vscode.Disposable{
 	private _config: vscode.WorkspaceConfiguration;
@@ -10,6 +12,7 @@ export class CodeManager implements vscode.Disposable{
 	private _outputFilePath : string | undefined;
 	private _terminal : vscode.Terminal | null = null;
 	private _document: vscode.TextDocument | null = null;
+	private _externalProcess: ChildProcess | null = null;
 
 	constructor(){
 		this._config = vscode.workspace.getConfiguration("code-builder");
@@ -22,6 +25,10 @@ export class CodeManager implements vscode.Disposable{
 	}
 	
 	public async buildAndRun(): Promise<void> {
+		if(this._config.get<boolean>("runInExternalTerminal") && this._externalProcess){
+			vscode.window.showInformationMessage("Build is Already Running");
+			return;
+		}
 		const document = this.initialize();
 		if(!document){
 			return;
@@ -32,9 +39,8 @@ export class CodeManager implements vscode.Disposable{
 		if(!executor){
 			return;
 		}
-		executor = this.modifyForPowershell(executor);
-		executor = this.mapPlaceHoldersInExecutor(executor, this._document);
-		this.runCommandInTerminal(executor);
+		
+		this.runCommandInTerminal(executor, document);
 	}
 	
 	public async buildWithIO():Promise<void>{
@@ -54,21 +60,20 @@ export class CodeManager implements vscode.Disposable{
 		if(!executor){
 			return;
 		}
-	
-		executor = this.modifyForPowershell(executor);
-		executor = this.addIOArgs(executor);
-		executor = this.mapPlaceHoldersInExecutor(executor, this._document);
-		this.runCommandInTerminal(executor);
+
+		this.runCommandInTerminal(executor, document, true);
 	}
 
 	public async stopBuild():Promise<void>{
-		if(!this._terminal){
-			return;
+		if(!this._config.get<boolean>("runInExternalTerminal")){
+			if(!this._terminal){
+				return;
+			}
+			//Sending the CTRL+C to Terminal
+			this._terminal.sendText("\u0003\u000D");
+			this.clearTerminal();
+			vscode.window.showInformationMessage("Build Stopped");
 		}
-		//Sending the CTRL+C to Terminal
-		this._terminal.sendText("\u0003\u000D");
-		vscode.window.showInformationMessage("Build Stopped");
-		this.clearTerminal();
 	}
 
 	/**
@@ -164,6 +169,7 @@ export class CodeManager implements vscode.Disposable{
 			console.log("Qualified Name : "+ this.getQualifiedName(codeFile));
 			console.log("ClassPath: "+ this.getClassPath());
 		}
+		console.log("Dirname : "+ this.getDirName());
 		console.log("Workspace Folder : "+ this.getWorkspaceFolder(codeFile));
 		console.log("Shell : "+ vscode.env.shell);
 		console.log("Terminals : "+ vscode.window.terminals);
@@ -172,8 +178,8 @@ export class CodeManager implements vscode.Disposable{
 	/**
 	 * Adds the IO arguments for executor
 	 */
-	private addIOArgs(executor : string): string{
-		if(!vscode.env.shell.toLowerCase().includes("powershell")){
+	private addIOArgs(executor : string, isExternal : boolean = false): string{
+		if(!vscode.env.shell.toLowerCase().includes("powershell") || isExternal){
 			return executor += " < $inputFilePath > $outputFilePath";
 		}
 
@@ -241,8 +247,11 @@ export class CodeManager implements vscode.Disposable{
 		return undefined;
 	}	
 
-	private getDirName(codeFile : vscode.TextDocument): string{
-		return dirname(codeFile.uri.fsPath);
+	private getDirName(): string{
+		if(!this._document){
+			return "";
+		}
+		return dirname(this._document.fileName);
 	}
 
 	private getClassPath(): string {
@@ -274,7 +283,7 @@ export class CodeManager implements vscode.Disposable{
 		if(fsPath.includes(classPath) && classPath.length !== 1){
 			splitter = classPath.length+1;
 		}else {
-			splitter = this.getDirName(codeFile).length+1;
+			splitter = this.getDirName().length+1;
 			this._classPath = ".";
 		}
 
@@ -391,7 +400,7 @@ export class CodeManager implements vscode.Disposable{
         return configModified;
     }
 
-	private getInEnclosedQuotes(text: string) :string{
+	private getInEnclosedQuotes(text: string) : string {
 		return "\""+text+"\"";
 	}
 
@@ -469,7 +478,33 @@ export class CodeManager implements vscode.Disposable{
 		vscode.commands.executeCommand("workbench.action.terminal.clear");
 	}
 
-	private async runCommandInTerminal(executor : string, isIOCommand: boolean = false): Promise<any> {
+	/**
+	 * Runs the Command in Respective Terminal 
+	 * According to the Config set by user. 
+	 */
+	private async runCommandInTerminal(executor : string, document : vscode.TextDocument, isIOCommand: boolean = false) {
+		if(this._config.get<boolean>("runInExternalTerminal")){
+			if(isIOCommand){
+				executor = this.addIOArgs(executor, true);
+			}
+			executor = this.mapPlaceHoldersInExecutor(executor,document);
+			
+			this.runCommandInExternalTerminal(executor);
+		}else{
+			executor = this.modifyForPowershell(executor);
+			if(isIOCommand){
+				executor = this.addIOArgs(executor);
+			}
+			executor = this.mapPlaceHoldersInExecutor(executor, document);
+
+			this.runCommandInInternalTerminal(executor);
+		}
+	}
+
+	/**
+	 * Runs Command in Internal Terminal
+	 */
+	private async runCommandInInternalTerminal(executor : string) {
 		if(!this._terminal){
 			this._terminal = vscode.window.createTerminal("Code-Builder");
 		}
@@ -483,6 +518,15 @@ export class CodeManager implements vscode.Disposable{
 
 		this._terminal.show(this._config.get<boolean>("preserveFocus"));
 		this._terminal.sendText(executor);
+	}
+	
+	/**
+	 * Runs Command in External Terminal
+	 */
+	private async runCommandInExternalTerminal(executor : string) {
+		executor = mapExternalCommand(executor);
+		this._externalProcess = exec(executor,{cwd:this.getDirName()});
+		this._externalProcess.on("close", () => this._externalProcess = null);
 	}
 
 	/**
