@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import * as os from 'os';
 import { mapExternalCommand } from './terminal';
 import { ChildProcess, exec } from 'child_process';
+import terminate from 'terminate';
 
 export class CodeManager implements vscode.Disposable{
 	private _config: vscode.WorkspaceConfiguration;
@@ -25,10 +26,10 @@ export class CodeManager implements vscode.Disposable{
 	}
 	
 	public async buildAndRun(): Promise<void> {
-		if(this._config.get<boolean>("runInExternalTerminal") && this._externalProcess){
-			vscode.window.showInformationMessage("Build is Already Running");
+		if(this.isRunning()){
 			return;
 		}
+
 		const document = this.initialize();
 		if(!document){
 			return;
@@ -44,6 +45,10 @@ export class CodeManager implements vscode.Disposable{
 	}
 	
 	public async buildWithIO():Promise<void>{
+		if(this.isRunning()){
+			return;
+		}
+
 		const document = this.initialize();
 		if(!document){
 			return;
@@ -65,7 +70,15 @@ export class CodeManager implements vscode.Disposable{
 	}
 
 	public async stopBuild():Promise<void>{
-		if(!this._config.get<boolean>("runInExternalTerminal")){
+		if(this._config.get<boolean>("runInExternalTerminal")){
+			if(this._externalProcess){
+				if(os.platform() === "win32"){
+					terminate(this._externalProcess.pid);
+					vscode.window.showInformationMessage("Build Stopped");
+				}
+				vscode.window.showInformationMessage("This Platform does not supports stopping command currently.");
+			}
+		}else{
 			if(!this._terminal){
 				return;
 			}
@@ -173,6 +186,18 @@ export class CodeManager implements vscode.Disposable{
 		console.log("Workspace Folder : "+ this.getWorkspaceFolder(codeFile));
 		console.log("Shell : "+ vscode.env.shell);
 		console.log("Terminals : "+ vscode.window.terminals);
+	}
+
+	/**
+	 * Checks for Previous runs in External Terminal
+	 */
+	private isRunning(): boolean{
+		if(this._config.get<boolean>("runInExternalTerminal") && this._externalProcess){
+			vscode.window.showInformationMessage("Build is Already Running");
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -468,8 +493,7 @@ export class CodeManager implements vscode.Disposable{
 	/**
 	 * Clears the Terminal
 	 */
-	private clearTerminal():void{
-		this._terminal?.show();
+	private clearTerminal(): void{
 		if(vscode.env.shell.toLowerCase().includes("cmd")){
 			this._terminal?.sendText("cls");	
 		}else{
@@ -488,8 +512,8 @@ export class CodeManager implements vscode.Disposable{
 				executor = this.addIOArgs(executor, true);
 			}
 			executor = this.mapPlaceHoldersInExecutor(executor,document);
-			
 			this.runCommandInExternalTerminal(executor);
+
 		}else{
 			executor = this.modifyForPowershell(executor);
 			if(isIOCommand){
@@ -511,13 +535,9 @@ export class CodeManager implements vscode.Disposable{
 		
 		if(this._config.get<boolean>("clearTerminal")){
 			this.clearTerminal();
-			if(this._config.get<boolean>("preserveFocus")){
-				vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
-			}
 		}
-
-		this._terminal.show(this._config.get<boolean>("preserveFocus"));
 		this._terminal.sendText(executor);
+		this._terminal.show(this._config.get<boolean>("preserveFocus"));
 	}
 	
 	/**
@@ -525,7 +545,11 @@ export class CodeManager implements vscode.Disposable{
 	 */
 	private async runCommandInExternalTerminal(executor : string) {
 		executor = mapExternalCommand(executor);
-		this._externalProcess = exec(executor,{cwd:this.getDirName()});
+		if(!executor || executor.trim().length === 0){
+			vscode.window.showErrorMessage("Error in Generating Executor");
+			return;
+		}
+		this._externalProcess = exec(executor, {cwd:this.getDirName()});
 		this._externalProcess.on("close", () => this._externalProcess = null);
 	}
 

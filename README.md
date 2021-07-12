@@ -1,5 +1,5 @@
 # Code Builder
-Build & Run Code files for **C, C++, Java, JavaScript, Python** with or without Input & Output Files.
+Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python** with or without Input & Output Files.
 
 
 ## Features
@@ -7,6 +7,7 @@ Build & Run Code files for **C, C++, Java, JavaScript, Python** with or without 
 * Run code file of current active Text Editor
 * Run code file With IO Files
 * Select Languages at which the Extension will show Run Button
+* Run Code in External Terminal
 
 ## Usages
 
@@ -42,7 +43,8 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 		"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 		"python": "cd $dir && python $fileName",
 		"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
-		"javascript": "cd $dir && node $fileName"
+		"javascript": "cd $dir && node $fileName",
+		"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt.js"
     }
 }
 ```
@@ -61,7 +63,7 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 To set the languages at which the run button will show(Default is Given Below):
 ```json
 {
-	"code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript"]
+	"code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript"]
 }
 ```
 
@@ -86,10 +88,10 @@ To set Whether to Clear the Terminal before Every Run (default is true):
 }
 ```
 
-To set Whether to Preserve Focus at every run or not (default is true):
+To set Whether to Preserve Focus at every run or not (default is false):
 ```json
 {
-    "code-builder.preserveFocus": true
+    "code-builder.preserveFocus": false
 }
 ```
 
@@ -134,12 +136,15 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
 
 **A :** If you are using Package Declaration in your Java source files then Turn on the `UseAutoClassPath`. If it is still not fixed then raise an issue in repo.  
 
+**Q :** `tsc` Command not Found?
+
+**A :** Install the tsc compiler Globally by `npm install -g typescript`
 ## Release Notes
 Refer to [CHANGELOG](CHANGELOG.md)
 
 ## TODO
 - Add Automatic ClassPath Detection for Java Files **(Added Basic Support in Build 0.0.5)**
-- ~~Add the Stop Build Command~~ **(Added in Build 0.2)**
+- ~~Add the Stop Build Command~~ **(Added Internal Terminal Support in Build 0.2)**
 - Add Option For External Teminal Execution **(Added Windows & Mac Support in Build 0.2.2)**
 - Interactive Process Detection for Stop Command
 - Runtime Information Statistics

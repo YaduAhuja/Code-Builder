@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Code files for C, C++, Java, JavaScript, Python",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -122,7 +122,7 @@
 				},
 				"code-builder.preserveFocus": {
 					"type": "boolean",
-					"default": true,
+					"default": false,
 					"description": "Whether to preserve Focus when Build is called or not",
 					"scope": "resource"
 				},
@@ -169,7 +169,8 @@
 						"python": "cd $dir && python $fileName",
 						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-						"javascript": "cd $dir && node $fileName"
+						"javascript": "cd $dir && node $fileName",
+						"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt.js"
 					},
 					"description": "Executor Map which includes the Build commands for Languages",
 					"scope": "resource"
@@ -181,7 +182,8 @@
 						"python",
 						"cpp",
 						"c",
-						"javascript"
+						"javascript",
+						"typescript"
 					],
 					"description": "Languages at which Code Builder will show Run Button",
 					"scope": "resource"
@@ -217,6 +219,6 @@
 		"webpack-cli": "^4.4.0"
 	},
 	"dependencies": {
-		"find-process": "^1.4.4"
+		"terminate": "^2.2.1"
 	}
 }

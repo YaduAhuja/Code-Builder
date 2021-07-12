@@ -1,3 +1,11 @@
+### 0.2.3 (2021-07-12)
+* Added the Support to Run Program in External Gnome-terminal, Mate-terminal, Tilix for Linux 
+* Fixed issues with Preserve Focus
+* Fixed Multiple External Terminal Spawns
+* Added the Support for Windows to Close the External Terminal using Stop Command
+* Added the Build Command for TypeScript
+* Changed the preserve Focus default to false
+
 ### 0.2.2 (2021-07-10)
 * Added the Setting to Run Program in External Terminal
 
