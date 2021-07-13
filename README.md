@@ -63,7 +63,7 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 To set the languages at which the run button will show(Default is Given Below):
 ```json
 {
-	"code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript"]
+    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript"]
 }
 ```
 
