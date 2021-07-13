@@ -1,3 +1,5 @@
+<img src="./images/logo128.svg" alt = "logo"><br>
+
 # Code Builder
 Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python** with or without Input & Output Files.
 
