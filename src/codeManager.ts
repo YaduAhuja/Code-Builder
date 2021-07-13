@@ -3,6 +3,7 @@ import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
 import { mapExternalCommand } from './terminal';
+import { AppInsights } from './appInsights';
 import { ChildProcess, exec } from 'child_process';
 import terminate from 'terminate';
 
@@ -14,11 +15,15 @@ export class CodeManager implements vscode.Disposable{
 	private _terminal : vscode.Terminal | null = null;
 	private _document: vscode.TextDocument | null = null;
 	private _externalProcess: ChildProcess | null = null;
+	private _appInsightsClient: AppInsights | null = null;
 
-	constructor(){
+	constructor() {
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		this.setContext();
 		this.checkForOpenTerminal();
+		if(this._config.get<boolean>("enableAppInsights")){
+			this._appInsightsClient = new AppInsights();
+		}
 	}
 
 	public onDidTerminalClosed(){
@@ -35,7 +40,8 @@ export class CodeManager implements vscode.Disposable{
 			return;
 		}
 		this._document = document;
-		
+		this.logTelementry("BuildAndRun",this._document.languageId);
+
 		let executor = this.getExecutor(this._document.languageId);
 		if(!executor){
 			return;
@@ -54,7 +60,8 @@ export class CodeManager implements vscode.Disposable{
 			return;
 		}
 		this._document = document;
-		
+		this.logTelementry("BuildWithIO",this._document.languageId);
+
 		//Checking if the IO Files Paths are Set or Not
 		const ioFlag = await this.checkInputOutputFilePaths();
 		if(!ioFlag){
@@ -70,6 +77,7 @@ export class CodeManager implements vscode.Disposable{
 	}
 
 	public async stopBuild():Promise<void>{
+		this.logTelementry("stopBuild");
 		if(this._config.get<boolean>("runInExternalTerminal")){
 			if(this._externalProcess){
 				if(os.platform() === "win32"){
@@ -95,7 +103,6 @@ export class CodeManager implements vscode.Disposable{
 	 */
 
 	private initialize():vscode.TextDocument | undefined {
-		
 		const editor = vscode.window.activeTextEditor;
 		let document = undefined;
 		if(editor){
@@ -564,7 +571,25 @@ export class CodeManager implements vscode.Disposable{
 			}
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param event Event Name to be Logged
+	 * @param languageId Language id to be logged
+	 */
+	private async logTelementry(event : string, languageId? : string) : Promise<void> {
+		//creating Telementary Data
+		if(!this._appInsightsClient){
+			return;
+		}
+		const properties:any = {
+			usingAutoClassPath : this._config.get<boolean>("useAutoClassPath") ? true: false,
+			usingExternalTerminal : this._config.get<boolean>("useExternalTerminal") ? true : false,
+			languageId : languageId
+		};
+		this._appInsightsClient.sendEvent(event, properties);
+	}
+	
 	dispose() : void {
 		this._terminal?.dispose();
 	}

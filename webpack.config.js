@@ -3,6 +3,7 @@
 'use strict';
 
 const path = require('path');
+const dotenv = require('dotenv-webpack');
 
 /**@type {import('webpack').Configuration}*/
 const config = {
@@ -35,8 +36,19 @@ const config = {
             loader: 'ts-loader'
           }
         ]
-      }
+      },
+	  {
+		  test:/\.node$/,
+		  use:[
+			{
+			  loader: 'node-loader'
+			}
+		  ]
+	  }
     ]
-  }
+  },
+  plugins:[
+	  new dotenv()
+  ]
 };
 module.exports = config;
