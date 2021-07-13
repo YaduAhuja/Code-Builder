@@ -191,7 +191,7 @@
 				"code-builder.enableAppInsights": {
 					"type": "boolean",
 					"default": true,
-					"description": "Whether to Log Telementary Data or not",
+					"description": "Whether to enable App Insights to track user Telementry Data or not",
 					"scope": "resource"
 				}
 			}

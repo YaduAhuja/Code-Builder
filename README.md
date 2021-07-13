@@ -112,7 +112,7 @@ To set ClassPath for Java Source Files which will be Replaced with **$classPath*
     "code-builder.classPath": "."
 }
 ```
-To set Input File Path for replaced with **$inputFilePath** (default is "") :
+To set Input File Path which will be replaced with **$inputFilePath** (default is "") :
 
 **Note :** Edit this setting through **Set Input File Path** command only
 
@@ -131,6 +131,15 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
     "code-builder.outputFilePath": ""
 }
 ```
+
+To set Whether to enable App Insights to track user Telementry data (default is true) :
+
+```json
+{
+    "code-builder.enableAppInsights": true
+}
+```
+
 ## FAQ
 **Q :** Getting ClassNotFound Exception when running Java files ?
 

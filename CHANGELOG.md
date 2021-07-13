@@ -1,3 +1,8 @@
+### 0.2.4 (2021-07-14)
+* Added the Application Insights which will help to Know us which features need more development
+* Added the Setting to Enable/Disable Application Insights
+* Fixed Typos in Settings
+
 ### 0.2.3 (2021-07-12)
 * Added the Support to Run Program in External Gnome-terminal, Mate-terminal, Tilix for Linux 
 * Fixed issues with Preserve Focus
