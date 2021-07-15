@@ -1,3 +1,7 @@
+### 0.2.5 (2021-07-16)
+* Fixed Crashes on Linux External Terminal
+* Added Support for Konsole Linux Terminal
+
 ### 0.2.4 (2021-07-14)
 * Added the Application Insights which will help to Know us which features need more development
 * Added the Setting to Enable/Disable Application Insights

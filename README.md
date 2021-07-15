@@ -153,7 +153,8 @@ Refer to [CHANGELOG](CHANGELOG.md)
 
 ## TODO
 - Add Automatic ClassPath Detection for Java Files **(Added Basic Support in Build 0.0.5)**
-- ~~Add the Stop Build Command~~ **(Added Internal Terminal Support in Build 0.2)**
+- ~~Add the Stop Build Command for Internal Terminal~~ **(Added in Build 0.2)**
+- Add the Stop Build for External Terminal **(Added Windows Support in Build 0.2.3)**
 - Add Option For External Teminal Execution **(Added Windows & Mac Support in Build 0.2.2)**
 - Interactive Process Detection for Stop Command
 - Runtime Information Statistics
