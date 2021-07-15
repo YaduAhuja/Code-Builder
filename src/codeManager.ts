@@ -553,7 +553,7 @@ export class CodeManager implements vscode.Disposable{
 	private async runCommandInExternalTerminal(executor : string) {
 		executor = mapExternalCommand(executor);
 		if(!executor || executor.trim().length === 0){
-			vscode.window.showErrorMessage("Error in Generating Executor");
+			vscode.window.showInformationMessage("This Terminal is not Supported Yet. Change it to Gnome-Terminal or Konsole");
 			return;
 		}
 		this._externalProcess = exec(executor, {cwd:this.getDirName()});

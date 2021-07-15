@@ -19,7 +19,9 @@
 		"c++",
 		"python",
 		"javacript",
-		"competitive programming"
+		"typescript",
+		"competitive programming",
+		"run"
 	],
 	"bugs": {
 		"url": "https://github.com/YaduAhuja/Code-Builder/issues",

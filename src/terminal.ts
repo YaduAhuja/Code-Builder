@@ -22,7 +22,7 @@ export function mapExternalCommand(executor : string, isIOCommand: boolean = fal
 		
 		case "linux":
 			const linuxTerminal = getLinuxTerminal();
-			if(!linuxTerminal || linuxTerminal.trim().length == 0){
+			if(!linuxTerminal || linuxTerminal.trim().length === 0){
 				window.showErrorMessage("This Terminal is not Supported. Use a Valid a Terminal in 'terminal.external.linuxExec'");
 			}
 
@@ -31,10 +31,9 @@ export function mapExternalCommand(executor : string, isIOCommand: boolean = fal
 				case "tilix":
 				case "gnome-terminal":
 					return `${linuxTerminal} --wait -- bash -c '${executor} && echo; read -n1 -p "Press any Key to Continue"'`;
-				default:
-					return "";
+				case "konsole":
+					return `${linuxTerminal} -e bash -c '${executor} && echo read -n1 -p "Press any Key to Continue"'`;
 			}
-
 		default:
 			return "";
 	}
