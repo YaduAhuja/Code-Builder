@@ -148,6 +148,7 @@ To set Whether to enable App Insights to track user Telementry data (default is 
 **Q :** `tsc` Command not Found?
 
 **A :** Install the tsc compiler Globally by `npm install -g typescript`
+
 ## Release Notes
 Refer to [CHANGELOG](CHANGELOG.md)
 

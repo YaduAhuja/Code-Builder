@@ -2,8 +2,8 @@
 
 'use strict';
 
-const path = require('path');
-const dotenv = require('dotenv-webpack');
+import { resolve as _resolve } from 'path';
+import dotenv from 'dotenv-webpack';
 
 /**@type {import('webpack').Configuration}*/
 const config = {
@@ -13,7 +13,7 @@ const config = {
   entry: './src/extension.ts', // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
   output: {
     // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
-    path: path.resolve(__dirname, 'dist'),
+    path: _resolve(__dirname, 'dist'),
     filename: 'extension.js',
     libraryTarget: 'commonjs2'
   },
@@ -51,4 +51,4 @@ const config = {
 	  new dotenv()
   ]
 };
-module.exports = config;
+export default config;
