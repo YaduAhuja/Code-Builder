@@ -1,4 +1,5 @@
 "use strict";
+
 import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
