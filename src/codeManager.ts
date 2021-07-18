@@ -329,7 +329,7 @@ export class CodeManager implements vscode.Disposable{
 	 */
 	private setAdvancedClassPath(codeFile : vscode.TextDocument, qualifiedName: string) : void {
 		const path = codeFile.uri.fsPath.replace(/[\/\\]/g,".");
-		const splitter = path.indexOf(qualifiedName)-1;
+		const splitter = path.lastIndexOf(qualifiedName)-1;
 		this._classPath = codeFile.uri.fsPath.substring(0,splitter);
 	}
 

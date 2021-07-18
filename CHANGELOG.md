@@ -3,6 +3,7 @@
 * Added Support for Konsole, XFCE4 Linux Terminal
 * Fixed notification Spawns When External Terminal is not Found
 * Fixed External Terminal not Spawing in Mac
+* Improved Automatic ClassPath detection
 
 ### 0.2.4 (2021-07-14)
 * Added the Application Insights which will help to Know us which features need more development
