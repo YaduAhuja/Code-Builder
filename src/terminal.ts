@@ -35,6 +35,9 @@ export function mapExternalCommand(executor : string, isIOCommand: boolean = fal
 					return `${linuxTerminal} --wait -- bash -c '${executor} && echo; read -n1 -p "Press any Key to Continue"'`;
 				case "konsole":
 					return `${linuxTerminal} -e bash -c '${executor} && echo read -n1 -p "Press any Key to Continue"'`;
+				case "xfce4-terminal":
+					executor = executor.replace(/\"/g,"\\\"");
+					return `${linuxTerminal} -e 'bash -c "${executor} && echo; read -n1 -p \\"Press any Key to Continue\\""'`;
 				default:
 					window.showErrorMessage("This Terminal is not Supported yet Switch to a Gnome-Terminal,Konsole");
 					return "";

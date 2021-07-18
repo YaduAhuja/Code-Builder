@@ -1,8 +1,7 @@
-### 0.2.5 (2021-07-17)
+### 0.2.5 (2021-07-18)
 * Fixed Crashes on Linux External Terminal
-* Added Support for Konsole Linux Terminal
+* Added Support for Konsole, XFCE4 Linux Terminal
 * Fixed notification Spawns When External Terminal is not Found
-* Changed Commonjs Modules to es6 Modules
 * Fixed External Terminal not Spawing in Mac
 
 ### 0.2.4 (2021-07-14)
