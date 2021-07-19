@@ -82,8 +82,10 @@ export class CodeManager implements vscode.Disposable{
 		if(this._config.get<boolean>("runInExternalTerminal")){
 			if(this._externalProcess){
 				if(os.platform() === "win32"){
-					terminate(this._externalProcess.pid);
-					vscode.window.showInformationMessage("Build Stopped");
+					if(this._externalProcess.pid) {
+						terminate(this._externalProcess.pid);
+						vscode.window.showInformationMessage("Build Stopped");
+					}
 				}
 				vscode.window.showInformationMessage("This Platform does not supports stopping command currently.");
 			}
