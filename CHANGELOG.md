@@ -1,9 +1,9 @@
-### 0.2.5 (2021-07-18)
+### 0.3.0 (2021-07-19)
 * Fixed Crashes on Linux External Terminal
 * Added Support for Konsole, XFCE4 Linux Terminal
-* Fixed notification Spawns When External Terminal is not Found
+* Fixed notifications When External Terminal is not Found
 * Fixed External Terminal not Spawning in Mac
-* Improved Automatic ClassPath detection
+* Improved Automatic ClassPath detection for Java Files
 
 ### 0.2.4 (2021-07-14)
 * Added the Application Insights which will help to Know us which features need more development
