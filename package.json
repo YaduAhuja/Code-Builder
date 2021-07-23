@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Code files for C, C++, Java, JavaScript, TypeScript, Python",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -113,8 +113,7 @@
 			]
 		},
 		"configuration": {
-			"type": "object",
-			"title": "Run Code configuration",
+			"title": "Code Builder",
 			"properties": {
 				"code-builder.saveFileBeforeRun": {
 					"type": "boolean",
@@ -179,6 +178,9 @@
 				},
 				"code-builder.languageSelector": {
 					"type": "array",
+					"items": {
+						"type":"string"
+					},
 					"default": [
 						"java",
 						"python",

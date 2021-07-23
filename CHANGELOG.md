@@ -1,3 +1,6 @@
+### 0.3.1 (2021-07-21)
+* language selector can be modified from settings page no need to edit it through settings.json
+
 ### 0.3.0 (2021-07-19)
 * Fixed Crashes on Linux External Terminal
 * Added Support for Konsole, XFCE4 Linux Terminal
