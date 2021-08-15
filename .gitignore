@@ -4,6 +4,7 @@ node_modules
 .vscode-test/
 *.vsix
 .env
+*.zip
 
 yarn.lock
 package-lock.json
