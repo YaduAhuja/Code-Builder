@@ -1,3 +1,6 @@
+### 0.3.2 (2021-08-15)
+* Fixed the Hidden External Terminal Bug in Mac
+
 ### 0.3.1 (2021-07-21)
 * language selector can be modified from settings page no need to edit it through settings.json
 

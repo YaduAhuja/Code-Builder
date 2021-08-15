@@ -11,33 +11,33 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 
-	vscode.window.onDidCloseTerminal(()=>{ 
+	vscode.window.onDidCloseTerminal(() => {
 		codeManager.onDidTerminalClosed();
 	});
-	
-	const buildAndRun = vscode.commands.registerCommand("code-builder.buildAndRun", ()=> {
+
+	const buildAndRun = vscode.commands.registerCommand("code-builder.buildAndRun", () => {
 		codeManager.buildAndRun();
 	});
-	
-	const buildWithIO = vscode.commands.registerCommand("code-builder.buildWithIO",()=>{
+
+	const buildWithIO = vscode.commands.registerCommand("code-builder.buildWithIO", () => {
 		codeManager.buildWithIO();
 	});
 
-	const stopBuild = vscode.commands.registerCommand("code-builder.stopBuild",()=>{
+	const stopBuild = vscode.commands.registerCommand("code-builder.stopBuild", () => {
 		codeManager.stopBuild();
 	});
 
-	const setClassPath = vscode.commands.registerCommand("code-builder.setClassPath",()=>{
+	const setClassPath = vscode.commands.registerCommand("code-builder.setClassPath", () => {
 		codeManager.setClassPath();
 	});
 
-	const setInputFilePath = vscode.commands.registerCommand("code-builder.setInputFilePath",()=>{
+	const setInputFilePath = vscode.commands.registerCommand("code-builder.setInputFilePath", () => {
 		codeManager.setInputFilePath();
 	});
-	const setOutputFilePath = vscode.commands.registerCommand("code-builder.setOutputFilePath",()=>{
+	const setOutputFilePath = vscode.commands.registerCommand("code-builder.setOutputFilePath", () => {
 		codeManager.setOutputFilePath();
 	});
-	
+
 	context.subscriptions.push(buildAndRun);
 	context.subscriptions.push(buildWithIO);
 	context.subscriptions.push(stopBuild);
@@ -47,4 +47,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
