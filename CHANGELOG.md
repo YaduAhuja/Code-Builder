@@ -1,5 +1,5 @@
 ### 0.4.0 (2021-08-23)
-* Changed the Filenames to Enclosed Quotes in All Languages
+* Changed the Filenames to Enclosed Quotes in All Languages.
 * Fixed Issues with C/CPP Files when Executing in Powershell.
 * Fixed Issues with Typescript Files when Executing in Powershell.
 * Added the Execution of Source Files with WhiteSpace in their name for All Terminals.
@@ -10,7 +10,7 @@
 * Fixed the Hidden External Terminal Bug in Mac
 
 ### 0.3.1 (2021-07-21)
-* language selector can be modified from settings page no need to edit it through settings.json
+* Language Selector can be modified from settings page no need to edit it through settings.json
 
 ### 0.3.0 (2021-07-19)
 * Fixed Crashes on Linux External Terminal
