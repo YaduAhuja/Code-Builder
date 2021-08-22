@@ -230,7 +230,7 @@ export class CodeManager implements vscode.Disposable {
 	 * If the Shell is Powershell then it will change the executor according to it 
 	 * otherwise it will not change the executor
 	 */
-	private modifyForPowershell(executor: string): string {
+	private modifyForPowershell(executor: string, languageId: string): string {
 		//Currently the Powershell does'nt supports the '&&' Operator but
 		//it will be available in powershell 7
 
@@ -240,6 +240,12 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		executor = executor.replace(/&&/g, ";");
+		//Issue of Running the Current Directory Files with './' Prefix in Powershell
+		//As the current directory is not in Path of Powershell
+		if (languageId === "cpp" || languageId === "c") {
+			const splitter = executor.lastIndexOf("$fileNameWithoutExt");
+			executor = executor.substring(0, splitter) + "./" + executor.substring(splitter);
+		}
 		return executor;
 	}
 
@@ -463,10 +469,10 @@ export class CodeManager implements vscode.Disposable {
 			// If no folder is opened, replace with the directory of the code file
 
 			// A placeholder that has to be replaced by the code file name without its extension
-			{ regex: /\$fileNameWithoutExt/g, replaceValue: this.getFileNameWithoutDirAndExt(codeFile.uri.fsPath) },
+			{ regex: /\$fileNameWithoutExt/g, replaceValue: this.getInEnclosedQuotes(this.getFileNameWithoutDirAndExt(codeFile.uri.fsPath)) },
 
 			// A placeholder that has to be replaced by the code file name without the directory
-			{ regex: /\$fileName/g, replaceValue: this.getFileName(codeFile.uri.fsPath) },
+			{ regex: /\$fileName/g, replaceValue: this.getInEnclosedQuotes(this.getFileName(codeFile.uri.fsPath)) },
 
 			// A placeholder that has to be replaced by the Qualified Code Name in Java only
 			{ regex: /\$qualifiedName/g, replaceValue: this.getQualifiedName(codeFile) },
@@ -525,7 +531,7 @@ export class CodeManager implements vscode.Disposable {
 			this.runCommandInExternalTerminal(executor);
 
 		} else {
-			executor = this.modifyForPowershell(executor);
+			executor = this.modifyForPowershell(executor, document.languageId);
 			if (isIOCommand) {
 				executor = this.addIOArgs(executor);
 			}

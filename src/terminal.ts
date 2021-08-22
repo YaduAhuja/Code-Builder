@@ -20,7 +20,11 @@ export function mapExternalCommand(executor: string, isIOCommand: boolean = fals
 		case "darwin":
 			//Escaping the Sequences for External Terminal
 			executor = executor.replace(/\"/g, "\\\"");
-			return `osascript -e 'tell application "Terminal" to activate' -e 'tell app "Terminal" to do script "${executor}" in first window '`;
+
+			// Command to Create a New Terminal Tab used in Previous Stable Version to be removed
+			// return osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down'`;
+
+			return `osascript -e 'tell app "Terminal" to reopen' -e 'tell app "Terminal" to activate' -e 'tell app "Terminal" to do script "${executor}" in first window'`;
 
 		case "linux":
 			const linuxTerminal = getLinuxTerminal();

@@ -1,3 +1,11 @@
+### 0.4.0 (2021-08-23)
+* Changed the Filenames to Enclosed Quotes in All Languages
+* Fixed Issues with C/CPP Files when Executing in Powershell.
+* Fixed Issues with Typescript Files when Executing in Powershell.
+* Added the Execution of Source Files with WhiteSpace in their name for All Terminals.
+* Removed the Terminal not Spawing after being closed in Mac.
+* Improved Automatic Classpath Detection in Java
+
 ### 0.3.2 (2021-08-15)
 * Fixed the Hidden External Terminal Bug in Mac
 

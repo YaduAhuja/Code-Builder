@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Code files for C, C++, Java, JavaScript, TypeScript, Python",
-	"version": "0.3.2",
+	"version": "0.4.0",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -168,8 +168,8 @@
 					"default": {
 						"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 						"python": "cd $dir && python $fileName",
-						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $fileNameWithoutExt",
+						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $fileNameWithoutExt",
 						"javascript": "cd $dir && node $fileName",
 						"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt.js"
 					},
