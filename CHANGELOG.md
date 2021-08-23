@@ -1,6 +1,8 @@
+### 0.4.1 (2021-08-27)
+* Fixed C/CPP Compilation when Executing in Powershell
+
 ### 0.4.0 (2021-08-23)
 * Changed the Filenames to Enclosed Quotes in All Languages.
-* Fixed Issues with C/CPP Files when Executing in Powershell.
 * Fixed Issues with Typescript Files when Executing in Powershell.
 * Added the Execution of Source Files with WhiteSpace in their name for All Terminals.
 * Removed the Terminal not Spawing after being closed in Mac.

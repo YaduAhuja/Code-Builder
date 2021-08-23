@@ -243,8 +243,8 @@ export class CodeManager implements vscode.Disposable {
 		//Issue of Running the Current Directory Files with './' Prefix in Powershell
 		//As the current directory is not in Path of Powershell
 		if (languageId === "cpp" || languageId === "c") {
-			const splitter = executor.lastIndexOf("$fileNameWithoutExt");
-			executor = executor.substring(0, splitter) + "./" + executor.substring(splitter);
+			const splitter = executor.lastIndexOf("$dir");
+			executor = executor.substring(0, splitter) + "./" + executor.substring(splitter + 4);
 		}
 		return executor;
 	}
