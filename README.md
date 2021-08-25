@@ -143,7 +143,7 @@ To set Whether to enable App Insights to track user Telementry data (default is 
 ## FAQ
 **Q :** Getting ClassNotFound Exception when running Java files ?
 
-**A :** If you are using Package Declaration in your Java source files then Turn on the `UseAutoClassPath`. If it is still not fixed then raise an issue in repo.  
+**A :** If you are using Package Declaration in your Java source files then Turn on the `UseAutoClassPath`. If it is still not fixed then raise an issue in repo.
 
 **Q :** `tsc` Command not Found?
 
