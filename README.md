@@ -145,9 +145,9 @@ To set Whether to enable App Insights to track user Telementry data (default is 
 
 **A :** If you are using Package Declaration in your Java source files then Turn on the `UseAutoClassPath`. If it is still not fixed then raise an issue in repo.
 
-**Q :** `tsc` Command not Found?
+**Q :** `ts-node` Command not Found?
 
-**A :** Install the tsc compiler Globally by `npm install -g typescript`
+**A :** Install the ts-node Globally by `npm install -g ts-node`
 
 ## Release Notes
 Refer to [CHANGELOG](CHANGELOG.md)

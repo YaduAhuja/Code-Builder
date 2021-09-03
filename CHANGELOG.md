@@ -1,3 +1,6 @@
+### 0.4.2 (2021-09-03)
+* Changed the Default Build command of Typescript to use ts-node
+
 ### 0.4.1 (2021-08-27)
 * Fixed C/CPP Compilation when Executing in Powershell
 
