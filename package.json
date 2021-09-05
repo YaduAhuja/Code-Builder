@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Code files for C, C++, Java, JavaScript, TypeScript, Python With & Without Input/Output Files",
-	"version": "0.4.2",
+	"version": "0.5.0",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -172,7 +172,8 @@
 						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 						"javascript": "cd $dir && node $fileName",
-						"typescript": "cd $dir && ts-node $fileName"
+						"typescript": "cd $dir && ts-node $fileName",
+						"ruby": "cd $dir && ruby $fileName"
 					},
 					"description": "Executor Map which includes the Build commands for Languages",
 					"scope": "resource"
@@ -188,7 +189,8 @@
 						"cpp",
 						"c",
 						"javascript",
-						"typescript"
+						"typescript",
+						"ruby"
 					],
 					"description": "Languages at which Code Builder will show Run Button",
 					"scope": "resource"
@@ -216,23 +218,23 @@
 	"devDependencies": {
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^9.0.0",
-		"@types/node": "^16.7.1",
-		"@types/vscode": "^1.56.0",
-		"@typescript-eslint/eslint-plugin": "^4.14.1",
-		"@typescript-eslint/parser": "^4.14.1",
+		"@types/node": "^16.7.10",
+		"@types/vscode": "^1.60.0",
+		"@typescript-eslint/eslint-plugin": "^4.30.0",
+		"@typescript-eslint/parser": "^4.30.0",
 		"dotenv-webpack": "^7.0.3",
 		"eslint": "^7.19.0",
 		"glob": "^7.1.6",
-		"mocha": "^9.1.0",
+		"mocha": "^9.1.1",
 		"node-loader": "^2.0.0",
 		"ts-loader": "^9.2.3",
-		"typescript": "^4.1.3",
+		"typescript": "^4.4.2",
 		"vscode-test": "^1.5.0",
-		"webpack": "^5.19.0",
+		"webpack": "^5.52.0",
 		"webpack-cli": "^4.4.0"
 	},
 	"dependencies": {
-		"applicationinsights": "^2.1.4",
+		"applicationinsights": "^2.1.6",
 		"applicationinsights-native-metrics": "^0.0.6",
 		"terminate": "^2.2.1"
 	}
