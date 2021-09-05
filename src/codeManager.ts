@@ -17,7 +17,7 @@ export class CodeManager implements vscode.Disposable {
 	private _terminal: vscode.Terminal | undefined;
 	private _document: vscode.TextDocument | null = null;
 	private _externalProcess: ChildProcess | null = null;
-	private _appInsightsClient: AppInsights | null = null;
+	private _appInsightsClient: AppInsights | undefined;
 
 	constructor() {
 		this._config = vscode.workspace.getConfiguration("code-builder");
@@ -582,7 +582,6 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	/**
-	 * 
 	 * @param event Event Name to be Logged
 	 * @param languageId Language id to be logged
 	 */
