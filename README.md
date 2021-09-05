@@ -1,5 +1,5 @@
 # Code Builder
-Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python** with or without Input & Output Files.
+Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, Ruby** with or without Input & Output Files.
 
 
 ## Features
@@ -44,7 +44,8 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 		"python": "cd $dir && python $fileName",
 		"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 		"javascript": "cd $dir && node $fileName",
-		"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt"
+		"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt",
+		"ruby": "cd $dir && ruby $fileName"
     }
 }
 ```
@@ -61,11 +62,14 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
   * If there ares spaces in file path, please use `\"` to surround your file path
 
 To set the languages at which the run button will show(Default is Given Below):
+
+**Note :** After Editing this setting restart or reload visual studio code for changes to take effect.
+
 ```json
 {
-    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript"]
+    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby"]
 }
-```
+``` 
 
 To set whether to save the current file before running (default is true):
 ```json
@@ -148,6 +152,12 @@ To set Whether to enable App Insights to track user Telementry data (default is 
 **Q :** `ts-node` Command not Found?
 
 **A :** Install the ts-node Globally by `npm install -g ts-node`
+
+**Q :** Build Button not Showing in editor menu?
+
+**A :** Make Sure that the language you are using is present in Code Builder's Language Selector setting. If it is not present then add it. Make sure it complies with visual studio's Language identifiers. 
+
+Here is the List of [Identifiers.](https://code.visualstudio.com/docs/languages/identifiers)
 
 ## Release Notes
 Refer to [CHANGELOG](CHANGELOG.md)
