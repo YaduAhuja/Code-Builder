@@ -155,9 +155,7 @@ To set Whether to enable App Insights to track user Telementry data (default is 
 
 **Q :** Build Button not Showing in editor menu?
 
-**A :** Make Sure that the language you are using is present in Code Builder's Language Selector setting. If it is not present then add it. Make sure it complies with visual studio's Language identifiers. 
-
-Here is the List of [Identifiers.](https://code.visualstudio.com/docs/languages/identifiers)
+**A :** Make Sure that the language you are using is present in Code Builder's Language Selector setting. If it is not present then add it. Make sure it complies with visual studio's Language identifiers. Here is the List of [Identifiers.](https://code.visualstudio.com/docs/languages/identifiers)
 
 ## Release Notes
 Refer to [CHANGELOG](CHANGELOG.md)
