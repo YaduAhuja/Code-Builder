@@ -3,6 +3,7 @@
 import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
+import * as utils from './utils';
 import { mapExternalCommand } from './terminal';
 import { AppInsights } from './appInsights';
 import { ChildProcess, exec } from 'child_process';
@@ -13,7 +14,7 @@ export class CodeManager implements vscode.Disposable {
 	private _classPath: string | undefined;
 	private _inputFilePath: string | undefined;
 	private _outputFilePath: string | undefined;
-	private _terminal: vscode.Terminal | null = null;
+	private _terminal: vscode.Terminal | undefined;
 	private _document: vscode.TextDocument | null = null;
 	private _externalProcess: ChildProcess | null = null;
 	private _appInsightsClient: AppInsights | null = null;
@@ -28,7 +29,7 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	public onDidTerminalClosed() {
-		this._terminal = null;
+		this._terminal = undefined;
 	}
 
 	public async buildAndRun(): Promise<void> {
@@ -94,7 +95,7 @@ export class CodeManager implements vscode.Disposable {
 				return;
 			}
 			//Sending the CTRL+C to Terminal
-			this._terminal.sendText("\u0003\u000D");
+			utils.sendTextToTerminal("\u0003\u000D", this._terminal);
 			this.clearTerminal();
 			vscode.window.showInformationMessage("Build Stopped");
 		}
@@ -511,9 +512,9 @@ export class CodeManager implements vscode.Disposable {
 	 */
 	private clearTerminal(): void {
 		if (vscode.env.shell.toLowerCase().includes("cmd")) {
-			this._terminal?.sendText("cls");
+			utils.sendTextToTerminal("cls", this._terminal);
 		} else {
-			this._terminal?.sendText("clear");
+			utils.sendTextToTerminal("clear", this._terminal);
 		}
 		vscode.commands.executeCommand("workbench.action.terminal.clear");
 	}
@@ -552,7 +553,7 @@ export class CodeManager implements vscode.Disposable {
 		if (this._config.get<boolean>("clearTerminal")) {
 			this.clearTerminal();
 		}
-		this._terminal.sendText(executor);
+		utils.sendTextToTerminal(executor, this._terminal);
 		this._terminal.show(this._config.get<boolean>("preserveFocus"));
 	}
 
