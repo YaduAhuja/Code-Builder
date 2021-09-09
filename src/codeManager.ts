@@ -4,6 +4,7 @@ import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
 import * as utils from './utils';
+import config from './config';
 import { mapExternalCommand } from './terminal';
 import { AppInsights } from './appInsights';
 import { ChildProcess, exec } from 'child_process';
@@ -243,7 +244,7 @@ export class CodeManager implements vscode.Disposable {
 		executor = executor.replace(/&&/g, ";");
 		//Issue of Running the Current Directory Files with './' Prefix in Powershell
 		//As the current directory is not in Path of Powershell
-		if (languageId === "cpp" || languageId === "c") {
+		if (config.executableLanguages.includes(languageId)) {
 			const splitter = executor.lastIndexOf("$dir");
 			executor = executor.substring(0, splitter) + "./" + executor.substring(splitter + 4);
 		}

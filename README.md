@@ -1,5 +1,5 @@
 # Code Builder
-Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, Ruby** with or without Input & Output Files.
+Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, Ruby, Go** with or without Input & Output Files.
 
 
 ## Features
@@ -46,7 +46,7 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 		"javascript": "cd $dir && node $fileName",
 		"typescript": "cd $dir && ts-node $fileName",
 		"ruby": "cd $dir && ruby $fileName",
-		"go" : "cd $dir && go run $fileName"
+		"go" : "cd $dir && go build $fileName && $dir$fileNameWithoutExt"
     }
 }
 ```
@@ -166,6 +166,7 @@ Refer to [CHANGELOG](CHANGELOG.md)
 - ~~Add the Stop Build Command for Internal Terminal~~ **(Added in Build 0.2)**
 - ~~Add Option For External Teminal Execution~~ **(Added in Build 0.3.0)**
 - Add the Stop Build for External Terminal **(Added Windows Support in Build 0.2.3)**
+- Custom Commands Executor
 - Interactive Process Detection for Stop Command
 - Runtime Information Statistics
 - Add Support for More Languages

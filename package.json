@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Build & Run Code files for C, C++, Java, JavaScript, TypeScript, Python, Ruby With & Without Input/Output Files",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -21,6 +21,7 @@
 		"javacript",
 		"typescript",
 		"ruby",
+		"go",
 		"competitive programming",
 		"run",
 		"build"
@@ -175,7 +176,7 @@
 						"javascript": "cd $dir && node $fileName",
 						"typescript": "cd $dir && ts-node $fileName",
 						"ruby": "cd $dir && ruby $fileName",
-						"go":"cd $dir && go run $fileName"
+						"go": "cd $dir && go build $fileName && $dir$fileNameWithoutExt"
 					},
 					"description": "Executor Map which includes the Build commands for Languages",
 					"scope": "resource"

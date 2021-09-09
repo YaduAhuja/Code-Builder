@@ -1,3 +1,7 @@
+### 0.5.1 (2021-09-09)
+* Fixed issues for Executable Languages in Powershell
+* Changed the Build Command for GO
+
 ### 0.5.0 (2021-09-09)
 * Added Support for Ruby
 * Added Support for GO
