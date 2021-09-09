@@ -1,5 +1,6 @@
-### 0.5.0 (2021-09-06)
+### 0.5.0 (2021-09-09)
 * Added Support for Ruby
+* Added Support for GO
 
 ### 0.4.2 (2021-09-03)
 * Changed the Default Build command of Typescript to use ts-node

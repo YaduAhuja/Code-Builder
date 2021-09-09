@@ -45,7 +45,8 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 		"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 		"javascript": "cd $dir && node $fileName",
 		"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt",
-		"ruby": "cd $dir && ruby $fileName"
+		"ruby": "cd $dir && ruby $fileName",
+		"go" : "cd $dir && go run $fileName"
     }
 }
 ```
@@ -67,7 +68,7 @@ To set the languages at which the run button will show(Default is Given Below):
 
 ```json
 {
-    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby"]
+    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby", "go"]
 }
 ``` 
 
