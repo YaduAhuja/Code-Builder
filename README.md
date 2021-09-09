@@ -44,7 +44,7 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 		"python": "cd $dir && python $fileName",
 		"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 		"javascript": "cd $dir && node $fileName",
-		"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt",
+		"typescript": "cd $dir && ts-node $fileName",
 		"ruby": "cd $dir && ruby $fileName",
 		"go" : "cd $dir && go run $fileName"
     }
