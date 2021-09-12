@@ -4,7 +4,6 @@ import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
 import * as utils from './utils';
-import config from './config';
 import { mapExternalCommand } from './terminal';
 import { AppInsights } from './appInsights';
 import { ChildProcess, exec } from 'child_process';
@@ -210,29 +209,6 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		return false;
-	}
-
-	/**
-	 * If the Shell is Powershell then it will change the executor according to it 
-	 * otherwise it will not change the executor
-	 */
-	private modifyForPowershell(executor: string, languageId: string): string {
-		//Currently the Powershell does'nt supports the '&&' Operator but
-		//it will be available in powershell 7
-
-		//if there is no powershell then return
-		if (!vscode.env.shell.toLowerCase().includes("powershell")) {
-			return executor;
-		}
-
-		executor = executor.replace(/&&/g, ";");
-		//Issue of Running the Current Directory Files with './' Prefix in Powershell
-		//As the current directory is not in Path of Powershell
-		if (config.executableLanguages.includes(languageId)) {
-			const splitter = executor.lastIndexOf("$dir");
-			executor = executor.substring(0, splitter) + "./" + executor.substring(splitter + 4);
-		}
-		return executor;
 	}
 
 	private getWorkspaceDir(codeFile: string) {
@@ -477,7 +453,7 @@ export class CodeManager implements vscode.Disposable {
 			this.runCommandInExternalTerminal(executor);
 
 		} else {
-			executor = this.modifyForPowershell(executor, document.languageId);
+			executor = utils.modifyForPowershell(executor, document.languageId);
 			if (isIOCommand) {
 				executor = utils.addIOArgs(executor);
 			}
