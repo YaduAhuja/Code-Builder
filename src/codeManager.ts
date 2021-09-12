@@ -97,7 +97,7 @@ export class CodeManager implements vscode.Disposable {
 			}
 			//Sending the CTRL+C to Terminal
 			utils.sendTextToTerminal("\u0003\u000D", this._terminal);
-			this.clearTerminal();
+			utils.clearTerminal(this._terminal);
 			vscode.window.showInformationMessage("Build Stopped");
 		}
 	}
@@ -210,22 +210,6 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Adds the IO arguments for executor
-	 */
-	private addIOArgs(executor: string, isExternal: boolean = false): string {
-		if (!vscode.env.shell.toLowerCase().includes("powershell") || isExternal) {
-			return executor += " < $inputFilePath > $outputFilePath";
-		}
-
-		const splitter = executor.lastIndexOf(";") + 1;
-
-		executor = executor.substring(0, splitter) + " Get-Content $inputFilePath | " +
-			executor.substring(splitter) + " | Set-Content $outputFilePath";
-
-		return executor;
 	}
 
 	/**
@@ -393,30 +377,6 @@ export class CodeManager implements vscode.Disposable {
 		return qualifiedName;
 	}
 
-	/**
-	 * Invokes A File or Folder Selector
-	 * if Selector is successful then returns the Path
-	 * else returns Empty String
-	 */
-	private async openFileOrFolderPicker(title: string, selectFolder: boolean = false, selectMany: boolean = false): Promise<string> {
-		let returnString = "";
-		await vscode.window.showOpenDialog({
-			title: title,
-			canSelectFolders: selectFolder,
-			canSelectMany: selectMany,
-			canSelectFiles: !selectFolder,
-			// eslint-disable-next-line @typescript-eslint/naming-convention
-			filters: { "Text Files": ["txt"] }
-		}).then((uri) => {
-			if (uri) {
-				//Previous Stable Build
-				//returnString  = uri[0].path;
-				returnString = uri[0].fsPath;
-			}
-		});
-		return returnString;
-	}
-
 	/** 
 	 * @param configString Name of the config to be Modified
 	 * @param fileFolderPickerTitle File/Folder picker window Title
@@ -426,7 +386,7 @@ export class CodeManager implements vscode.Disposable {
 	 */
 	private async configModifierFromFileFolderPicker(configString: string, fileFolderPickerTitle: string, selectFolder: boolean = false, selectMany: boolean = false): Promise<string> {
 		let configModified = "";
-		await this.openFileOrFolderPicker(fileFolderPickerTitle, selectFolder, selectMany).then((uri) => {
+		await utils.openFileOrFolderPicker(fileFolderPickerTitle, selectFolder, selectMany).then((uri) => {
 			if (uri) {
 				//Previous Stable Build
 				// if(os.platform() === "win32"){
@@ -441,10 +401,6 @@ export class CodeManager implements vscode.Disposable {
 		});
 
 		return configModified;
-	}
-
-	private getInEnclosedQuotes(text: string): string {
-		return "\"" + text + "\"";
 	}
 
 	/**
@@ -471,25 +427,25 @@ export class CodeManager implements vscode.Disposable {
 			// If no folder is opened, replace with the directory of the code file
 
 			// A placeholder that has to be replaced by the code file name without its extension
-			{ regex: /\$fileNameWithoutExt/g, replaceValue: this.getInEnclosedQuotes(this.getFileNameWithoutDirAndExt(codeFile.uri.fsPath)) },
+			{ regex: /\$fileNameWithoutExt/g, replaceValue: utils.getInEnclosedQuotes(this.getFileNameWithoutDirAndExt(codeFile.uri.fsPath)) },
 
 			// A placeholder that has to be replaced by the code file name without the directory
-			{ regex: /\$fileName/g, replaceValue: this.getInEnclosedQuotes(this.getFileName(codeFile.uri.fsPath)) },
+			{ regex: /\$fileName/g, replaceValue: utils.getInEnclosedQuotes(this.getFileName(codeFile.uri.fsPath)) },
 
 			// A placeholder that has to be replaced by the Qualified Code Name in Java only
 			{ regex: /\$qualifiedName/g, replaceValue: this.getQualifiedName(codeFile) },
 
 			// A placeholder that has to be replaced by the ClassPath of Java Souce files
-			{ regex: /\$classPath/g, replaceValue: this.getInEnclosedQuotes(this.getClassPath()) },
+			{ regex: /\$classPath/g, replaceValue: utils.getInEnclosedQuotes(this.getClassPath()) },
 
 			// A placeholder that has to be replaced by  the Input FilePath
-			{ regex: /\$inputFilePath/g, replaceValue: this.getInEnclosedQuotes(this.getInputFilePath()) },
+			{ regex: /\$inputFilePath/g, replaceValue: utils.getInEnclosedQuotes(this.getInputFilePath()) },
 
 			// A placeholder that has to be replaced by  the output FilePath
-			{ regex: /\$outputFilePath/g, replaceValue: this.getInEnclosedQuotes(this.getOutputFilePath()) },
+			{ regex: /\$outputFilePath/g, replaceValue: utils.getInEnclosedQuotes(this.getOutputFilePath()) },
 
 			// A placeholder that has to be replaced by the directory of the code file
-			{ regex: /\$dir/g, replaceValue: this.getInEnclosedQuotes(this.getWorkspaceDir(codeFile.uri.fsPath)) },
+			{ regex: /\$dir/g, replaceValue: utils.getInEnclosedQuotes(this.getWorkspaceDir(codeFile.uri.fsPath)) },
 		];
 
 		placeholders.forEach((placeholder) => {
@@ -509,25 +465,13 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	/**
-	 * Clears the Terminal
-	 */
-	private clearTerminal(): void {
-		if (vscode.env.shell.toLowerCase().includes("cmd")) {
-			utils.sendTextToTerminal("cls", this._terminal);
-		} else {
-			utils.sendTextToTerminal("clear", this._terminal);
-		}
-		vscode.commands.executeCommand("workbench.action.terminal.clear");
-	}
-
-	/**
 	 * Runs the Command in Respective Terminal 
 	 * According to the Config set by user. 
 	 */
 	private async runCommandInTerminal(executor: string, document: vscode.TextDocument, isIOCommand: boolean = false) {
 		if (this._config.get<boolean>("runInExternalTerminal")) {
 			if (isIOCommand) {
-				executor = this.addIOArgs(executor, true);
+				executor = utils.addIOArgs(executor, true);
 			}
 			executor = this.mapPlaceHoldersInExecutor(executor, document);
 			this.runCommandInExternalTerminal(executor);
@@ -535,7 +479,7 @@ export class CodeManager implements vscode.Disposable {
 		} else {
 			executor = this.modifyForPowershell(executor, document.languageId);
 			if (isIOCommand) {
-				executor = this.addIOArgs(executor);
+				executor = utils.addIOArgs(executor);
 			}
 			executor = this.mapPlaceHoldersInExecutor(executor, document);
 
@@ -552,7 +496,7 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		if (this._config.get<boolean>("clearTerminal")) {
-			this.clearTerminal();
+			utils.clearTerminal(this._terminal);
 		}
 		utils.sendTextToTerminal(executor, this._terminal);
 		this._terminal.show(this._config.get<boolean>("preserveFocus"));
