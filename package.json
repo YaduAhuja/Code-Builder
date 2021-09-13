@@ -37,6 +37,7 @@
 	"activationEvents": [
 		"onCommand:code-builder.buildAndRun",
 		"onCommand:code-builder.buildAndRunWithIO",
+		"onCommand:code-builder.customCommand",
 		"onCommand:code-builder.stopBuild",
 		"onCommand:code-builder.setClassPath",
 		"onCommand:code-builder.setInputFilePath",
@@ -59,6 +60,11 @@
 				"command": "code-builder.buildWithIO",
 				"category": "Code Builder",
 				"title": "Build and Run File with IO Files"
+			},
+			{
+				"command": "code-builder.customCommand",
+				"category": "Code Builder",
+				"title": "Run Custom Command"
 			},
 			{
 				"command": "code-builder.stopBuild",
@@ -89,6 +95,10 @@
 			{
 				"command": "code-builder.buildWithIO",
 				"key": "ctrl+alt+k"
+			},
+			{
+				"command": "code-builder.customCommand",
+				"key": "ctrl+alt+n"
 			},
 			{
 				"command": "code-builder.stopBuild",
@@ -128,6 +138,12 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Whether to preserve Focus when Build is called or not",
+					"scope": "resource"
+				},
+				"code-builder.customCommand": {
+					"type": "string",
+					"default": "echo hello",
+					"description": "Custom Command Which will be pushed to terminal Internal/External Based on Terminal Setting",
 					"scope": "resource"
 				},
 				"code-builder.clearTerminal": {

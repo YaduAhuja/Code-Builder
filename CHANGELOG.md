@@ -1,4 +1,7 @@
-### 0.5.1 (2021-09-09)
+### 0.6.0 (2021-09-15)
+* Added Custom Command Functionality
+
+### 0.5.1 (2021-09-13)
 * Fixed issues for Executable Languages in Powershell
 * Changed the Build Command for GO
 

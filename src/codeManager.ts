@@ -78,6 +78,20 @@ export class CodeManager implements vscode.Disposable {
 		this.runCommandInTerminal(executor, document, true);
 	}
 
+	public async customCommand() : Promise<void> {
+		if(this.isRunning()){
+			return;
+		}
+
+		const document = this.initialize();
+		const executor = this._config.get<string>("customCommand");
+		if(!executor || !document){
+			return;
+		}
+
+		this.runCommandInTerminal(executor,document);
+	}
+
 	public async stopBuild(): Promise<void> {
 		this.logTelementry("stopBuild");
 		if (this._config.get<boolean>("runInExternalTerminal")) {
@@ -189,10 +203,8 @@ export class CodeManager implements vscode.Disposable {
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
 		console.log("FS Path : " + codeFile.uri.fsPath);
-		if (codeFile.languageId === "java") {
-			console.log("Qualified Name : " + this.getQualifiedName(codeFile));
-			console.log("ClassPath: " + this.getClassPath());
-		}
+		console.log("Qualified Name : " + this.getQualifiedName(codeFile));
+		console.log("ClassPath: " + this.getClassPath());
 		console.log("Dirname : " + this.getDirName());
 		console.log("Workspace Folder : " + this.getWorkspaceFolder(codeFile));
 		console.log("Shell : " + vscode.env.shell);
@@ -312,6 +324,10 @@ export class CodeManager implements vscode.Disposable {
 	 */
 
 	private getAdvancedQualifiedName(codeFile: vscode.TextDocument): string {
+		if(codeFile.languageId !== "java") {
+			return "";
+		}
+
 		let qualifiedName = "";
 		const lines = codeFile.lineCount;
 
@@ -428,7 +444,7 @@ export class CodeManager implements vscode.Disposable {
 			command = command.replace(placeholder.regex, placeholder.replaceValue);
 		});
 
-		return command !== executor ? command : "";
+		return command;
 	}
 
 	/**

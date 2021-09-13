@@ -23,6 +23,10 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.buildWithIO();
 	});
 
+	const customCommand = vscode.commands.registerCommand("code-builder.customCommand", () => {
+		codeManager.customCommand();
+	});
+
 	const stopBuild = vscode.commands.registerCommand("code-builder.stopBuild", () => {
 		codeManager.stopBuild();
 	});
@@ -40,6 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(buildAndRun);
 	context.subscriptions.push(buildWithIO);
+	context.subscriptions.push(customCommand);
 	context.subscriptions.push(stopBuild);
 	context.subscriptions.push(setClassPath);
 	context.subscriptions.push(setInputFilePath);
