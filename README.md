@@ -8,6 +8,7 @@ Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, Ruby,
 * Run code file With IO Files
 * Select Languages at which the Extension will show Run Button
 * Run Code in External Terminal
+* Run Custom Specified Commands
 
 ## Usages
 
@@ -17,6 +18,9 @@ Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, Ruby,
 * To run code with IO Files :
   * use shortcut `Ctrl+Alt+K`
   * or press `F1` and then Select/Type `Code Builder : Build & Run File with IO Files`
+* To run Custom Command :
+  * use shortcut `Ctrl+Alt+N`
+  * or press `F1` and then Select/Type `Code Builder : Run Custom Command`
 * To Stop Build :
   * use shortcut `Ctrl+Alt+J`
   * or press `F1` and then Select/Type `Code Builder : Stop Build`
@@ -55,12 +59,19 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
   * **$dir**: The directory of the code file being run
   * **$fileName**: The base name of the code file being run, that is the file without the directory
   * **$fileNameWithoutExt**: The base name of the code file being run without its extension
-  * **$qualifiedName**: The qualified name of the code file for Java
   * **$classPath**: the ClassPath for Java Source Files
+  * **$qualifiedName**: The qualified name of the code file for Java
 
 **Please take care of the back slash and the space in file path of the executor**
   * Back slash: please use `\\`
   * If there ares spaces in file path, please use `\"` to surround your file path
+
+To set Custom Command which will be executed by `Run Custom Command` (Default is Given Below) :
+```json
+{
+	"code-builder.customCommand": "echo hello"
+}
+```
 
 To set the languages at which the run button will show(Default is Given Below):
 
@@ -166,7 +177,7 @@ Refer to [CHANGELOG](CHANGELOG.md)
 - ~~Add the Stop Build Command for Internal Terminal~~ **(Added in Build 0.2)**
 - ~~Add Option For External Teminal Execution~~ **(Added in Build 0.3.0)**
 - Add the Stop Build for External Terminal **(Added Windows Support in Build 0.2.3)**
-- Custom Commands Executor
+- ~~Custom Commands Executor~~ **(Added in Build 0.6.0)**
 - Interactive Process Detection for Stop Command
 - Runtime Information Statistics
 - Add Support for More Languages
