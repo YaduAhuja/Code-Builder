@@ -48,7 +48,7 @@ export class CodeManager implements vscode.Disposable {
 		if (!executor) {
 			return;
 		}
-
+		executor = this.performTerminalChecks(executor, document);
 		this.runCommandInTerminal(executor, document);
 	}
 
@@ -74,22 +74,22 @@ export class CodeManager implements vscode.Disposable {
 		if (!executor) {
 			return;
 		}
-
-		this.runCommandInTerminal(executor, document, true);
+		executor = this.performTerminalChecks(executor, document, true);
+		this.runCommandInTerminal(executor, document);
 	}
 
-	public async customCommand() : Promise<void> {
-		if(this.isRunning()){
+	public async customCommand(): Promise<void> {
+		if (this.isRunning()) {
 			return;
 		}
 
 		const document = this.initialize();
 		const executor = this._config.get<string>("customCommand");
-		if(!executor || !document){
+		if (!executor || !document) {
 			return;
 		}
 
-		this.runCommandInTerminal(executor,document);
+		this.runCommandInTerminal(executor, document);
 	}
 
 	public async stopBuild(): Promise<void> {
@@ -324,7 +324,7 @@ export class CodeManager implements vscode.Disposable {
 	 */
 
 	private getAdvancedQualifiedName(codeFile: vscode.TextDocument): string {
-		if(codeFile.languageId !== "java") {
+		if (codeFile.languageId !== "java") {
 			return "";
 		}
 
@@ -460,23 +460,43 @@ export class CodeManager implements vscode.Disposable {
 	 * Runs the Command in Respective Terminal 
 	 * According to the Config set by user. 
 	 */
-	private async runCommandInTerminal(executor: string, document: vscode.TextDocument, isIOCommand: boolean = false) {
+	private async runCommandInTerminal(executor: string, document: vscode.TextDocument) {
+		executor = this.mapPlaceHoldersInExecutor(executor, document);
 		if (this._config.get<boolean>("runInExternalTerminal")) {
-			if (isIOCommand) {
-				executor = utils.addIOArgs(executor, true);
-			}
-			executor = this.mapPlaceHoldersInExecutor(executor, document);
 			this.runCommandInExternalTerminal(executor);
-
 		} else {
-			executor = utils.modifyForPowershell(executor, document.languageId);
-			if (isIOCommand) {
-				executor = utils.addIOArgs(executor);
-			}
-			executor = this.mapPlaceHoldersInExecutor(executor, document);
-
 			this.runCommandInInternalTerminal(executor);
 		}
+		// Code before 0.6.0
+		// if (this._config.get<boolean>("runInExternalTerminal")) {
+		// 	if (isIOCommand) {
+		// 		executor = utils.addIOArgs(executor, true);
+		// 	}
+		// 	executor = this.mapPlaceHoldersInExecutor(executor, document);
+		// 	this.runCommandInExternalTerminal(executor);
+
+		// } else {
+		// 	executor = utils.modifyForPowershell(executor, document.languageId);
+		// 	if (isIOCommand) {
+		// 		executor = utils.addIOArgs(executor);
+		// 	}
+		// 	executor = this.mapPlaceHoldersInExecutor(executor, document);
+
+		// 	this.runCommandInInternalTerminal(executor);
+		// }
+	}
+
+	private performTerminalChecks(executor: string, document: vscode.TextDocument, isIOCommand: boolean = false) {
+		const runInExternal = this._config.get<boolean>("runInExternalTerminal");
+
+		if (!runInExternal) {
+			executor = utils.modifyForPowershell(executor, document.languageId);
+		}
+		if (isIOCommand) {
+			executor = utils.addIOArgs(executor, runInExternal);
+		}
+
+		return executor;
 	}
 
 	/**
