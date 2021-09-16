@@ -42,7 +42,7 @@ export class CodeManager implements vscode.Disposable {
 			return;
 		}
 		this._document = document;
-		this.logTelementry("BuildAndRun", this._document.languageId);
+		this.logTelemetry("BuildAndRun", this._document.languageId);
 
 		let executor = this.getExecutor(this._document.languageId);
 		if (!executor) {
@@ -62,7 +62,7 @@ export class CodeManager implements vscode.Disposable {
 			return;
 		}
 		this._document = document;
-		this.logTelementry("BuildWithIO", this._document.languageId);
+		this.logTelemetry("BuildWithIO", this._document.languageId);
 
 		//Checking if the IO Files Paths are Set or Not
 		const ioFlag = await this.checkInputOutputFilePaths();
@@ -84,16 +84,16 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		const document = this.initialize();
+		this.logTelemetry("customCommand", document?.languageId);
 		const executor = this._config.get<string>("customCommand");
-		if (!executor || !document) {
+		if (!executor || executor.trim().length === 0) {
 			return;
 		}
-
 		this.runCommandInTerminal(executor, document);
 	}
 
 	public async stopBuild(): Promise<void> {
-		this.logTelementry("stopBuild");
+		this.logTelemetry("stopBuild");
 		if (this._config.get<boolean>("runInExternalTerminal")) {
 			if (this._externalProcess) {
 				if (os.platform() === "win32") {
@@ -207,6 +207,7 @@ export class CodeManager implements vscode.Disposable {
 		console.log("ClassPath: " + this.getClassPath());
 		console.log("Dirname : " + this.getDirName());
 		console.log("Workspace Folder : " + this.getWorkspaceFolder(codeFile));
+		console.log("Custom Command :" + this._config.get<string>("customCommand"));
 		console.log("Shell : " + vscode.env.shell);
 		console.log("Terminals : " + vscode.window.terminals);
 	}
@@ -411,7 +412,10 @@ export class CodeManager implements vscode.Disposable {
 		return this._outputFilePath ? this._outputFilePath : "";
 	}
 
-	private mapPlaceHoldersInExecutor(executor: string, codeFile: vscode.TextDocument) {
+	private mapPlaceHoldersInExecutor(executor: string, codeFile?: vscode.TextDocument) {
+		if (!codeFile) {
+			return executor;
+		}
 		let command = executor;
 		// console.log(executor.replace(/\$dir/g, this.getWorkspaceDir(codeFile)));
 		const placeholders: Array<{ regex: RegExp, replaceValue: string }> = [
@@ -460,7 +464,7 @@ export class CodeManager implements vscode.Disposable {
 	 * Runs the Command in Respective Terminal 
 	 * According to the Config set by user. 
 	 */
-	private async runCommandInTerminal(executor: string, document: vscode.TextDocument) {
+	private async runCommandInTerminal(executor: string, document?: vscode.TextDocument) {
 		executor = this.mapPlaceHoldersInExecutor(executor, document);
 		if (this._config.get<boolean>("runInExternalTerminal")) {
 			this.runCommandInExternalTerminal(executor);
@@ -542,7 +546,7 @@ export class CodeManager implements vscode.Disposable {
 	 * @param event Event Name to be Logged
 	 * @param languageId Language id to be logged
 	 */
-	private async logTelementry(event: string, languageId?: string): Promise<void> {
+	private async logTelemetry(event: string, languageId?: string): Promise<void> {
 		//creating Telementary Data
 		if (!this._appInsightsClient) {
 			return;

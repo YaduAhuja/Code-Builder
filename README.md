@@ -148,7 +148,7 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
 }
 ```
 
-To set Whether to enable App Insights to track user Telementry data (default is true) :
+To set Whether to enable App Insights to track user Telemetry data (default is true) :
 
 ```json
 {
