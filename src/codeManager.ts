@@ -18,6 +18,7 @@ export class CodeManager implements vscode.Disposable {
 	private _document: vscode.TextDocument | null = null;
 	private _externalProcess: ChildProcess | null = null;
 	private _appInsightsClient: AppInsights | undefined;
+	private _languagesArr: Array<string> | undefined;
 
 	constructor() {
 		this._config = vscode.workspace.getConfiguration("code-builder");
@@ -43,7 +44,6 @@ export class CodeManager implements vscode.Disposable {
 		}
 		this._document = document;
 		this.logTelemetry("BuildAndRun", this._document.languageId);
-
 		let executor = this.getExecutor(this._document.languageId);
 		if (!executor) {
 			return;
@@ -133,6 +133,10 @@ export class CodeManager implements vscode.Disposable {
 		this._classPath = this._config.get<string>("classPath");
 		this._inputFilePath = this._config.get<string>("inputFilePath");
 		this._outputFilePath = this._config.get<string>("outputFilePath");
+		const executorMap = this._config.get<object>("executorMap");
+		if (executorMap) {
+			this._languagesArr = Object.keys(executorMap);
+		}
 
 		if (this._config.get<boolean>("debugData")) {
 			this.logDebugData(document);
@@ -207,6 +211,7 @@ export class CodeManager implements vscode.Disposable {
 		console.log("ClassPath: " + this.getClassPath());
 		console.log("Dirname : " + this.getDirName());
 		console.log("Workspace Folder : " + this.getWorkspaceFolder(codeFile));
+		console.log("Languages Arr :" + this._languagesArr);
 		console.log("Custom Command :" + this._config.get<string>("customCommand"));
 		console.log("Shell : " + vscode.env.shell);
 		console.log("Terminals : " + vscode.window.terminals);
@@ -249,8 +254,7 @@ export class CodeManager implements vscode.Disposable {
 		const executor = executorMap[languageId];
 
 		if (!executor) {
-			vscode.window.showInformationMessage("Code Language Not Supported");
-			return;
+			vscode.window.showInformationMessage("Language Executor Not Found");
 		}
 		return executor;
 	}
@@ -465,7 +469,10 @@ export class CodeManager implements vscode.Disposable {
 	 * According to the Config set by user. 
 	 */
 	private async runCommandInTerminal(executor: string, document?: vscode.TextDocument) {
-		executor = this.mapPlaceHoldersInExecutor(executor, document);
+		if (document && this._languagesArr?.includes(document.languageId)) {
+			executor = this.mapPlaceHoldersInExecutor(executor, document);
+		}
+
 		if (this._config.get<boolean>("runInExternalTerminal")) {
 			this.runCommandInExternalTerminal(executor);
 		} else {

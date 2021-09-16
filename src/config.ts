@@ -3,5 +3,5 @@
  *  as the current Directory is not in PowerShell's Path
  */
 export default {
-	executableLanguages : ["c", "cpp", "go", "rust"],
+	executableLanguages: ["c", "cpp", "go", "rust"]
 };

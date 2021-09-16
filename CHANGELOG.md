@@ -1,4 +1,8 @@
-### 0.6.0 (2021-09-16)
+### 0.6.1 (2021-09-16)
+* Fixed Bug where unknown files also mapped Variables
+* Improved Custom Command
+
+### 0.6.0 (2021-09-15)
 * Added Custom Command Functionality
 
 ### 0.5.1 (2021-09-13)
