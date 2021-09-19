@@ -254,7 +254,7 @@ export class CodeManager implements vscode.Disposable {
 		const executor = executorMap[languageId];
 
 		if (!executor) {
-			vscode.window.showInformationMessage("Language Executor Not Found");
+			vscode.window.showInformationMessage("Code Language not Supported");
 		}
 		return executor;
 	}
@@ -497,6 +497,13 @@ export class CodeManager implements vscode.Disposable {
 		// }
 	}
 
+	/**
+	 * 
+	 * @param executor executor Command which is Selected As per Language
+	 * @param document Document Object which is in Active Text Editor
+	 * @param isIOCommand Whether the IO Command is invoked or not
+	 * @returns Modified Executor based on Terminal  
+	 */
 	private performTerminalChecks(executor: string, document: vscode.TextDocument, isIOCommand: boolean = false) {
 		const runInExternal = this._config.get<boolean>("runInExternalTerminal");
 
@@ -561,7 +568,8 @@ export class CodeManager implements vscode.Disposable {
 		const properties: any = {
 			usingAutoClassPath: this._config.get<boolean>("useAutoClassPath") ? true : false,
 			usingExternalTerminal: this._config.get<boolean>("useExternalTerminal") ? true : false,
-			languageId: languageId
+			languageId: languageId,
+			terminal: vscode.env.shell,
 		};
 		this._appInsightsClient.sendEvent(event, properties);
 	}
