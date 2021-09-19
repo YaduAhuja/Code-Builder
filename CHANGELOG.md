@@ -1,5 +1,6 @@
 ### 0.6.0 (2021-09-16)
 * Added Custom Command Functionality
+* Added Support for R
 
 ### 0.5.1 (2021-09-13)
 * Fixed issues for Executable Languages in Powershell
