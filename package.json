@@ -2,7 +2,7 @@
 	"name": "code-builder",
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
-	"description": "Build & Run Code files for C, C++, Java, JavaScript, TypeScript, Python, Ruby, Go With & Without Input/Output Files",
+	"description": "Build & Run Code files for C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go With & Without Input/Output Files",
 	"version": "0.6.0",
 	"license": "MIT",
 	"icon": "images/icon.png",
@@ -22,6 +22,7 @@
 		"typescript",
 		"ruby",
 		"go",
+		"r",
 		"competitive programming",
 		"run",
 		"build"
@@ -192,7 +193,8 @@
 						"javascript": "cd $dir && node $fileName",
 						"typescript": "cd $dir && ts-node $fileName",
 						"ruby": "cd $dir && ruby $fileName",
-						"go": "cd $dir && go build $fileName && $dir$fileNameWithoutExt"
+						"go": "cd $dir && go build $fileName && $dir$fileNameWithoutExt",
+						"r": "cd $dir && Rscript $fileName"
 					},
 					"description": "Executor Map which includes the Build commands for Languages",
 					"scope": "resource"
@@ -210,7 +212,8 @@
 						"javascript",
 						"typescript",
 						"ruby",
-						"go"
+						"go",
+						"r"
 					],
 					"description": "Languages at which Code Builder will show Run Button",
 					"scope": "resource"

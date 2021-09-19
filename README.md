@@ -1,5 +1,5 @@
 # Code Builder
-Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, Ruby, Go** with or without Input & Output Files.
+Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go** with or without Input & Output Files.
 
 
 ## Features
@@ -50,7 +50,8 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 		"javascript": "cd $dir && node $fileName",
 		"typescript": "cd $dir && ts-node $fileName",
 		"ruby": "cd $dir && ruby $fileName",
-		"go" : "cd $dir && go build $fileName && $dir$fileNameWithoutExt"
+		"go": "cd $dir && go build $fileName && $dir$fileNameWithoutExt",
+		"r": "cd $dir && Rscript $fileName"
     }
 }
 ```
@@ -79,7 +80,7 @@ To set the languages at which the run button will show(Default is Given Below):
 
 ```json
 {
-    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby", "go"]
+    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby", "go", "r"]
 }
 ``` 
 
