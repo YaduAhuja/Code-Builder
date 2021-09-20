@@ -1,5 +1,5 @@
 ### 0.6.1 (2021-09-16)
-* Fixed Bug where unknown files also mapped Variables
+* Fixed Bug where unknown files also mapped Variables in Custom Command
 * Improved Custom Command
 
 ### 0.6.0 (2021-09-15)
