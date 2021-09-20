@@ -565,12 +565,15 @@ export class CodeManager implements vscode.Disposable {
 		if (!this._appInsightsClient) {
 			return;
 		}
+
 		const properties: any = {
 			usingAutoClassPath: this._config.get<boolean>("useAutoClassPath") ? true : false,
 			usingExternalTerminal: this._config.get<boolean>("useExternalTerminal") ? true : false,
 			languageId: languageId,
 			terminal: vscode.env.shell,
+			version: vscode.extensions.getExtension("yaduahuja.code-builder")?.packageJSON.version,
 		};
+
 		this._appInsightsClient.sendEvent(event, properties);
 	}
 
