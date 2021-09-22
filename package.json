@@ -32,7 +32,7 @@
 	},
 	"activationEvents": [
 		"onCommand:code-builder.buildAndRun",
-		"onCommand:code-builder.buildAndRunWithIO",
+		"onCommand:code-builder.buildWithIO",
 		"onCommand:code-builder.customCommand",
 		"onCommand:code-builder.stopBuild",
 		"onCommand:code-builder.setClassPath",

@@ -561,7 +561,7 @@ export class CodeManager implements vscode.Disposable {
 	 * @param languageId Language id to be logged
 	 */
 	private async logTelemetry(event: string, languageId?: string): Promise<void> {
-		//creating Telementary Data
+		//creating Telemetry Data
 		if (!this._appInsightsClient) {
 			return;
 		}

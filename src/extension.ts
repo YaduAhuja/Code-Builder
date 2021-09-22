@@ -42,13 +42,15 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.setOutputFilePath();
 	});
 
-	context.subscriptions.push(buildAndRun);
-	context.subscriptions.push(buildWithIO);
-	context.subscriptions.push(customCommand);
-	context.subscriptions.push(stopBuild);
-	context.subscriptions.push(setClassPath);
-	context.subscriptions.push(setInputFilePath);
-	context.subscriptions.push(setOutputFilePath);
+	context.subscriptions.push(
+		buildAndRun,
+		buildWithIO,
+		customCommand,
+		stopBuild,
+		setClassPath,
+		setInputFilePath,
+		setOutputFilePath
+	);
 }
 
 // this method is called when your extension is deactivated
