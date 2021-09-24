@@ -18,13 +18,22 @@ export function mapExternalCommand(executor: string, isIOCommand: boolean = fals
 			return `start cmd /c "${executor} && echo( && pause"`;
 
 		case "darwin":
+			const macTerminal = getMacTerminal();
 			//Escaping the Sequences for External Terminal
 			executor = executor.replace(/\"/g, "\\\"");
 
-			// Command to Create a New Terminal Tab used in Previous Stable Version to be removed
-			// return osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down'`;
+			switch (macTerminal) {
+				// Command to Create a New Terminal Tab used in Previous Stable Version to be removed
+				// return osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down'`;
 
-			return `osascript -e 'tell app "Terminal" to reopen' -e 'tell app "Terminal" to activate' -e 'tell app "Terminal" to do script "${executor}" in first window'`;
+				case "Terminal.app":
+					return `osascript -e 'tell app "Terminal" to reopen' -e 'tell app "Terminal" to activate' -e 'tell app "Terminal" to do script "${executor}" in first window'`;
+				case "iTerminal.app":
+					return `osascript -e 'tell app "iTerm" to reopen' -e 'tell app "iTerm" to activate' -e 'tell app "iTerm" to tell current session of current window to write text "${executor}"'`;
+				default:
+					window.showErrorMessage("This Terminal is not Supported Yet Switch to Terminal.app or Iterminal.app");
+			}
+
 
 		case "linux":
 			const linuxTerminal = getLinuxTerminal();
@@ -55,4 +64,8 @@ export function mapExternalCommand(executor: string, isIOCommand: boolean = fals
 
 function getLinuxTerminal(): string | undefined {
 	return workspace.getConfiguration().get<string>("terminal.external.linuxExec");
+}
+
+function getMacTerminal(): string | undefined {
+	return workspace.getConfiguration().get<string>("terminal.external.osxExec");
 }

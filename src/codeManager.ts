@@ -215,6 +215,7 @@ export class CodeManager implements vscode.Disposable {
 		console.log("Custom Command :" + this._config.get<string>("customCommand"));
 		console.log("Shell : " + vscode.env.shell);
 		console.log("Terminals : " + vscode.window.terminals);
+		console.log("External Terminals : " + vscode.workspace.getConfiguration("terminal.external"));
 	}
 
 	/**
