@@ -1,6 +1,7 @@
 ### 0.6.1 (2021-09-16)
 * Fixed Bug where unknown files also mapped Variables in Custom Command
 * Improved Custom Command
+* Added Support for iTerminal
 
 ### 0.6.0 (2021-09-15)
 * Added Custom Command Functionality
