@@ -2,7 +2,7 @@
 Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go** with or without Input & Output Files.
 
 
-## Features
+## Features:
 
 * Run code file of current active Text Editor
 * Run code file With IO Files
@@ -10,7 +10,7 @@ Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ru
 * Run Code in External Terminal
 * Run Custom Specified Commands
 
-## Usages
+## Usages:
 
 * To run code:
   * use shortcut `Ctrl+Alt+B`
@@ -34,7 +34,7 @@ Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ru
   * use shortcut `Ctrl+Alt+P`
   * or press `F1` and then Select/Type `Code Builder : Set Class Path`
 
-## Configuration
+## Configuration:
 
 Make sure the executor PATH of each language is set in the environment variable.
 You could also add entry into `code-builder.executorMap` to set the executor PATH.
@@ -157,7 +157,16 @@ To set Whether to enable App Insights to track user Telemetry data (default is t
 }
 ```
 
-## FAQ
+## External Terminals Support:
+By Default the Code Builder provides the settings for cmd on Windows and Terminal app on MAC. But if you want to change the external terminal you can do so by going in `Preferences -> Terminal -> External` and Copying and Pasting the name of External Terminal for your OS. Here is the List of Names which are Supported.
+
+**Windows :** cmd
+
+**MAC :**  Terminal.app, iTerminal.app
+
+**Linux :** mate-terminal, tilix, gnome-terminal, konsole, xfce4-terminal
+
+## FAQ:
 **Q :** Getting ClassNotFound Exception when running Java files ?
 
 **A :** If you are using Package Declaration in your Java source files then Turn on the `UseAutoClassPath`. If it is still not fixed then raise an issue in repo.
