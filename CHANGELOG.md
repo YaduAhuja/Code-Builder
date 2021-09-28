@@ -1,3 +1,6 @@
+### 0.6.2 (2021-09-28)
+* Fixed iTerm Naming scheme
+
 ### 0.6.1 (2021-09-24)
 * Fixed Bug where unknown files also mapped Variables in Custom Command
 * Improved Custom Command

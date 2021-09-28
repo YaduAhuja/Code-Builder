@@ -162,7 +162,7 @@ By Default the Code Builder provides the settings for cmd on Windows and Termina
 
 **Windows :** cmd
 
-**MAC :**  Terminal.app, iTerminal.app
+**MAC :**  Terminal.app, iTerm.app
 
 **Linux :** mate-terminal, tilix, gnome-terminal, konsole, xfce4-terminal
 
