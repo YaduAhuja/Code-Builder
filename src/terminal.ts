@@ -28,10 +28,10 @@ export function mapExternalCommand(executor: string, isIOCommand: boolean = fals
 
 				case "Terminal.app":
 					return `osascript -e 'tell app "Terminal" to reopen' -e 'tell app "Terminal" to activate' -e 'tell app "Terminal" to do script "${executor}" in first window'`;
-				case "iTerminal.app":
+				case "iTerm.app":
 					return `osascript -e 'tell app "iTerm" to reopen' -e 'tell app "iTerm" to activate' -e 'tell app "iTerm" to tell current session of current window to write text "${executor}"'`;
 				default:
-					window.showErrorMessage("This Terminal is not Supported Yet Switch to Terminal.app or iterminal.app");
+					window.showErrorMessage("This Terminal is not Supported Yet Switch to Terminal.app or iTerm.app");
 			}
 
 
