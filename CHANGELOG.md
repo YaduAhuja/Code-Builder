@@ -1,3 +1,6 @@
+### 0.6.3 (2021-10-05)
+* Fixed Multiple Notification issue on MAC
+
 ### 0.6.2 (2021-09-28)
 * Fixed iTerm Naming scheme
 
