@@ -183,11 +183,7 @@ By Default the Code Builder provides the settings for cmd on Windows and Termina
 Refer to [CHANGELOG](CHANGELOG.md)
 
 ## TODO
-- Add Automatic ClassPath Detection for Java Files **(Added Basic Support in Build 0.0.5)**
-- ~~Add the Stop Build Command for Internal Terminal~~ **(Added in Build 0.2)**
-- ~~Add Option For External Teminal Execution~~ **(Added in Build 0.3.0)**
-- Add the Stop Build for External Terminal **(Added Windows Support in Build 0.2.3)**
-- ~~Custom Commands Executor~~ **(Added in Build 0.6.0)**
+- WSL Support for Windows
 - Interactive Process Detection for Stop Command
 - Runtime Information Statistics
 - Add Support for More Languages
