@@ -1,3 +1,6 @@
+### 0.7.0 (2021-10-26)
+* Added Support for WSL on Windows
+
 ### 0.6.3 (2021-10-05)
 * Fixed Multiple Notification issue on MAC
 

@@ -120,7 +120,7 @@ To set Whether to use Automatic Class Path Detection (default is false):
 }
 ```
 
-To set ClassPath for Java Source Files which will be Replaced with **$classPath** (default is "." , the JVM will use Current Folder as ClassPath) :
+To set ClassPath for Java Source Files which will be Replaced with **$classPath** (default is "." , the JVM will use Current Director as ClassPath) :
 
 **Note :** Edit this setting through **Set Class Path** command only
 
@@ -158,7 +158,7 @@ To set Whether to enable App Insights to track user Telemetry data (default is t
 ```
 
 ## External Terminals Support:
-By Default the Code Builder provides the settings for cmd on Windows and Terminal app on MAC. But if you want to change the external terminal you can do so by going in `Preferences -> Terminal -> External` and Copying and Pasting the name of External Terminal for your OS. Here is the List of Names which are Supported.
+By Default the Code Builder provides the settings for cmd on Windows and Terminal app on MAC. But if you want to change the external terminal you can do so by going in `Preferences -> Terminal -> External` and Copying and Pasting the name of External Terminal for your Environment. Here is the List of Names which are Supported.
 
 **Windows :** cmd
 
@@ -173,7 +173,7 @@ By Default the Code Builder provides the settings for cmd on Windows and Termina
 
 **Q :** `ts-node` Command not Found?
 
-**A :** Install the ts-node Globally by `npm install -g ts-node`
+**A :** Install the ts-node Globally by `npm install -g ts-node` on Windows and `sudo npm install -g ts-node`
 
 **Q :** Build Button not Showing in editor menu?
 
@@ -183,7 +183,7 @@ By Default the Code Builder provides the settings for cmd on Windows and Termina
 Refer to [CHANGELOG](CHANGELOG.md)
 
 ## TODO
-- WSL Support for Windows
+- Add Videos/Tutorial for Extension
 - Interactive Process Detection for Stop Command
 - Runtime Information Statistics
 - Add Support for More Languages
