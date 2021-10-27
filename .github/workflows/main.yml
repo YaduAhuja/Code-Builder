@@ -21,6 +21,7 @@ jobs:
         uses: actions/setup-node@v2.4.1
         with:
           node-version: 16.x
-      - run: npm install
-      - run: npm run tslint
-      - run: npm run vscode:prepublish
+          cache: yarn
+      - run: yarn install
+      - run: yarn tslint
+      - run: yarn vscode:prepublish
