@@ -1,0 +1,35 @@
+# This is a basic workflow that is manually triggered
+
+name: CI
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  build:
+   strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        # The type of runner that the job will run on
+        runs-on: ${{ matrix.os }}
+    
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+      # Runs a single command using the runners shell
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.1
+    
+      - run: npm install
+      - run: npm run tslint
+      - run: npm run vscode:prepublish
