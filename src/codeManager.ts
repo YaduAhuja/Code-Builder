@@ -155,7 +155,6 @@ export class CodeManager implements vscode.Disposable {
 	 */
 
 	private async checkInputOutputFilePaths(): Promise<boolean> {
-		let areInputOutputFilePathsPresent = true;
 		if (this._inputFilePath === "" || !this._inputFilePath) {
 			const response = await this.configModifierFromFileFolderPicker("inputFilePath", "Select The Input File");
 			if (response) {
@@ -173,7 +172,7 @@ export class CodeManager implements vscode.Disposable {
 			}
 		}
 
-		return areInputOutputFilePathsPresent;
+		return true;
 	}
 
 	/**

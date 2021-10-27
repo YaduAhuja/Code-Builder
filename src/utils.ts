@@ -14,10 +14,10 @@ export function getInEnclosedQuotes(text: string): string {
 }
 
 /**
- * Clears the Terminal
+ * Clears the Passed Terminal
  */
-export function clearTerminal(terminal : vscode.Terminal): void {
-	if(!terminal){
+export function clearTerminal(terminal: vscode.Terminal): void {
+	if (!terminal) {
 		return;
 	}
 
