@@ -5,7 +5,7 @@ import * as vscode from 'vscode';
 import * as os from 'os';
 import * as utils from './utils';
 import { mapExternalCommand } from './terminal';
-import { AppInsights } from './appInsights';
+// import { AppInsights } from './appInsights';
 import { ChildProcess, exec } from 'child_process';
 import terminate from 'terminate';
 const end = Date.now();
@@ -18,7 +18,7 @@ export class CodeManager implements vscode.Disposable {
 	private _terminal: vscode.Terminal | undefined;
 	private _document: vscode.TextDocument | null = null;
 	private _externalProcess: ChildProcess | null = null;
-	private _appInsightsClient: AppInsights | undefined;
+	private _appInsightsClient: any | undefined;
 	private _languagesArr: Array<string> | undefined;
 
 	constructor() {
@@ -27,15 +27,23 @@ export class CodeManager implements vscode.Disposable {
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		this.setContext();
 		this.checkForOpenTerminal();
-		if (this._config.get<boolean>("enableAppInsights")) {
-			this._appInsightsClient = new AppInsights();
-		}
+		// if (this._config.get<boolean>("enableAppInsights")) {
+		// 	this._appInsightsClient = new AppInsights();
+		// }
+		this.lazyLoadAppInsights();
 		const time4 = Date.now();
 		console.log("Code Manager Constructor Time : ", time4 - time3, " ms");
 	}
 
 	public onDidTerminalClosed() {
 		this._terminal = undefined;
+	}
+
+	private async lazyLoadAppInsights(): Promise<void> {
+		if (this._config.get<boolean>("enableAppInsights")) {
+			const appInsights = await import("./appInsights");
+			this._appInsightsClient = new appInsights.AppInsights();
+		}
 	}
 
 	public async buildAndRun(): Promise<void> {
