@@ -38,8 +38,13 @@ export function activate(context: vscode.ExtensionContext) {
 	const setInputFilePath = vscode.commands.registerCommand("code-builder.setInputFilePath", () => {
 		codeManager.setInputFilePath();
 	});
+
 	const setOutputFilePath = vscode.commands.registerCommand("code-builder.setOutputFilePath", () => {
 		codeManager.setOutputFilePath();
+	});
+
+	const switchTerminal = vscode.commands.registerCommand("code-builder.switchTerminal", () => {
+		codeManager.switchTerminal();
 	});
 
 	context.subscriptions.push(
@@ -49,7 +54,8 @@ export function activate(context: vscode.ExtensionContext) {
 		stopBuild,
 		setClassPath,
 		setInputFilePath,
-		setOutputFilePath
+		setOutputFilePath,
+		switchTerminal
 	);
 }
 

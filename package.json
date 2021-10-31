@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Run C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go Code files With & Without Input/Output Files",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -25,17 +25,20 @@
 		"javascript",
 		"competitive programming",
 		"run",
-		"Run",
 		"build",
 		"programming contest",
-		"Contest",
+		"contest",
 		"run java",
 		"run cpp",
 		"run c",
 		"run python",
 		"build java",
 		"build c++",
-		"build c"
+		"build c",
+		"run go",
+		"run typescript",
+		"run python",
+		"run javascript"
 	],
 	"bugs": {
 		"url": "https://github.com/YaduAhuja/Code-Builder/issues",
@@ -96,6 +99,11 @@
 				"command": "code-builder.setOutputFilePath",
 				"category": "Code Builder",
 				"title": "Set Output File Path"
+			},
+			{
+				"command": "code-builder.switchTerminal",
+				"category": "Code Builder",
+				"title": "Switches the Terminal"
 			}
 		],
 		"keybindings": [
@@ -126,6 +134,10 @@
 			{
 				"command": "code-builder.setClassPath",
 				"key": "ctrl+alt+p"
+			},
+			{
+				"command": "code-builder.switchTerminal",
+				"key": "ctrl+alt+t"
 			}
 		],
 		"menus": {

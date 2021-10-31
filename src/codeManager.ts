@@ -14,13 +14,15 @@ export class CodeManager implements vscode.Disposable {
 	private _inputFilePath: string | undefined;
 	private _outputFilePath: string | undefined;
 	private _terminal: vscode.Terminal | undefined;
-	private _document: vscode.TextDocument | null = null;
+	private _document: vscode.TextDocument | undefined;
 	private _externalProcess: ChildProcess | null = null;
 	private _appInsightsClient: any | undefined;
 	private _languagesArr: Array<string> | undefined;
+	private _statusBarWidget: vscode.StatusBarItem | undefined;
 
 	constructor() {
 		this._config = vscode.workspace.getConfiguration("code-builder");
+		this.initializeStatusBarWidget();
 		this.setContext();
 		this.checkForOpenTerminal();
 		this.lazyLoadAppInsights();
@@ -30,6 +32,19 @@ export class CodeManager implements vscode.Disposable {
 		this._terminal = undefined;
 	}
 
+	/**
+	 *  Initializes the Status Bar Widget 
+	 */
+	private async initializeStatusBarWidget() {
+		this._statusBarWidget = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right);
+		this._statusBarWidget.command = "code-builder.switchTerminal";
+		this._statusBarWidget.tooltip = "Code Builder Terminal Type";
+		utils.refreshStatusBarWidget(this._statusBarWidget, this._config.get<boolean>("runInExternalTerminal"));
+	}
+
+	/**
+	 * Lazy Loads App Insights as and when needed
+	 */
 	private async lazyLoadAppInsights(): Promise<void> {
 		if (this._config.get<boolean>("enableAppInsights")) {
 			if (this._appInsightsClient) {
@@ -120,6 +135,13 @@ export class CodeManager implements vscode.Disposable {
 			utils.clearTerminal(this._terminal);
 			vscode.window.showInformationMessage("Build Stopped");
 		}
+	}
+
+	public switchTerminal(): void {
+		const val = !this._config.get<boolean>("runInExternalTerminal");
+		this._config.update("runInExternalTerminal", val, 1);
+		this._config = vscode.workspace.getConfiguration("code-builder");
+		utils.refreshStatusBarWidget(this._statusBarWidget, val);
 	}
 
 	/**

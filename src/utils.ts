@@ -91,3 +91,16 @@ export function modifyForPowershell(executor: string, languageId: string): strin
 	}
 	return executor;
 }
+
+/**
+ * 
+ * @param statusBarWidget 
+ * @param isExternal 
+ */
+export function refreshStatusBarWidget(statusBarWidget?: vscode.StatusBarItem, isExternal?: boolean) {
+	if (!statusBarWidget) {
+		return;
+	}
+	statusBarWidget.text = isExternal ? "External" : "Internal";
+	statusBarWidget.show();
+}
