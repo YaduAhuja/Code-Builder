@@ -1,3 +1,6 @@
+### 0.7.1 (2021-11-3)
+* Optimized Performance
+
 ### 0.7.0 (2021-10-26)
 * Added Support for WSL on Windows
 
