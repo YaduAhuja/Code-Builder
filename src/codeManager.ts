@@ -1,5 +1,5 @@
 "use strict";
-
+const start = Date.now();
 import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
 import * as os from 'os';
@@ -8,6 +8,7 @@ import { mapExternalCommand } from './terminal';
 import { AppInsights } from './appInsights';
 import { ChildProcess, exec } from 'child_process';
 import terminate from 'terminate';
+const end = Date.now();
 
 export class CodeManager implements vscode.Disposable {
 	private _config: vscode.WorkspaceConfiguration;
@@ -21,12 +22,16 @@ export class CodeManager implements vscode.Disposable {
 	private _languagesArr: Array<string> | undefined;
 
 	constructor() {
+		console.log("Code Manager Import Time : ", end - start, " ms");
+		const time3 = Date.now();
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		this.setContext();
 		this.checkForOpenTerminal();
 		if (this._config.get<boolean>("enableAppInsights")) {
 			this._appInsightsClient = new AppInsights();
 		}
+		const time4 = Date.now();
+		console.log("Code Manager Constructor Time : ", time4 - time3, " ms");
 	}
 
 	public onDidTerminalClosed() {
