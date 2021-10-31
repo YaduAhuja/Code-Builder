@@ -1,14 +1,12 @@
 "use strict";
-const start = Date.now();
+
 import { dirname, win32 } from 'path';
 import * as vscode from 'vscode';
-import * as os from 'os';
 import * as utils from './utils';
+import { platform } from 'os';
 import { mapExternalCommand } from './terminal';
-// import { AppInsights } from './appInsights';
 import { ChildProcess, exec } from 'child_process';
 import terminate from 'terminate';
-const end = Date.now();
 
 export class CodeManager implements vscode.Disposable {
 	private _config: vscode.WorkspaceConfiguration;
@@ -22,17 +20,10 @@ export class CodeManager implements vscode.Disposable {
 	private _languagesArr: Array<string> | undefined;
 
 	constructor() {
-		console.log("Code Manager Import Time : ", end - start, " ms");
-		const time3 = Date.now();
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		this.setContext();
 		this.checkForOpenTerminal();
-		// if (this._config.get<boolean>("enableAppInsights")) {
-		// 	this._appInsightsClient = new AppInsights();
-		// }
 		this.lazyLoadAppInsights();
-		const time4 = Date.now();
-		console.log("Code Manager Constructor Time : ", time4 - time3, " ms");
 	}
 
 	public onDidTerminalClosed() {
@@ -41,6 +32,9 @@ export class CodeManager implements vscode.Disposable {
 
 	private async lazyLoadAppInsights(): Promise<void> {
 		if (this._config.get<boolean>("enableAppInsights")) {
+			if (this._appInsightsClient) {
+				return;
+			}
 			const appInsights = await import("./appInsights");
 			this._appInsightsClient = new appInsights.AppInsights();
 		}
@@ -109,7 +103,7 @@ export class CodeManager implements vscode.Disposable {
 		this.logTelemetry("stopBuild");
 		if (this._config.get<boolean>("runInExternalTerminal")) {
 			if (this._externalProcess) {
-				if (os.platform() === "win32") {
+				if (platform() === "win32") {
 					if (this._externalProcess.pid) {
 						terminate(this._externalProcess.pid);
 						vscode.window.showInformationMessage("Build Stopped");
@@ -218,6 +212,8 @@ export class CodeManager implements vscode.Disposable {
 	private logDebugData(codeFile: vscode.TextDocument): void {
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
+		console.log("Is AppInsights Enabled :" + this._config.get<boolean>("enableAppInsights"));
+		console.log("App Insights Client :" + this._appInsightsClient);
 		console.log("FS Path : " + codeFile.uri.fsPath);
 		console.log("Qualified Name : " + this.getQualifiedName(codeFile));
 		console.log("ClassPath: " + this.getClassPath());
@@ -246,7 +242,7 @@ export class CodeManager implements vscode.Disposable {
 		const end = Math.max(codeFile.lastIndexOf('\/'), codeFile.lastIndexOf('\\'));
 
 		//If the user is using Git Bash on Windows
-		if (os.platform() === "win32" && vscode.env.shell.toLowerCase().includes('bash')) {
+		if (platform() === "win32" && vscode.env.shell.toLowerCase().includes('bash')) {
 			return codeFile.substring(0, end);
 		}
 		return codeFile.substring(0, end + 1);
