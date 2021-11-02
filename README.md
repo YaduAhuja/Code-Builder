@@ -1,6 +1,6 @@
 # Code Builder
 
-[![Build](https://github.com/YaduAhuja/Code-Builder/actions/workflows/main.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/YaduAhuja/Code-Builder/actions/workflows/main.yml)
+[![Build](https://github.com/YaduAhuja/Code-Builder/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/YaduAhuja/Code-Builder/actions/workflows/main.yml)
 
 Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go** with or without Input & Output Files.
 
