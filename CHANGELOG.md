@@ -1,4 +1,4 @@
-### 0.7.1 (2021-11-3)
+### 0.7.1 (2021-11-2)
 * Optimized Performance
 * Added a Status Bar Widget to Switch Terminal
 
