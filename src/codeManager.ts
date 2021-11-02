@@ -137,9 +137,9 @@ export class CodeManager implements vscode.Disposable {
 		}
 	}
 
-	public switchTerminal(): void {
+	public async switchTerminal(): Promise<void> {
 		const val = !this._config.get<boolean>("runInExternalTerminal");
-		this._config.update("runInExternalTerminal", val, 1);
+		await this._config.update("runInExternalTerminal", val, 1);
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		utils.refreshStatusBarWidget(this._statusBarWidget, val);
 	}
