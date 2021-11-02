@@ -1,3 +1,5 @@
+[![CI](https://github.com/YaduAhuja/Code-Builder/actions/workflows/main.yml/badge.svg?branch=main&event=workflow_run)](https://github.com/YaduAhuja/Code-Builder/actions/workflows/main.yml)
+
 # Code Builder
 Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go** with or without Input & Output Files.
 
