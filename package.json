@@ -58,6 +58,7 @@
 		"onCommand:code-builder.setClassPath",
 		"onCommand:code-builder.setInputFilePath",
 		"onCommand:code-builder.setOutputFilePath",
+		"onCommand:code-builder.switchTerminal",
 		"onStartupFinished"
 	],
 	"main": "./dist/extension.js",
