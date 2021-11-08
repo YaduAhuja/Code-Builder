@@ -6,6 +6,7 @@ import * as utils from './utils';
 import { platform } from 'os';
 import { mapExternalCommand } from './terminal';
 import { ChildProcess, exec } from 'child_process';
+import { getBuildCommand } from './builder';
 import terminate from 'terminate';
 
 export class CodeManager implements vscode.Disposable {
@@ -70,7 +71,7 @@ export class CodeManager implements vscode.Disposable {
 		if (!executor) {
 			return;
 		}
-		executor = this.performTerminalChecks(executor, document);
+		executor = this.performTerminalChecks(executor);
 		this.runCommandInTerminal(executor, document);
 	}
 
@@ -96,7 +97,7 @@ export class CodeManager implements vscode.Disposable {
 		if (!executor) {
 			return;
 		}
-		executor = this.performTerminalChecks(executor, document, true);
+		executor = this.performTerminalChecks(executor, true);
 		this.runCommandInTerminal(executor, document);
 	}
 
@@ -531,21 +532,13 @@ export class CodeManager implements vscode.Disposable {
 	/**
 	 * 
 	 * @param executor executor Command which is Selected As per Language
-	 * @param document Document Object which is in Active Text Editor
 	 * @param isIOCommand Whether the IO Command is invoked or not
 	 * @returns Modified Executor based on Terminal  
 	 */
-	private performTerminalChecks(executor: string, document: vscode.TextDocument, isIOCommand: boolean = false) {
+	private performTerminalChecks(executor: string, isIOCommand: boolean = false) {
 		const runInExternal = this._config.get<boolean>("runInExternalTerminal");
-
-		if (!runInExternal) {
-			executor = utils.modifyForPowershell(executor, document.languageId);
-		}
-		if (isIOCommand) {
-			executor = utils.addIOArgs(executor, runInExternal);
-		}
-
-		return executor;
+		const exec = getBuildCommand(executor, vscode.env.shell, vscode.workspace.getConfiguration("terminal.external"), runInExternal, isIOCommand);
+		return exec;
 	}
 
 	/**

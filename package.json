@@ -213,12 +213,12 @@
 					"default": {
 						"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 						"python": "cd $dir && python $fileName",
-						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
+						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
 						"javascript": "cd $dir && node $fileName",
 						"typescript": "cd $dir && ts-node $fileName",
 						"ruby": "cd $dir && ruby $fileName",
-						"go": "cd $dir && go build $fileName && $dir$fileNameWithoutExt",
+						"go": "cd $dir && go build $fileName && ./$fileNameWithoutExt",
 						"r": "cd $dir && Rscript $fileName"
 					},
 					"description": "Executor Map which includes the Build commands for Languages",
