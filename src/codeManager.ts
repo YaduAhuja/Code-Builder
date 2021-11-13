@@ -138,11 +138,28 @@ export class CodeManager implements vscode.Disposable {
 		}
 	}
 
+	/**
+	 * Switches the Terminal at runtime
+	 */
+
 	public async switchTerminal(): Promise<void> {
 		const val = !this._config.get<boolean>("runInExternalTerminal");
 		await this._config.update("runInExternalTerminal", val, 1);
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		utils.refreshStatusBarWidget(this._statusBarWidget, val);
+	}
+
+	/**
+	 *  Clean the Extension's Executor Map Settings to default values
+	 */
+
+	public async reset(): Promise<void> {
+		const val = this._config.get<Object>("executorMap");
+		if (!val) {
+			return;
+		}
+		await this._config.update("executorMap", undefined, 1);
+		this._config = vscode.workspace.getConfiguration("code-builder");
 	}
 
 	/**

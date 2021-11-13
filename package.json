@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Run C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go Code files With & Without Input/Output Files",
-	"version": "0.7.2",
+	"version": "0.8.0",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -107,6 +107,11 @@
 				"command": "code-builder.switchTerminal",
 				"category": "Code Builder",
 				"title": "Switches the Terminal"
+			},
+			{
+				"command": "code-builder.reset",
+				"category": "Code Builder",
+				"title": "Reset the Extension"
 			}
 		],
 		"keybindings": [

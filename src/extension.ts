@@ -47,6 +47,10 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.switchTerminal();
 	});
 
+	const reset = vscode.commands.registerCommand("code-builder.reset", () => {
+		codeManager.reset();
+	});
+
 	context.subscriptions.push(
 		buildAndRun,
 		buildWithIO,
@@ -55,7 +59,8 @@ export function activate(context: vscode.ExtensionContext) {
 		setClassPath,
 		setInputFilePath,
 		setOutputFilePath,
-		switchTerminal
+		switchTerminal,
+		reset
 	);
 }
 

@@ -20,7 +20,7 @@ export function clearTerminal(terminal: vscode.Terminal): void {
 		return;
 	}
 
-	if (vscode.env.shell.toLowerCase().includes("cmd")) {
+	if (vscode.env.shell.toLowerCase().includes("cmd.exe")) {
 		sendTextToTerminal("cls", terminal);
 	} else {
 		sendTextToTerminal("clear", terminal);

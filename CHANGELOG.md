@@ -1,3 +1,8 @@
+### 0.8.0 (2021-11-12)
+* Added a new Command to reset Executor Map
+* Added the New Build System (Please reset Executor Map First to use this Build System without any issues)
+* Fixed issues with Git-Bash on windows
+
 ### 0.7.2 (2021-11-8)
 * Fixed Activation Events
 
