@@ -49,6 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const reset = vscode.commands.registerCommand("code-builder.reset", () => {
 		codeManager.reset();
+		updateGlobalState(context, "newBuildSystemMessage", undefined);
 	});
 
 	context.subscriptions.push(
@@ -62,7 +63,27 @@ export function activate(context: vscode.ExtensionContext) {
 		switchTerminal,
 		reset
 	);
+
+	//New Build System Messages
+	const showBuildSystemMessage = context.globalState.get("newBuildSystemMessage");
+	if (!showBuildSystemMessage) {
+		vscode.window.showInformationMessage("This Version of Code Builder comes with new Build System. If you face any issues then use \"Reset\" Command and try again"
+			, "Do not show this Message Again").then((resolved) => {
+				if (!resolved) {
+					return;
+				}
+
+				updateGlobalState(context, "newBuildSystemMessage", true);
+			});
+	}
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() { }
+
+/**
+ * Updates the Global State of Extension
+ */
+function updateGlobalState(context: vscode.ExtensionContext, key: string, value: any) {
+	context.globalState.update(key, value);
+}

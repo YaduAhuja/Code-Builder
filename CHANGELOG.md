@@ -1,5 +1,5 @@
-### 0.8.0 (2021-11-12)
-* Added a new Command to reset Executor Map
+### 0.8.0 (2021-11-16)
+* Added a new Command to reset Extension
 * Added the New Build System (Please reset Executor Map First to use this Build System without any issues)
 * Fixed issues with Git-Bash on windows
 
