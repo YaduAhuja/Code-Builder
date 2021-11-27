@@ -1,3 +1,7 @@
+### 0.8.1 (2021-11-27)
+* Added Settings Map
+* Fixed Typos in Readme
+
 ### 0.8.0 (2021-11-16)
 * Added a new Command to reset Extension
 * Added the New Build System (Please reset Executor Map First to use this Build System without any issues)

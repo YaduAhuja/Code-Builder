@@ -45,7 +45,7 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 **Note :** if you add an entry in executorMap make sure that language for which you added the entry is present in Language Selector as well otherwise run button will not show in editor.
 ```json
 {
-    "code-runner.executorMap": {
+    "code-builder.executorMap": {
 		"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 		"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 		"python": "cd $dir && python $fileName",
@@ -176,7 +176,7 @@ By Default the Code Builder provides the settings for cmd on Windows and Termina
 
 **Q :** `ts-node` Command not Found?
 
-**A :** Install the ts-node Globally by `npm install -g ts-node` on Windows and `sudo npm install -g ts-node`
+**A :** Install the ts-node Globally by `npm install -g ts-node` on Windows and `sudo npm install -g ts-node` on Mac/Linux.
 
 **Q :** Build Button not Showing in editor menu?
 
