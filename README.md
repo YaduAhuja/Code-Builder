@@ -73,7 +73,7 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 To set Custom Command which will be executed by `Run Custom Command` (Default is Given Below) :
 ```json
 {
-	"code-builder.customCommand": "echo hello"
+    "code-builder.customCommand": "echo hello"
 }
 ```
 

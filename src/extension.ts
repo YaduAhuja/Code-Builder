@@ -64,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
 		reset
 	);
 
-	//New Build System Messages
+	//New Build System Messages To be removed in 0.9.0
 	const showBuildSystemMessage = context.globalState.get("newBuildSystemMessage");
 	if (!showBuildSystemMessage) {
 		vscode.window.showInformationMessage("This Version of Code Builder comes with new Build System. If you face any issues then use \"Reset\" Command and try again"
