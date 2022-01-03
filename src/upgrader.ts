@@ -22,9 +22,12 @@ export default async function upgrade() {
 			// conf.update(preprocessKey, undefined);
 			count++;
 		} else {
-			console.log("Using default Value for " + preprocessKey);
+			if (debugDataFlag) {
+				console.log("Using default Value for " + preprocessKey);
+			}
 		}
 	}
+
 	if (debugDataFlag) {
 		console.log(count + " values changed");
 		console.log("After Upgrade");
