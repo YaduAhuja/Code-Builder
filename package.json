@@ -155,7 +155,7 @@
 		"menus": {
 			"editor/title/run": [
 				{
-					"when": "editorLangId in code-builder.languageSelector",
+					"when": "editorLangId in code-builder.build.languageSelector",
 					"command": "code-builder.buildAndRun"
 				}
 			]
@@ -167,55 +167,65 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Whether to save File before Run Command",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.saveFileBeforeRun"
 				},
 				"code-builder.preserveFocus": {
 					"type": "boolean",
 					"default": false,
 					"description": "Whether to preserve Focus when Build is called or not",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.preserveFocus"
 				},
 				"code-builder.customCommand": {
 					"type": "string",
 					"default": "echo hello",
 					"description": "Custom Command Which will be pushed to terminal Internal/External Based on Terminal Setting",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.customCommand"
 				},
 				"code-builder.clearTerminal": {
 					"type": "boolean",
 					"default": true,
 					"description": "whether to clear terminal before executing current command or not",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.clearTerminal"
 				},
 				"code-builder.classPath": {
 					"description": "ClassPath for Java Files(Set this through 'Set Input File path command')",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.java.classPath"
 				},
 				"code-builder.inputFilePath": {
 					"description": "Input File Path to be used in Run With IO(Set this through 'Set Input File path command')",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.inputFilePath"
 				},
 				"code-builder.outputFilePath": {
 					"description": "Output File Path to be used in Run With IO(Set this through 'Set Output File path command')",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.outputFilePath"
 				},
 				"code-builder.debugData": {
 					"type": "boolean",
 					"default": false,
 					"description": "Whether to Show the Debug Data in console or not",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.debugData"
 				},
 				"code-builder.runInExternalTerminal": {
 					"type": "boolean",
 					"default": false,
 					"description": "Whether to run Program in External Terminal",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.runInExternalTerminal"
 				},
 				"code-builder.useAutoClassPath": {
 					"type": "boolean",
 					"default": false,
 					"description": "Whether to use Automatic ClassPath\n Note: Experimental Feature",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.java.useAutoClassPath"
 				},
 				"code-builder.executorMap": {
 					"type": "object",
@@ -231,7 +241,8 @@
 						"r": "cd $dir && Rscript $fileName"
 					},
 					"description": "Executor Map which includes the Build commands for Languages",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.executorMap"
 				},
 				"code-builder.languageSelector": {
 					"type": "array",
@@ -250,9 +261,106 @@
 						"r"
 					],
 					"description": "Languages at which Code Builder will show Run Button",
-					"scope": "resource"
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.languageSelector"
 				},
 				"code-builder.enableAppInsights": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether to enable App Insights to track user Telemetry Data or not",
+					"scope": "resource",
+					"deprecationMessage": "Deprecated : Please use code-builder.build.enableAppInsights"
+				},
+				"code-builder.build.saveFileBeforeRun": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether to save File before Run Command",
+					"scope": "resource"
+				},
+				"code-builder.build.preserveFocus": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether to preserve Focus when Build is called or not",
+					"scope": "resource"
+				},
+				"code-builder.build.customCommand": {
+					"type": "string",
+					"default": "echo hello",
+					"description": "Custom Command Which will be pushed to terminal Internal/External Based on Terminal Setting",
+					"scope": "resource"
+				},
+				"code-builder.build.clearTerminal": {
+					"type": "boolean",
+					"default": true,
+					"description": "whether to clear terminal before executing current command or not",
+					"scope": "resource"
+				},
+				"code-builder.java.classPath": {
+					"description": "ClassPath for Java Files(Set this through 'Set Input File path command')",
+					"scope": "resource"
+				},
+				"code-builder.build.inputFilePath": {
+					"description": "Input File Path to be used in Run With IO(Set this through 'Set Input File path command')",
+					"scope": "resource"
+				},
+				"code-builder.build.outputFilePath": {
+					"description": "Output File Path to be used in Run With IO(Set this through 'Set Output File path command')",
+					"scope": "resource"
+				},
+				"code-builder.build.debugData": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether to Show the Debug Data in console or not",
+					"scope": "resource"
+				},
+				"code-builder.build.runInExternalTerminal": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether to run Program in External Terminal",
+					"scope": "resource"
+				},
+				"code-builder.java.useAutoClassPath": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether to use Automatic ClassPath\n Note: Experimental Feature",
+					"scope": "resource"
+				},
+				"code-builder.build.executorMap": {
+					"type": "object",
+					"default": {
+						"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
+						"python": "cd $dir && python $fileName",
+						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
+						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
+						"javascript": "cd $dir && node $fileName",
+						"typescript": "cd $dir && ts-node $fileName",
+						"ruby": "cd $dir && ruby $fileName",
+						"go": "cd $dir && go build $fileName && ./$fileNameWithoutExt",
+						"r": "cd $dir && Rscript $fileName"
+					},
+					"description": "Executor Map which includes the Build commands for Languages",
+					"scope": "resource"
+				},
+				"code-builder.build.languageSelector": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"java",
+						"python",
+						"cpp",
+						"c",
+						"javascript",
+						"typescript",
+						"ruby",
+						"go",
+						"r"
+					],
+					"description": "Languages at which Code Builder will show Run Button",
+					"scope": "resource"
+				},
+				"code-builder.build.enableAppInsights": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether to enable App Insights to track user Telemetry Data or not",

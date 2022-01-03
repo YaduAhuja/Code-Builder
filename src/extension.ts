@@ -3,7 +3,7 @@
 import * as vscode from "vscode";
 import { CodeManager } from "./codeManager";
 
-// this method is Scalled when your extension is activated
+// this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 	const codeManager = new CodeManager();
@@ -49,7 +49,26 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const reset = vscode.commands.registerCommand("code-builder.reset", () => {
 		codeManager.reset();
+		//to be Removed in 0.9.1	
 		updateGlobalState(context, "newBuildSystemMessage", undefined);
+
+		// Dummy Code for Upgrader for testing purpose
+		// const conf = vscode.workspace.getConfiguration("code-builder");
+		// const obj = {
+		// 	"code-builder.inputFilePath": "code-builder.build.inputFilePath",
+		// 	"code-builder.outputFilePath": "code-builder.build.outputFilePath",
+		// };
+		// console.log(conf);
+		// const matcher = /code-builder./g;
+		// for (const [key, value] of Object.entries(obj)) {
+		// 	const preprocessKey = key.replace(matcher, "").trim();
+		// 	const preprocessValue = value.replace(matcher, "").trim();
+		// 	console.log("Upgrading Value from " + preprocessKey + " to " + preprocessValue);
+		// 	conf.update(preprocessValue, conf.get(preprocessKey));
+		// 	conf.update(preprocessKey, undefined);
+		// }
+
+		// console.log(conf);
 	});
 
 	context.subscriptions.push(
@@ -64,18 +83,18 @@ export function activate(context: vscode.ExtensionContext) {
 		reset
 	);
 
-	//New Build System Messages To be removed in 0.9.0
-	const showBuildSystemMessage = context.globalState.get("newBuildSystemMessage");
-	if (!showBuildSystemMessage) {
-		vscode.window.showInformationMessage("This Version of Code Builder comes with new Build System. If you face any issues then use \"Reset\" Command and try again"
-			, "Do not show this Message Again").then((resolved) => {
-				if (!resolved) {
-					return;
-				}
+	//New Build System Messages To be removed in 0.9.0 (Removed)
+	// const showBuildSystemMessage = context.globalState.get("newBuildSystemMessage");
+	// if (!showBuildSystemMessage) {
+	// 	vscode.window.showInformationMessage("This Version of Code Builder comes with new Build System. If you face any issues then use \"Reset\" Command and try again"
+	// 		, "Do not show this Message Again").then((resolved) => {
+	// 			if (!resolved) {
+	// 				return;
+	// 			}
 
-				updateGlobalState(context, "newBuildSystemMessage", true);
-			});
-	}
+	// 			updateGlobalState(context, "newBuildSystemMessage", true);
+	// 		});
+	// }
 }
 
 // this method is called when your extension is deactivated

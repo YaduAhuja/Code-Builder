@@ -8,6 +8,7 @@ import { mapExternalCommand } from './terminal';
 import { ChildProcess, exec } from 'child_process';
 import { getBuildCommand } from './builder';
 import terminate from 'terminate';
+import upgrade from './upgrader';
 
 export class CodeManager implements vscode.Disposable {
 	private _config: vscode.WorkspaceConfiguration;
@@ -22,6 +23,7 @@ export class CodeManager implements vscode.Disposable {
 	private _statusBarWidget: vscode.StatusBarItem | undefined;
 
 	constructor() {
+		upgrade();
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		this.initializeStatusBarWidget();
 		this.setContext();
@@ -40,14 +42,14 @@ export class CodeManager implements vscode.Disposable {
 		this._statusBarWidget = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right);
 		this._statusBarWidget.command = "code-builder.switchTerminal";
 		this._statusBarWidget.tooltip = "Code Builder Terminal Type";
-		utils.refreshStatusBarWidget(this._statusBarWidget, this._config.get<boolean>("runInExternalTerminal"));
+		utils.refreshStatusBarWidget(this._statusBarWidget, this._config.get<boolean>("build.runInExternalTerminal"));
 	}
 
 	/**
 	 * Lazy Loads App Insights as and when needed
 	 */
 	private async lazyLoadAppInsights(): Promise<void> {
-		if (this._config.get<boolean>("enableAppInsights")) {
+		if (this._config.get<boolean>("build.enableAppInsights")) {
 			if (this._appInsightsClient) {
 				return;
 			}
@@ -108,7 +110,7 @@ export class CodeManager implements vscode.Disposable {
 
 		const document = this.initialize();
 		this.logTelemetry("customCommand", document?.languageId);
-		const executor = this._config.get<string>("customCommand");
+		const executor = this._config.get<string>("build.customCommand");
 		if (!executor || executor.trim().length === 0) {
 			return;
 		}
@@ -117,7 +119,7 @@ export class CodeManager implements vscode.Disposable {
 
 	public async stopBuild(): Promise<void> {
 		this.logTelemetry("stopBuild");
-		if (this._config.get<boolean>("runInExternalTerminal")) {
+		if (this._config.get<boolean>("build.runInExternalTerminal")) {
 			if (this._externalProcess) {
 				if (platform() === "win32") {
 					if (this._externalProcess.pid) {
@@ -143,8 +145,8 @@ export class CodeManager implements vscode.Disposable {
 	 */
 
 	public async switchTerminal(): Promise<void> {
-		const val = !this._config.get<boolean>("runInExternalTerminal");
-		await this._config.update("runInExternalTerminal", val, 1);
+		const val = !this._config.get<boolean>("build.runInExternalTerminal");
+		await this._config.update("build.runInExternalTerminal", val, 1);
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		utils.refreshStatusBarWidget(this._statusBarWidget, val);
 	}
@@ -154,11 +156,11 @@ export class CodeManager implements vscode.Disposable {
 	 */
 
 	public async reset(): Promise<void> {
-		const val = this._config.get<Object>("executorMap");
+		const val = this._config.get<Object>("build.executorMap");
 		if (!val) {
 			return;
 		}
-		await this._config.update("executorMap", undefined, 1);
+		await this._config.update("build.executorMap", undefined, 1);
 		this._config = vscode.workspace.getConfiguration("code-builder");
 	}
 
@@ -177,18 +179,18 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		this._config = vscode.workspace.getConfiguration("code-builder");
-		this._classPath = this._config.get<string>("classPath");
-		this._inputFilePath = this._config.get<string>("inputFilePath");
-		this._outputFilePath = this._config.get<string>("outputFilePath");
-		const executorMap = this._config.get<object>("executorMap");
+		this._classPath = this._config.get<string>("java.classPath");
+		this._inputFilePath = this._config.get<string>("build.inputFilePath");
+		this._outputFilePath = this._config.get<string>("build.outputFilePath");
+		const executorMap = this._config.get<object>("build.executorMap");
 		if (executorMap) {
 			this._languagesArr = Object.keys(executorMap);
 		}
 
-		if (this._config.get<boolean>("debugData")) {
+		if (this._config.get<boolean>("build.debugData")) {
 			this.logDebugData(document);
 		}
-		if (this._config.get<boolean>("saveFileBeforeRun")) {
+		if (this._config.get<boolean>("build.saveFileBeforeRun")) {
 			document.save();
 		}
 
@@ -203,7 +205,7 @@ export class CodeManager implements vscode.Disposable {
 
 	private async checkInputOutputFilePaths(): Promise<boolean> {
 		if (this._inputFilePath === "" || !this._inputFilePath) {
-			const response = await this.configModifierFromFileFolderPicker("inputFilePath", "Select The Input File");
+			const response = await this.configModifierFromFileFolderPicker("build.inputFilePath", "Select The Input File");
 			if (response) {
 				this._inputFilePath = response;
 			} else {
@@ -211,7 +213,7 @@ export class CodeManager implements vscode.Disposable {
 			}
 		}
 		if (this._outputFilePath === "" || !this._outputFilePath) {
-			const response = await this.configModifierFromFileFolderPicker("outputFilePath", "select the Output File");
+			const response = await this.configModifierFromFileFolderPicker("build.outputFilePath", "select the Output File");
 			if (response) {
 				this._outputFilePath = response;
 			} else {
@@ -226,7 +228,7 @@ export class CodeManager implements vscode.Disposable {
 	 *  sets the ClassPath for Java Source Files
 	 */
 	public setClassPath(): void {
-		this.configModifierFromFileFolderPicker("classPath", "Select the ClassPath Directory", true, false)
+		this.configModifierFromFileFolderPicker("java.classPath", "Select the ClassPath Directory", true, false)
 			.then((uri) => {
 				this._classPath = uri;
 			});
@@ -236,14 +238,14 @@ export class CodeManager implements vscode.Disposable {
 	 *  sets the Input File Path
 	 */
 	public setInputFilePath(): void {
-		this.configModifierFromFileFolderPicker("inputFilePath", "Select Input File", false, false);
+		this.configModifierFromFileFolderPicker("build.inputFilePath", "Select Input File", false, false);
 	}
 
 	/**
 	 *  sets the Output File Path
 	 */
 	public setOutputFilePath(): void {
-		this.configModifierFromFileFolderPicker("outputFilePath", "Select Output File", false, false);
+		this.configModifierFromFileFolderPicker("build.outputFilePath", "Select Output File", false, false);
 	}
 
 	/**
@@ -252,7 +254,7 @@ export class CodeManager implements vscode.Disposable {
 	private logDebugData(codeFile: vscode.TextDocument): void {
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
-		console.log("Is AppInsights Enabled :" + this._config.get<boolean>("enableAppInsights"));
+		console.log("Is AppInsights Enabled :" + this._config.get<boolean>("build.enableAppInsights"));
 		console.log("App Insights Client :" + this._appInsightsClient);
 		console.log("FS Path : " + codeFile.uri.fsPath);
 		console.log("Qualified Name : " + this.getQualifiedName(codeFile));
@@ -260,7 +262,7 @@ export class CodeManager implements vscode.Disposable {
 		console.log("Dirname : " + this.getDirName());
 		console.log("Workspace Folder : " + this.getWorkspaceFolder(codeFile));
 		console.log("Languages Arr :" + this._languagesArr);
-		console.log("Custom Command :" + this._config.get<string>("customCommand"));
+		console.log("Custom Command :" + this._config.get<string>("build.customCommand"));
 		console.log("Shell : " + vscode.env.shell);
 		console.log("Terminals : " + JSON.stringify(vscode.window.terminals));
 		console.log("External Terminals : " + JSON.stringify(vscode.workspace.getConfiguration("terminal.external")));
@@ -270,7 +272,7 @@ export class CodeManager implements vscode.Disposable {
 	 * Checks for Previous runs in External Terminal
 	 */
 	private isRunning(): boolean {
-		if (this._config.get<boolean>("runInExternalTerminal") && this._externalProcess) {
+		if (this._config.get<boolean>("build.runInExternalTerminal") && this._externalProcess) {
 			vscode.window.showInformationMessage("Build is Already Running");
 			return true;
 		}
@@ -299,7 +301,7 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	private getExecutor(languageId: string) {
-		const executorMap = this._config.get<any>("executorMap");
+		const executorMap = this._config.get<any>("build.executorMap");
 		const executor = executorMap[languageId];
 
 		if (!executor) {
@@ -337,7 +339,7 @@ export class CodeManager implements vscode.Disposable {
 	 *  set in the Project (Default is .)
 	 */
 	private getQualifiedName(codeFile: vscode.TextDocument): string {
-		if (this._config.get<boolean>("useAutoClassPath")) {
+		if (this._config.get<boolean>("java.useAutoClassPath")) {
 			return this.getAdvancedQualifiedName(codeFile);
 		}
 		const classPath = this.getClassPath();
@@ -509,8 +511,8 @@ export class CodeManager implements vscode.Disposable {
 	 *  Documentation : https://code.visualstudio.com/api/references/when-clause-contexts
 	 */
 	private setContext(): void {
-		vscode.commands.executeCommand('setContext', 'code-builder.languageSelector',
-			this._config.get<any>("languageSelector"));
+		vscode.commands.executeCommand('setContext', 'code-builder.build.languageSelector',
+			this._config.get<any>("build.languageSelector"));
 	}
 
 	/**
@@ -522,13 +524,13 @@ export class CodeManager implements vscode.Disposable {
 			executor = this.mapPlaceHoldersInExecutor(executor, document);
 		}
 
-		if (this._config.get<boolean>("runInExternalTerminal")) {
+		if (this._config.get<boolean>("build.runInExternalTerminal")) {
 			this.runCommandInExternalTerminal(executor);
 		} else {
 			this.runCommandInInternalTerminal(executor);
 		}
 		// Code before 0.6.0
-		// if (this._config.get<boolean>("runInExternalTerminal")) {
+		// if (this._config.get<boolean>("build.runInExternalTerminal")) {
 		// 	if (isIOCommand) {
 		// 		executor = utils.addIOArgs(executor, true);
 		// 	}
@@ -553,7 +555,7 @@ export class CodeManager implements vscode.Disposable {
 	 * @returns Modified Executor based on Terminal  
 	 */
 	private performTerminalChecks(executor: string, isIOCommand: boolean = false) {
-		const runInExternal = this._config.get<boolean>("runInExternalTerminal");
+		const runInExternal = this._config.get<boolean>("build.runInExternalTerminal");
 		const exec = getBuildCommand(executor, vscode.env.shell, vscode.workspace.getConfiguration("terminal.external"), runInExternal, isIOCommand);
 		return exec;
 	}
@@ -566,11 +568,11 @@ export class CodeManager implements vscode.Disposable {
 			this._terminal = vscode.window.createTerminal("Code-Builder");
 		}
 
-		if (this._config.get<boolean>("clearTerminal")) {
+		if (this._config.get<boolean>("build.clearTerminal")) {
 			utils.clearTerminal(this._terminal);
 		}
 		utils.sendTextToTerminal(executor, this._terminal);
-		this._terminal.show(this._config.get<boolean>("preserveFocus"));
+		this._terminal.show(this._config.get<boolean>("build.preserveFocus"));
 	}
 
 	/**
@@ -608,7 +610,7 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		const properties: any = {
-			usingAutoClassPath: this._config.get<boolean>("useAutoClassPath") ? true : false,
+			usingAutoClassPath: this._config.get<boolean>("java.useAutoClassPath") ? true : false,
 			usingExternalTerminal: this._config.get<boolean>("useExternalTerminal") ? true : false,
 			languageId: languageId,
 			terminal: vscode.env.shell,

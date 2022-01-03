@@ -63,7 +63,7 @@ function getExecutorForTerminal(executor: string, terminal: string): string {
  * otherwise it will not change the executor
  */
 function modifyForPowershell(executor: string): string {
-	//Currently the Powershell does'nt supports the '&&' Operator but
+	//Currently the Powershell does not supports the '&&' Operator but
 	//it will be available in powershell 7
 
 	executor = executor.replace(/&&/g, ";");
