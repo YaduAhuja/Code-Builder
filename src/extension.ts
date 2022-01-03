@@ -47,10 +47,12 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.switchTerminal();
 	});
 
+	//Created in 0.9.0 to remove Build System keys
+	// to be Removed in 0.10 
+	updateGlobalState(context, "newBuildSystemMessage", undefined);
+
 	const reset = vscode.commands.registerCommand("code-builder.reset", () => {
 		codeManager.reset();
-		//to be Removed in 0.9.1	
-		updateGlobalState(context, "newBuildSystemMessage", undefined);
 
 		// Dummy Code for Upgrader for testing purpose
 		// const conf = vscode.workspace.getConfiguration("code-builder");
