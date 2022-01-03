@@ -23,8 +23,8 @@ export class CodeManager implements vscode.Disposable {
 	private _statusBarWidget: vscode.StatusBarItem | undefined;
 
 	constructor() {
-		upgrade();
 		this._config = vscode.workspace.getConfiguration("code-builder");
+		upgrade();
 		this.initializeStatusBarWidget();
 		this.setContext();
 		this.checkForOpenTerminal();

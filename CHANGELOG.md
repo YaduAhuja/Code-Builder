@@ -1,3 +1,8 @@
+### 0.9.0 (2022-01-03)
+* Modified the Settings Now the Language Specific Settings are categorized according to language and others are in build category
+* Removed the Build System Notification
+* Previous Settings are marked as Deprecated
+
 ### 0.8.1 (2021-11-27)
 * Added Settings Map
 * Fixed Typos in Readme

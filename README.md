@@ -40,12 +40,12 @@ Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ru
 ## Configuration:
 
 Make sure the executor PATH of each language is set in the environment variable.
-You could also add entry into `code-builder.executorMap` to set the executor PATH.
+You could also add entry into `code-builder.build.executorMap` to set the executor PATH.
 
 **Note :** if you add an entry in executorMap make sure that language for which you added the entry is present in Language Selector as well otherwise run button will not show in editor.
 ```json
 {
-    "code-builder.executorMap": {
+    "code-builder.build.executorMap": {
 		"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 		"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
 		"python": "cd $dir && python $fileName",
@@ -73,7 +73,7 @@ You could also add entry into `code-builder.executorMap` to set the executor PAT
 To set Custom Command which will be executed by `Run Custom Command` (Default is Given Below) :
 ```json
 {
-    "code-builder.customCommand": "echo hello"
+    "code-builder.build.customCommand": "echo hello"
 }
 ```
 
@@ -83,35 +83,35 @@ To set the languages at which the run button will show(Default is Given Below):
 
 ```json
 {
-    "code-builder.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby", "go", "r"]
+    "code-builder.build.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby", "go", "r"]
 }
 ``` 
 
 To set whether to save the current file before running (default is true):
 ```json
 {
-    "code-builder.saveFileBeforeRun": true
+    "code-builder.build.saveFileBeforeRun": true
 }
 ```
 
 To set Whether to log the Debug data in Console (default is false):
 ```json
 {
-    "code-builder.debugData": false
+    "code-builder.build.debugData": false
 }
 ```
 
 To set Whether to Clear the Terminal before Every Run (default is true):
 ```json
 {
-    "code-builder.clearTerminal": true
+    "code-builder.build.clearTerminal": true
 }
 ```
 
 To set Whether to Preserve Focus at every run or not (default is false):
 ```json
 {
-    "code-builder.preserveFocus": false
+    "code-builder.build.preserveFocus": false
 }
 ```
 
@@ -119,7 +119,7 @@ To set Whether to use Automatic Class Path Detection (default is false):
 **Note :** This is an Experimental Feature and may have some issues
 ```json
 {
-    "code-builder.useAutoClassPath": false
+    "code-builder.build.useAutoClassPath": false
 }
 ```
 
@@ -129,7 +129,7 @@ To set ClassPath for Java Source Files which will be Replaced with **$classPath*
 
 ```json
 {
-    "code-builder.classPath": "."
+    "code-builder.java.classPath": "."
 }
 ```
 To set Input File Path which will be replaced with **$inputFilePath** (default is "") :
@@ -138,7 +138,7 @@ To set Input File Path which will be replaced with **$inputFilePath** (default i
 
 ```json
 {
-    "code-builder.inputFilePath": ""
+    "code-builder.build.inputFilePath": ""
 }
 ```
 
@@ -148,7 +148,7 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
 
 ```json
 {
-    "code-builder.outputFilePath": ""
+    "code-builder.build.outputFilePath": ""
 }
 ```
 
@@ -156,7 +156,7 @@ To set Whether to enable App Insights to track user Telemetry data (default is t
 
 ```json
 {
-    "code-builder.enableAppInsights": true
+    "code-builder.build.enableAppInsights": true
 }
 ```
 
