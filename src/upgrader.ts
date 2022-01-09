@@ -8,18 +8,19 @@ export default async function upgrade() {
 		console.log("Before Upgrade");
 		console.log(conf);
 	}
-	const matcher = /code-builder./g;
+	const prefix = "code-builder.";
 	let count = 0;
 	for (const [key, value] of Object.entries(settings)) {
-		const preprocessKey = key.replace(matcher, "").trim();
-		const preprocessValue = value[0].toString().replace(matcher, "").trim();
+		const preprocessKey = key.substring(prefix.length);
+		const preprocessValue = value[0].toString().substring(prefix.length);
 		const val = conf.get(preprocessKey);
+
 		if (val !== undefined && val !== null && !assertValue(val, conf.get(preprocessValue))) {
 			if (debugDataFlag) {
 				console.log("Upgrading Value from " + preprocessKey + " to " + preprocessValue);
 			}
-			conf.update(preprocessValue, conf.get(preprocessKey), value[1] === 1 ? true : false);
-			// conf.update(preprocessKey, undefined);
+			conf.update(preprocessValue, conf.get(preprocessKey), value[1] === 1 ? 1 : undefined);
+			conf.update(preprocessKey, undefined, value[1] === 1 ? 1 : undefined);
 			count++;
 		} else {
 			if (debugDataFlag) {

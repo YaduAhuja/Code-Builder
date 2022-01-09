@@ -9,6 +9,7 @@ import { ChildProcess, exec } from 'child_process';
 import { getBuildCommand } from './builder';
 import terminate from 'terminate';
 import upgrade from './upgrader';
+import settings from './settings';
 
 export class CodeManager implements vscode.Disposable {
 	private _config: vscode.WorkspaceConfiguration;
@@ -156,12 +157,14 @@ export class CodeManager implements vscode.Disposable {
 	 */
 
 	public async reset(): Promise<void> {
-		const val = this._config.get<Object>("build.executorMap");
-		if (!val) {
-			return;
+		const prefix = "code-builder.";
+		for (const [key, value] of Object.entries(settings)) {
+			const preprocessKey = key.substring(prefix.length);
+			const preprocessValue = value[0].toString().substring(prefix.length);
+
+			this._config.update(preprocessKey, undefined, value[1] === 1 ? 1 : undefined);
+			this._config.update(preprocessValue, undefined, value[1] === 1 ? 1 : undefined);
 		}
-		await this._config.update("build.executorMap", undefined, 1);
-		this._config = vscode.workspace.getConfiguration("code-builder");
 	}
 
 	/**

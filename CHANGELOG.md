@@ -2,6 +2,7 @@
 * Modified the Settings Now the Language Specific Settings are categorized according to language and others are in build category
 * Removed the Build System Notification
 * Previous Settings are marked as Deprecated
+* Now the reset Command resets the whole extension's Settings
 
 ### 0.8.1 (2021-11-27)
 * Added Settings Map
