@@ -8,14 +8,21 @@ export default async function upgrade() {
 		console.log("Before Upgrade");
 		console.log(conf);
 	}
+
+	const defaultSettings = vscode.extensions.getExtension("YaduAhuja.code-builder")?.packageJSON.contributes.configuration.properties;
 	const prefix = "code-builder.";
 	let count = 0;
+	/**
+	 * If not using the Default Value then it copies and paste 
+	 * the old setting value to new setting value
+	 * and removes the old setting value
+	 */
 	for (const [key, value] of Object.entries(settings)) {
 		const preprocessKey = key.substring(prefix.length);
 		const preprocessValue = value[0].toString().substring(prefix.length);
 		const val = conf.get(preprocessKey);
 
-		if (val !== undefined && val !== null && !assertValue(val, conf.get(preprocessValue))) {
+		if (val !== undefined && val !== null && !assertValue(val, defaultSettings[key].default)) {
 			if (debugDataFlag) {
 				console.log("Upgrading Value from " + preprocessKey + " to " + preprocessValue);
 			}
