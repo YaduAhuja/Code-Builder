@@ -180,7 +180,7 @@ By Default the Code Builder provides the settings for cmd on Windows and Termina
 
 **Q :** Build Button not Showing in editor menu?
 
-**A :** Make Sure that the language you are using is present in Code Builder's Language Selector setting. If it is not present then add it. Make sure it complies with visual studio's Language identifiers. Here is the List of [Identifiers.](https://code.visualstudio.com/docs/languages/identifiers)
+**A :** Make Sure that the language you are using is present in Code Builder's Language Selector setting. If it is not present then add it. Make sure it complies with visual studio's Language identifiers. Here is the List of [Identifiers.](https://code.visualstudio.com/docs/languages/identifiers#_known-language-identifiers)
 
 ## Release Notes
 Refer to [CHANGELOG](CHANGELOG.md)
