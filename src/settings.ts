@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
+
 // Old Setting Key to new Setting Value Object
 // Along with global or workspace Modifier
 

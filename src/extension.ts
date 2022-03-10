@@ -48,7 +48,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	//Created in 0.9.0 to remove Build System keys
-	// to be Removed in 0.10 
+	// to be Removed in 0.11 
 	updateGlobalState(context, "newBuildSystemMessage", undefined);
 
 	const reset = vscode.commands.registerCommand("code-builder.reset", () => {

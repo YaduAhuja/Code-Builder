@@ -365,6 +365,12 @@
 					"default": true,
 					"description": "Whether to enable App Insights to track user Telemetry Data or not",
 					"scope": "resource"
+				},
+				"code-builder.c/CPP.compilerArgs": {
+					"type": "string",
+					"default": "",
+					"description": "Compiler Arguments for C/CPP source files",
+					"scope": "resource"
 				}
 			}
 		}
