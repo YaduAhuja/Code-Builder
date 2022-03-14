@@ -330,8 +330,8 @@
 					"default": {
 						"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 						"python": "cd $dir && python $fileName",
-						"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
-						"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
+						"c": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",
+						"cpp": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",
 						"javascript": "cd $dir && node $fileName",
 						"typescript": "cd $dir && ts-node $fileName",
 						"ruby": "cd $dir && ruby $fileName",
@@ -366,10 +366,16 @@
 					"description": "Whether to enable App Insights to track user Telemetry Data or not",
 					"scope": "resource"
 				},
-				"code-builder.c/CPP.compilerArgs": {
+				"code-builder.cpp.compilerArgs": {
 					"type": "string",
 					"default": "",
-					"description": "Compiler Arguments for C/CPP source files",
+					"description": "Compiler Arguments for CPP source files",
+					"scope": "resource"
+				},
+				"code-builder.c.compilerArgs": {
+					"type": "string",
+					"default": "",
+					"description": "Compiler Arguments for C source files",
 					"scope": "resource"
 				}
 			}

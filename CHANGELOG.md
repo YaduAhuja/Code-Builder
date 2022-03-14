@@ -1,3 +1,7 @@
+### 0.9.1 (2022-03-15)
+* Added a new Compiler Arguments
+* Added a new Setting for the C/CPP Compiler Arguments
+
 ### 0.9.0 (2022-01-03)
 * Modified the Settings Now the Language Specific Settings are categorized according to language and others are in build category
 * Removed the Build System Notification

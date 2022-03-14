@@ -60,11 +60,12 @@ You could also add entry into `code-builder.build.executorMap` to set the execut
 ```
 
 **Supported customized parameters**
-  * **$dir**: The directory of the code file being run
-  * **$fileName**: The base name of the code file being run, that is the file without the directory
-  * **$fileNameWithoutExt**: The base name of the code file being run without its extension
-  * **$classPath**: the ClassPath for Java Source Files
-  * **$qualifiedName**: The qualified name of the code file for Java
+  * **$dir:** The directory of the code file being run
+  * **$fileName:** The base name of the code file being run, that is the file without the directory
+  * **$fileNameWithoutExt:** The base name of the code file being run without its extension
+  * **$compilerArgs:** The Compiler Arguments for the Code File
+  * **$classPath:** the ClassPath for Java Source Files
+  * **$qualifiedName:** The qualified name of the Java code file
 
 **Please take care of the back slash and the space in file path of the executor**
   * Back slash: please use `\\`
@@ -115,23 +116,6 @@ To set Whether to Preserve Focus at every run or not (default is false):
 }
 ```
 
-To set Whether to use Automatic Class Path Detection (default is false):
-**Note :** This is an Experimental Feature and may have some issues
-```json
-{
-    "code-builder.build.useAutoClassPath": false
-}
-```
-
-To set ClassPath for Java Source Files which will be Replaced with **$classPath** (default is "." , the JVM will use Current Director as ClassPath) :
-
-**Note :** Edit this setting through **Set Class Path** command only
-
-```json
-{
-    "code-builder.java.classPath": "."
-}
-```
 To set Input File Path which will be replaced with **$inputFilePath** (default is "") :
 
 **Note :** Edit this setting through **Set Input File Path** command only
@@ -159,6 +143,41 @@ To set Whether to enable App Insights to track user Telemetry data (default is t
     "code-builder.build.enableAppInsights": true
 }
 ```
+
+
+### **Language Specific Configuration:**
+- #### **C**
+	To set what Compiler Argument to use with C Build Command
+	```json
+	{
+		"code-builder.c.compilerArgs": ""
+	}
+	```
+- #### **CPP**
+	To set what Compiler Argument to use with CPP Build Command
+	```json
+	{
+		"code-builder.cpp.compilerArgs": ""
+	}
+	```
+- #### **Java**
+	To set Whether to use Automatic Class Path Detection (default is false):
+	**Note :** This is an Experimental Feature and may have some issues
+	```json
+	{
+    	"code-builder.java.useAutoClassPath": false
+	}
+	```
+
+	To set ClassPath for Java Source Files which will be Replaced with **$classPath** (default is "." , the JVM will use Current Director as ClassPath) :
+
+	**Note :** Edit this setting through **Set Class Path** command only
+
+	```json
+	{
+		"code-builder.java.classPath": "."
+	}
+	```
 
 ## External Terminals Support:
 By Default the Code Builder provides the settings for cmd on Windows and Terminal app on MAC. But if you want to change the external terminal you can do so by going in `Preferences -> Terminal -> External` and Copying and Pasting the name of External Terminal for your Environment. Here is the List of Names which are Supported.

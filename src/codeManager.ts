@@ -263,7 +263,7 @@ export class CodeManager implements vscode.Disposable {
 		console.log("Qualified Name : " + this.getQualifiedName(codeFile));
 		console.log("ClassPath: " + this.getClassPath());
 		console.log("Dirname : " + this.getDirName());
-		console.log("C/CPP Compiler Args : " + this.getCPPCompilerArgs());
+		console.log("Compiler Args : " + this.getCompilerArgs(codeFile, true));
 		console.log("Workspace Folder : " + this.getWorkspaceFolder(codeFile));
 		console.log("Languages Arr :" + this._languagesArr);
 		console.log("Custom Command :" + this._config.get<string>("build.customCommand"));
@@ -368,12 +368,14 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	/**
-	 * @returns Compiler Arguments for C/CPP Source Files
+	 * @returns Compiler Arguments for Source Files respectivve to their language Id
 	 */
-	private getCPPCompilerArgs(): string {
-		let args: string | undefined = "";
-		args = this._config.get<string>("c/CPP.compilerArgs");
-		return args || "";
+	private getCompilerArgs(codeFile: vscode.TextDocument, debug: boolean = false): string {
+		const argSettingKey = `${codeFile.languageId}.compilerArgs`;
+		if (debug) {
+			console.log(`Compiler Args Setting Key : ${argSettingKey}`);
+		}
+		return this._config.get<string>(argSettingKey) || "";
 	}
 
 
@@ -513,7 +515,7 @@ export class CodeManager implements vscode.Disposable {
 			{ regex: /\$dir/g, replaceValue: utils.getInEnclosedQuotes(this.getWorkspaceDir(codeFile.uri.fsPath)) },
 
 			// A placeholder that has to be replaced by the compiler arguments for the source files
-			{ regex: /\$compilerArgs/g, replaceValue: this.getCPPCompilerArgs() }
+			{ regex: /\$compilerArgs/g, replaceValue: this.getCompilerArgs(codeFile) }
 		];
 
 		placeholders.forEach((placeholder) => {
