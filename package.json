@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Run C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go Code files With & Without Input/Output Files",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {

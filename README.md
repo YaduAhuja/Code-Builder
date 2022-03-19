@@ -46,8 +46,8 @@ You could also add entry into `code-builder.build.executorMap` to set the execut
 ```json
 {
     "code-builder.build.executorMap": {
-		"c": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-		"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+		"c": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",
+		"cpp": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",
 		"python": "cd $dir && python $fileName",
 		"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
 		"javascript": "cd $dir && node $fileName",
@@ -69,7 +69,7 @@ You could also add entry into `code-builder.build.executorMap` to set the execut
 
 **Please take care of the back slash and the space in file path of the executor**
   * Back slash: please use `\\`
-  * If there ares spaces in file path, please use `\"` to surround your file path
+  * If there are spaces in file path, please use `\"` to surround your file path
 
 To set Custom Command which will be executed by `Run Custom Command` (Default is Given Below) :
 ```json
