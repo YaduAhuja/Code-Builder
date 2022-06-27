@@ -11,8 +11,6 @@ import terminate from 'terminate';
 import upgrade from './upgrader';
 import settings from './settings';
 
-let appInsightsClient: any = undefined;
-
 export class CodeManager implements vscode.Disposable {
 	private _config: vscode.WorkspaceConfiguration;
 	private _classPath: string | undefined;
@@ -24,15 +22,17 @@ export class CodeManager implements vscode.Disposable {
 	private _languagesArr: Array<string> | undefined;
 	private _statusBarWidget: vscode.StatusBarItem | undefined;
 	private _isTelemetryEnabled: boolean;
+	private _appInsightsClient: any;
 
 	constructor() {
 		this._config = vscode.workspace.getConfiguration("code-builder");
+		this._isTelemetryEnabled = vscode.env.isTelemetryEnabled;
 		upgrade();
 		this.initializeStatusBarWidget();
 		this.setContext();
 		this.checkForOpenTerminal();
 		this.lazyLoadAppInsights();
-		this._isTelemetryEnabled = vscode.env.isTelemetryEnabled;
+		console.log("Loaded" + this);
 	}
 
 	public onDidTerminalClosed() {
@@ -58,11 +58,11 @@ export class CodeManager implements vscode.Disposable {
 	 */
 	private async lazyLoadAppInsights(): Promise<void> {
 		if (this._isTelemetryEnabled && this._config.get<boolean>("build.enableAppInsights")) {
-			if (appInsightsClient) {
+			if (this._appInsightsClient) {
 				return;
 			}
 			const appInsights = await import("./appInsights");
-			appInsightsClient = new appInsights.AppInsights();
+			this._appInsightsClient = new appInsights.AppInsights();
 		}
 	}
 
@@ -279,7 +279,7 @@ export class CodeManager implements vscode.Disposable {
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
 		console.log("Is AppInsights Enabled :" + this._config.get<boolean>("build.enableAppInsights"));
-		console.log("App Insights Client :" + appInsightsClient);
+		console.log("App Insights Client :" + this._appInsightsClient);
 		console.log("FS Path : " + codeFile.uri.fsPath);
 		console.log("Qualified Name : " + this.getQualifiedName(codeFile));
 		console.log("ClassPath: " + this.getClassPath());
@@ -649,7 +649,7 @@ export class CodeManager implements vscode.Disposable {
 	 */
 	private async logTelemetry(event: string, languageId?: string): Promise<void> {
 		//creating Telemetry Data
-		if (!appInsightsClient || !this._isTelemetryEnabled) {
+		if (!this._appInsightsClient || !this._isTelemetryEnabled) {
 			return;
 		}
 
@@ -660,8 +660,7 @@ export class CodeManager implements vscode.Disposable {
 			terminal: vscode.env.shell,
 			version: vscode.extensions.getExtension("yaduahuja.code-builder")?.packageJSON.version,
 		};
-
-		appInsightsClient.sendEvent(event, properties);
+		this._appInsightsClient.sendEvent(event, properties);
 	}
 
 	dispose(): void {
