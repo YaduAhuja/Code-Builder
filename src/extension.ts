@@ -15,6 +15,10 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.onDidTerminalClosed();
 	});
 
+	vscode.env.onDidChangeTelemetryEnabled((isTelemetryEnabled) => {
+		codeManager.onDidChangeTelemetryEnabled(isTelemetryEnabled);
+	});
+
 	const buildAndRun = vscode.commands.registerCommand("code-builder.buildAndRun", () => {
 		codeManager.buildAndRun();
 	});
@@ -47,7 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.switchTerminal();
 	});
 
-	//Created in 0.9.0 to remove Build System keys
+	// Created in 0.9.0 to remove Build System keys
 	// to be Removed in 0.11 
 	updateGlobalState(context, "newBuildSystemMessage", undefined);
 
@@ -85,7 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
 		reset
 	);
 
-	//New Build System Messages To be removed in 0.9.0 (Removed)
+	// New Build System Messages To be removed in 0.9.0 (Removed)
 	// const showBuildSystemMessage = context.globalState.get("newBuildSystemMessage");
 	// if (!showBuildSystemMessage) {
 	// 	vscode.window.showInformationMessage("This Version of Code Builder comes with new Build System. If you face any issues then use \"Reset\" Command and try again"
