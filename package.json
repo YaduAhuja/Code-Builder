@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Run C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go Code files With & Without Input/Output Files",
-	"version": "0.9.2",
+	"version": "0.10.0",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -61,6 +61,7 @@
 		"onCommand:code-builder.setClassPath",
 		"onCommand:code-builder.setInputFilePath",
 		"onCommand:code-builder.setOutputFilePath",
+		"onCommand:code-builder.setProjectBuildCommand",
 		"onCommand:code-builder.switchTerminal",
 		"onCommand:code-builder.reset",
 		"onStartupFinished"
@@ -118,6 +119,11 @@
 				"title": "Set Output File Path"
 			},
 			{
+				"command": "code-builder.setProjectBuildCommand",
+				"category": "Code Builder",
+				"title": "Set Project Build Command"
+			},
+			{
 				"command": "code-builder.switchTerminal",
 				"category": "Code Builder",
 				"title": "Switches the Terminal"
@@ -156,6 +162,10 @@
 			{
 				"command": "code-builder.setClassPath",
 				"key": "ctrl+alt+p"
+			},
+			{
+				"command": "code-builder.setProjectBuildCommand",
+				"key": "ctrl+alt+l"
 			},
 			{
 				"command": "code-builder.switchTerminal",
@@ -315,6 +325,10 @@
 				},
 				"code-builder.build.outputFilePath": {
 					"description": "Output File Path to be used in Run With IO(Set this through 'Set Output File path command')",
+					"scope": "resource"
+				},
+				"code-builder.build.projectBuildCommand": {
+					"description": "Command to Build the Project (Set this through 'Set Project Build Command' command')",
 					"scope": "resource"
 				},
 				"code-builder.build.debugData": {

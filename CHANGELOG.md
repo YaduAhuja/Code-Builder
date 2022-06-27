@@ -1,3 +1,9 @@
+### 0.10.0 (2022-06-27)
+* Added a project run config this config supercedes all single file configs
+* Code Builder now supports Workspace Trust
+* Code Builder now supports Virtual Workspaces
+* Code Builder now respects Global Telemetry Configs
+
 ### 0.9.1 (2022-03-20)
 * Added a new Compiler Arguments
 * Added a new Setting for the C/CPP Compiler Arguments

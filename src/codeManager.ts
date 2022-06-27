@@ -151,13 +151,13 @@ export class CodeManager implements vscode.Disposable {
 	/**
 	 * Switches the Terminal at runtime
 	 */
-
 	public async switchTerminal(): Promise<void> {
 		const val = !this._config.get<boolean>("build.runInExternalTerminal");
 		await this._config.update("build.runInExternalTerminal", val, 1);
 		this._config = vscode.workspace.getConfiguration("code-builder");
 		utils.refreshStatusBarWidget(this._statusBarWidget, val);
 	}
+
 
 	/**
 	 *  Clean the Extension's Executor Map Settings to default values
@@ -259,6 +259,20 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	/**
+	 *  sets the Project Build Command
+	 */
+	public async setProjectBuildCommand(): Promise<void> {
+		const options: vscode.InputBoxOptions = {
+			placeHolder: 'Project Build Command',
+			title: 'Project Build Command Setter'
+		};
+		const buildCommand = await vscode.window.showInputBox(options);
+		if (buildCommand) {
+			await this._config.update("build.projectBuildCommand", buildCommand);
+		}
+	}
+
+	/**
 	 * Logs the Debug data to Console
 	 */
 	private logDebugData(codeFile: vscode.TextDocument): void {
@@ -312,6 +326,10 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	private getExecutor(languageId: string) {
+		const projectBuildCommand = this._config.get<string>("build.projectBuildCommand");
+		if (projectBuildCommand) {
+			return projectBuildCommand;
+		}
 		const executorMap = this._config.get<any>("build.executorMap");
 		const executor = executorMap[languageId];
 

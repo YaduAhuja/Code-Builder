@@ -51,6 +51,10 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.switchTerminal();
 	});
 
+	const setProjectBuildCommand = vscode.commands.registerCommand("code-builder.setProjectBuildCommand", () => {
+		codeManager.setProjectBuildCommand();
+	});
+
 	// Created in 0.9.0 to remove Build System keys
 	// to be Removed in 0.11 
 	updateGlobalState(context, "newBuildSystemMessage", undefined);
@@ -85,6 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
 		setClassPath,
 		setInputFilePath,
 		setOutputFilePath,
+		setProjectBuildCommand,
 		switchTerminal,
 		reset
 	);
