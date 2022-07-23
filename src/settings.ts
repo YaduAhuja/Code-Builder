@@ -14,7 +14,6 @@ export default {
 	"code-builder.preserveFocus": ["code-builder.build.preserveFocus", 1],
 	"code-builder.inputFilePath": ["code-builder.build.inputFilePath", 2],
 	"code-builder.outputFilePath": ["code-builder.build.outputFilePath", 2],
-	"code-builder.enableAppInsights": ["code-builder.build.enableAppInsights", 1],
 	"code-builder.runInExternalTerminal": ["code-builder.build.runInExternalTerminal", 1],
 	"code-builder.useAutoClassPath": ["code-builder.java.useAutoClassPath", 1],
 	"code-builder.classPath": ["code-builder.java.classPath", 2],

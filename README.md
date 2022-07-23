@@ -21,6 +21,9 @@ Build & Run Code files for **C, C++, Java, JavaScript, TypeScript, Python, R, Ru
 * To run code with IO Files :
   * use shortcut `Ctrl+Alt+K`
   * or press `F1` and then Select/Type `Code Builder : Build & Run File with IO Files`
+* To set Project Build Command : 
+  * use shortcut `Ctrl+Alt+L`
+  * or press `F1` and then Select/Type `Code Builder : Set Project Build Command`
 * To run Custom Command :
   * use shortcut `Ctrl+Alt+N`
   * or press `F1` and then Select/Type `Code Builder : Run Custom Command`
@@ -136,11 +139,11 @@ To set Output File Path for replaced with **$outputFilePath** (default is "") :
 }
 ```
 
-To set Whether to enable App Insights to track user Telemetry data (default is true) :
+To set Project Build Command (Default is null) :
 
 ```json
 {
-    "code-builder.build.enableAppInsights": true
+    "code-builder.build.projectBuildCommand": null
 }
 ```
 

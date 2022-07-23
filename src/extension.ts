@@ -15,9 +15,9 @@ export function activate(context: vscode.ExtensionContext) {
 		codeManager.onDidTerminalClosed();
 	});
 
-	vscode.env.onDidChangeTelemetryEnabled((isTelemetryEnabled) => {
-		codeManager.onDidChangeTelemetryEnabled(isTelemetryEnabled);
-	});
+	// vscode.env.onDidChangeTelemetryEnabled((isTelemetryEnabled) => {
+	// 	codeManager.onDidChangeTelemetryEnabled(isTelemetryEnabled);
+	// });
 
 	const buildAndRun = vscode.commands.registerCommand("code-builder.buildAndRun", () => {
 		codeManager.buildAndRun();

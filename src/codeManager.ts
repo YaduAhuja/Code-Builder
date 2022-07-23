@@ -21,17 +21,17 @@ export class CodeManager implements vscode.Disposable {
 	private _externalProcess: ChildProcess | null = null;
 	private _languagesArr: Array<string> | undefined;
 	private _statusBarWidget: vscode.StatusBarItem | undefined;
-	private _isTelemetryEnabled: boolean;
-	private _appInsightsClient: any;
+	// private _isTelemetryEnabled: boolean;
+	// private _appInsightsClient: any;
 
 	constructor() {
 		this._config = vscode.workspace.getConfiguration("code-builder");
-		this._isTelemetryEnabled = vscode.env.isTelemetryEnabled;
 		upgrade();
 		this.initializeStatusBarWidget();
 		this.setContext();
 		this.checkForOpenTerminal();
-		this.lazyLoadAppInsights();
+		// this._isTelemetryEnabled = vscode.env.isTelemetryEnabled;
+		// this.lazyLoadAppInsights();
 		console.log("Loaded" + this);
 	}
 
@@ -39,9 +39,9 @@ export class CodeManager implements vscode.Disposable {
 		this._terminal = undefined;
 	}
 
-	public onDidChangeTelemetryEnabled(isTelemetryEnabled: boolean) {
-		this._isTelemetryEnabled = isTelemetryEnabled;
-	}
+	// public onDidChangeTelemetryEnabled(isTelemetryEnabled: boolean) {
+	// 	this._isTelemetryEnabled = isTelemetryEnabled;
+	// }
 
 	/**
 	 *  Initializes the Status Bar Widget 
@@ -53,18 +53,19 @@ export class CodeManager implements vscode.Disposable {
 		utils.refreshStatusBarWidget(this._statusBarWidget, this._config.get<boolean>("build.runInExternalTerminal"));
 	}
 
-	/**
-	 * Lazy Loads App Insights as and when needed
-	 */
-	private async lazyLoadAppInsights(): Promise<void> {
-		if (this._isTelemetryEnabled && this._config.get<boolean>("build.enableAppInsights")) {
-			if (this._appInsightsClient) {
-				return;
-			}
-			const appInsights = await import("./appInsights");
-			this._appInsightsClient = new appInsights.AppInsights();
-		}
-	}
+	// App Insights Removed
+	// /**
+	//  * Lazy Loads App Insights as and when needed
+	//  */
+	// private async lazyLoadAppInsights(): Promise<void> {
+	// 	if (this._isTelemetryEnabled && this._config.get<boolean>("build.enableAppInsights")) {
+	// 		if (this._appInsightsClient) {
+	// 			return;
+	// 		}
+	// 		const appInsights = await import("./appInsights");
+	// 		this._appInsightsClient = new appInsights.AppInsights();
+	// 	}
+	// }
 
 	public async buildAndRun(): Promise<void> {
 		if (this.isRunning()) {
@@ -76,7 +77,7 @@ export class CodeManager implements vscode.Disposable {
 			return;
 		}
 		this._document = document;
-		this.logTelemetry("BuildAndRun", this._document.languageId);
+		// this.logTelemetry("BuildAndRun", this._document.languageId);
 		let executor = this.getExecutor(this._document.languageId);
 		if (!executor) {
 			return;
@@ -95,7 +96,7 @@ export class CodeManager implements vscode.Disposable {
 			return;
 		}
 		this._document = document;
-		this.logTelemetry("BuildWithIO", this._document.languageId);
+		// this.logTelemetry("BuildWithIO", this._document.languageId);
 
 		//Checking if the IO Files Paths are Set or Not
 		const ioFlag = await this.checkInputOutputFilePaths();
@@ -117,7 +118,7 @@ export class CodeManager implements vscode.Disposable {
 		}
 
 		const document = this.initialize();
-		this.logTelemetry("customCommand", document?.languageId);
+		// this.logTelemetry("customCommand", document?.languageId);
 		const executor = this._config.get<string>("build.customCommand");
 		if (!executor || executor.trim().length === 0) {
 			return;
@@ -126,7 +127,7 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	public async stopBuild(): Promise<void> {
-		this.logTelemetry("stopBuild");
+		// this.logTelemetry("stopBuild");
 		if (this._config.get<boolean>("build.runInExternalTerminal")) {
 			if (this._externalProcess) {
 				if (platform() === "win32") {
@@ -279,7 +280,6 @@ export class CodeManager implements vscode.Disposable {
 		console.log("Filename : " + codeFile.fileName);
 		console.log("Path : " + codeFile.uri.path);
 		console.log("Is AppInsights Enabled :" + this._config.get<boolean>("build.enableAppInsights"));
-		console.log("App Insights Client :" + this._appInsightsClient);
 		console.log("FS Path : " + codeFile.uri.fsPath);
 		console.log("Qualified Name : " + this.getQualifiedName(codeFile));
 		console.log("ClassPath: " + this.getClassPath());
@@ -643,25 +643,26 @@ export class CodeManager implements vscode.Disposable {
 		}
 	}
 
-	/**
-	 * @param event Event Name to be Logged
-	 * @param languageId Language id to be logged
-	 */
-	private async logTelemetry(event: string, languageId?: string): Promise<void> {
-		//creating Telemetry Data
-		if (!this._appInsightsClient || !this._isTelemetryEnabled) {
-			return;
-		}
+	// Telemetry Removed
+	// /**
+	//  * @param event Event Name to be Logged
+	//  * @param languageId Language id to be logged
+	//  */
+	// private async logTelemetry(event: string, languageId?: string): Promise<void> {
+	// 	//creating Telemetry Data
+	// 	if (!this._appInsightsClient || !this._isTelemetryEnabled) {
+	// 		return;
+	// 	}
 
-		const properties: any = {
-			usingAutoClassPath: this._config.get<boolean>("java.useAutoClassPath") ? true : false,
-			usingExternalTerminal: this._config.get<boolean>("useExternalTerminal") ? true : false,
-			languageId: languageId,
-			terminal: vscode.env.shell,
-			version: vscode.extensions.getExtension("yaduahuja.code-builder")?.packageJSON.version,
-		};
-		this._appInsightsClient.sendEvent(event, properties);
-	}
+	// 	const properties: any = {
+	// 		usingAutoClassPath: this._config.get<boolean>("java.useAutoClassPath") ? true : false,
+	// 		usingExternalTerminal: this._config.get<boolean>("useExternalTerminal") ? true : false,
+	// 		languageId: languageId,
+	// 		terminal: vscode.env.shell,
+	// 		version: vscode.extensions.getExtension("yaduahuja.code-builder")?.packageJSON.version,
+	// 	};
+	// 	this._appInsightsClient.sendEvent(event, properties);
+	// }
 
 	dispose(): void {
 		this._terminal?.dispose();

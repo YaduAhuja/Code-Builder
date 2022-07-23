@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Run C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Go Code files With & Without Input/Output Files",
-	"version": "0.10.0",
+	"version": "0.10.1",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -384,12 +384,6 @@
 					"description": "Languages at which Code Builder will show Run Button",
 					"scope": "resource"
 				},
-				"code-builder.build.enableAppInsights": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether to enable App Insights to track user Telemetry Data or not",
-					"scope": "resource"
-				},
 				"code-builder.cpp.compilerArgs": {
 					"type": "string",
 					"default": "",
@@ -436,8 +430,6 @@
 		"webpack-cli": "^4.4.0"
 	},
 	"dependencies": {
-		"applicationinsights": "^2.3.3",
-		"applicationinsights-native-metrics": "^0.0.7",
 		"terminate": "^2.2.1"
 	}
 }
