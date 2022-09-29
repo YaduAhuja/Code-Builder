@@ -57,7 +57,8 @@ You could also add entry into `code-builder.build.executorMap` to set the execut
 		"typescript": "cd $dir && ts-node $fileName",
 		"ruby": "cd $dir && ruby $fileName",
 		"go": "cd $dir && go build $fileName && $dir$fileNameWithoutExt",
-		"r": "cd $dir && Rscript $fileName"
+		"r": "cd $dir && Rscript $fileName",
+		"rust":"cargo run"
     }
 }
 ```
@@ -83,11 +84,11 @@ To set Custom Command which will be executed by `Run Custom Command` (Default is
 
 To set the languages at which the run button will show(Default is Given Below):
 
-**Note :** After Editing this setting restart or reload visual studio code for changes to take effect.
+**Note :** After Editing this setting restart or reload visual studio code for changes to take effect. These are the identifiers which vs code provides (https://code.visualstudio.com/docs/languages/identifiers)
 
 ```json
 {
-    "code-builder.build.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby", "go", "r"]
+    "code-builder.build.languageSelector" : ["java", "python", "cpp", "c", "javascript","typescript", "ruby", "go", "r", "rust"]
 }
 ``` 
 

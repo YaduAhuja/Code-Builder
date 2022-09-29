@@ -1,3 +1,6 @@
+### 0.10.2 (2022-09-29)
+* Added Rust Support
+
 ### 0.10.1 (2022-07-23)
 * Improved Performance
 * Removed Telemetry
