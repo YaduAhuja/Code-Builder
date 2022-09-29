@@ -383,7 +383,8 @@
 						"typescript",
 						"ruby",
 						"go",
-						"r"
+						"r",
+						"rust"
 					],
 					"description": "Languages at which Code Builder will show Run Button",
 					"scope": "resource"
