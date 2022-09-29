@@ -11,10 +11,6 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 
-	vscode.window.onDidCloseTerminal(() => {
-		codeManager.onDidTerminalClosed();
-	});
-
 	// vscode.env.onDidChangeTelemetryEnabled((isTelemetryEnabled) => {
 	// 	codeManager.onDidChangeTelemetryEnabled(isTelemetryEnabled);
 	// });
@@ -112,7 +108,7 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() { }
 
 /**
- * Updates the Global State of Extension
+ * Updates the Global New Build System Message State of Extension
  */
 function updateGlobalState(context: vscode.ExtensionContext, key: string, value: any) {
 	context.globalState.update(key, value);

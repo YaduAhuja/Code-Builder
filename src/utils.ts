@@ -1,5 +1,10 @@
 import * as vscode from 'vscode';
 
+export function createNewTerminal(name: string = "Code-Builder"): vscode.Terminal {
+	const terminal = vscode.window.createTerminal(name);
+	return terminal;
+}
+
 export function sendTextToTerminal(text: string, terminal?: vscode.Terminal) {
 	if (!terminal) {
 		return;

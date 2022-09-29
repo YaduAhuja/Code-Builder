@@ -609,7 +609,8 @@ export class CodeManager implements vscode.Disposable {
 	 */
 	private async runCommandInInternalTerminal(executor: string) {
 		if (!this._terminal) {
-			this._terminal = vscode.window.createTerminal("Code-Builder");
+			this._terminal = utils.createNewTerminal();
+			this.setTerminalCloseListener();
 		}
 
 		if (this._config.get<boolean>("build.clearTerminal")) {
@@ -663,6 +664,16 @@ export class CodeManager implements vscode.Disposable {
 	// 	};
 	// 	this._appInsightsClient.sendEvent(event, properties);
 	// }
+
+	private setTerminalCloseListener(): void {
+		if (this._terminal) {
+			vscode.window.onDidCloseTerminal((closedTerminal) => {
+				if (closedTerminal === this._terminal) {
+					this._terminal = undefined;
+				}
+			});
+		}
+	}
 
 	dispose(): void {
 		this._terminal?.dispose();
