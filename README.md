@@ -52,7 +52,7 @@ You could also add entry into `code-builder.build.executorMap` to set the execut
 		"c": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",
 		"cpp": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",
 		"python": "cd $dir && python $fileName",
-		"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
+		"java": "cd $dir && javac -cp $classPath $fileName && java -cp $classPath $qualifiedName",
 		"javascript": "cd $dir && node $fileName",
 		"typescript": "cd $dir && ts-node $fileName",
 		"ruby": "cd $dir && ruby $fileName",

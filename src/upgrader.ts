@@ -1,6 +1,10 @@
 import * as vscode from 'vscode';
 import settings from './settings';
 
+/**
+ * Upgrades the configuration from old namespace to new namespace
+ */
+
 export default async function upgrade() {
 	const conf = vscode.workspace.getConfiguration("code-builder");
 	let debugDataFlag = conf.get<boolean>("build.debugData") || conf.get<boolean>("debugData");

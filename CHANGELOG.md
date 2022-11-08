@@ -1,3 +1,8 @@
+### 0.10.3 (2022-11-08)
+* Code Builder now support external jars just place them in the lib directory in project root folder.
+* Improved classpath detection for java files.
+* Changed java executor to support classpath for compile.
+
 ### 0.10.2 (2022-09-29)
 * Added Rust Support
 * Improved the terminal close detection

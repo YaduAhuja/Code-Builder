@@ -6,7 +6,7 @@ import * as utils from './utils';
 import { platform } from 'os';
 import { mapExternalCommand } from './terminal';
 import { ChildProcess, exec } from 'child_process';
-import { getBuildCommand } from './builder';
+import { getBuildCommand, modifyBuildCommandForOS } from './builder';
 import terminate from 'terminate';
 import upgrade from './upgrader';
 import settings from './settings';
@@ -341,10 +341,7 @@ export class CodeManager implements vscode.Disposable {
 
 	private getWorkspaceFolder(codeFile: vscode.TextDocument): string | undefined {
 		const workspace = vscode.workspace.getWorkspaceFolder(codeFile.uri);
-		if (workspace) {
-			return workspace.uri.fsPath;
-		}
-		return undefined;
+		return workspace?.uri?.fsPath;
 	}
 
 	private getDirName(): string {
@@ -355,10 +352,11 @@ export class CodeManager implements vscode.Disposable {
 	}
 
 	private getClassPath(): string {
-		if (this._classPath) {
-			return this._classPath;
-		}
-		return ".";
+		return this._classPath || ".";
+		// if (this._classPath) {
+		// 	return this._classPath;
+		// }
+		// return ".";
 	}
 
 	/**
@@ -405,15 +403,6 @@ export class CodeManager implements vscode.Disposable {
 
 
 	/**
-	 * Sets the ClassPath according to Qualified name generated
-	 */
-	private setAdvancedClassPath(codeFile: vscode.TextDocument, qualifiedName: string): void {
-		const path = codeFile.uri.fsPath.replace(/[\/\\]/g, ".");
-		const splitter = path.lastIndexOf(qualifiedName) - 1;
-		this._classPath = codeFile.uri.fsPath.substring(0, splitter);
-	}
-
-	/**
 	 * Gets the Qualified Name through the package statement declared
 	 * in the code file
 	 * if fails to find package declaration
@@ -433,7 +422,7 @@ export class CodeManager implements vscode.Disposable {
 
 			//Checking for multiline Comments
 			if (line.includes("/*")) {
-				while (!line.includes("*/")) {
+				while (!line.includes("*/") && i < lines) {
 					i++;
 					line = codeFile.lineAt(i).text;
 				}
@@ -465,6 +454,20 @@ export class CodeManager implements vscode.Disposable {
 		this.setAdvancedClassPath(codeFile, qualifiedName);
 		return qualifiedName;
 	}
+
+
+	/**
+	 * Sets the ClassPath according to Qualified name generated
+	 */
+	private setAdvancedClassPath(codeFile: vscode.TextDocument, qualifiedName: string): void {
+		const path = codeFile.uri.fsPath.replace(/[\/\\]/g, ".");
+		const splitter = path.lastIndexOf(qualifiedName) - 1;
+		this._classPath = codeFile.uri.fsPath.substring(0, splitter);
+		// Adding the lib folder too for class Path
+
+		this._classPath += `;${this.getWorkspaceFolder(codeFile) + "/lib/*"}`
+	}
+
 
 	/** 
 	 * @param configString Name of the config to be Modified
@@ -546,7 +549,6 @@ export class CodeManager implements vscode.Disposable {
 		placeholders.forEach((placeholder) => {
 			command = command.replace(placeholder.regex, placeholder.replaceValue);
 		});
-
 		return command;
 	}
 
@@ -567,7 +569,8 @@ export class CodeManager implements vscode.Disposable {
 		if (document && this._languagesArr?.includes(document.languageId)) {
 			executor = this.mapPlaceHoldersInExecutor(executor, document);
 		}
-
+		executor = modifyBuildCommandForOS(executor);
+		console.log(executor);
 		if (this._config.get<boolean>("build.runInExternalTerminal")) {
 			this.runCommandInExternalTerminal(executor);
 		} else {

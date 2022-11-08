@@ -3,7 +3,7 @@
 	"displayName": "Code Builder",
 	"publisher": "YaduAhuja",
 	"description": "Run C, C++, Java, JavaScript, TypeScript, Python, R, Ruby, Rust, Go Code files With & Without Input/Output Files",
-	"version": "0.10.2",
+	"version": "0.10.3",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"engines": {
@@ -355,7 +355,7 @@
 				"code-builder.build.executorMap": {
 					"type": "object",
 					"default": {
-						"java": "cd $dir && javac $fileName && java -cp $classPath $qualifiedName",
+						"java": "cd $dir && javac -cp $classPath $fileName && java -cp $classPath $qualifiedName",
 						"python": "cd $dir && python $fileName",
 						"c": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",
 						"cpp": "cd $dir && g++ $fileName $compilerArgs -o $fileNameWithoutExt && ./$fileNameWithoutExt",

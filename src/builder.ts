@@ -1,6 +1,11 @@
 import { platform } from "os";
 
 /**
+ * This File Contains functions which convert the generic executor to 
+ * their actual command which is ready for os terminal.
+ */
+
+/**
  * Gets the Build command for the run and takes care for terminals where the build will run
  * @param executor the Executor String for Language
  * @param terminal The Terminal Where command is going to be executed
@@ -19,6 +24,17 @@ export function getBuildCommand(executor: string, shell: string, externalTermina
 	}
 	return executor;
 }
+
+/**
+ * Modifies the executor with respect to the OS
+ */
+export function modifyBuildCommandForOS(command: string): string {
+	switch (platform()) {
+		case "win32": return command.replace(/\//g, "\\");
+		default: return command;
+	}
+}
+
 
 /**
  * @param shell integrated terminal
@@ -50,10 +66,6 @@ function getExecutorForTerminal(executor: string, terminal: string): string {
 		return modifyForPowershell(executor);
 	}
 
-	if (terminal.includes("cmd.exe")) {
-		return modifyForCMD(executor);
-	}
-
 	return executor;
 }
 
@@ -71,8 +83,7 @@ function modifyForPowershell(executor: string): string {
 }
 
 /**
- * If the Shell is CMD then it will change the executor according to it 
- * otherwise it will not change the executor
+ * Changes executor according to CMD
  */
 function modifyForCMD(executor: string): string {
 	//Replaces the Linux/Unix build Command to cmd Command by changing the slashes
@@ -87,7 +98,7 @@ function modifyForCMD(executor: string): string {
  * @param terminal the terminal where the build will run
  */
 function addIOArgs(executor: string, terminal: string): string {
-	if (!terminal.includes("powershell")) {
+	if (!terminal.toLowerCase().includes("powershell")) {
 		return executor + " < $inputFilePath > $outputFilePath";
 	}
 
