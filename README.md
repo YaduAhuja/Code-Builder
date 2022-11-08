@@ -193,6 +193,10 @@ By Default the Code Builder provides the settings for cmd on Windows and Termina
 **Linux :** mate-terminal, tilix, gnome-terminal, konsole, xfce4-terminal
 
 ## FAQ:
+**Q :** How to use external jars with Code Builder ?
+
+**A :** Turn on `useAutoClassPath` and place the jars in lib folder under project root.
+
 **Q :** Getting ClassNotFound Exception when running Java files ?
 
 **A :** If you are using Package Declaration in your Java source files then Turn on the `UseAutoClassPath`. If it is still not fixed then raise an issue in repo.
