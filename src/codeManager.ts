@@ -8,7 +8,7 @@ import { mapExternalCommand } from './terminal';
 import { ChildProcess, exec } from 'child_process';
 import { getBuildCommand, modifyBuildCommandForOS } from './builder';
 import terminate from 'terminate';
-import upgrade from './upgrader';
+// import upgrade from './upgrader';
 import settings from './settings';
 
 export class CodeManager implements vscode.Disposable {
@@ -26,7 +26,8 @@ export class CodeManager implements vscode.Disposable {
 
 	constructor() {
 		this._config = vscode.workspace.getConfiguration("code-builder");
-		upgrade();
+		// Removed in 10.4
+		// upgrade();
 		this.initializeStatusBarWidget();
 		this.setContext();
 		this.checkForOpenTerminal();
@@ -465,7 +466,7 @@ export class CodeManager implements vscode.Disposable {
 		this._classPath = codeFile.uri.fsPath.substring(0, splitter);
 		// Adding the lib folder too for class Path
 
-		this._classPath += `;${this.getWorkspaceFolder(codeFile) + "/lib/*"}`
+		this._classPath += `;${this.getWorkspaceFolder(codeFile) + "/lib/*"}`;
 	}
 
 

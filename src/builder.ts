@@ -31,6 +31,8 @@ export function getBuildCommand(executor: string, shell: string, externalTermina
 export function modifyBuildCommandForOS(command: string): string {
 	switch (platform()) {
 		case "win32": return command.replace(/\//g, "\\");
+		case "linux": return command.replace(/;/g, ":");
+		case "darwin": return command.replace(/;/g, ":");
 		default: return command;
 	}
 }

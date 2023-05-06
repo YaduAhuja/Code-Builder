@@ -1,3 +1,6 @@
+### 0.10.4 (2023-05-06)
+* Fixed the classpath lib folder bug for Unix based systems.
+
 ### 0.10.3 (2022-11-08)
 * Code Builder now support external jars just place them in the lib directory in project root folder.
 * Improved classpath detection for java files.
